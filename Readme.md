@@ -53,9 +53,9 @@ python manage.py startapp ${app-name}
 
 # Core Applications
 -- Application 1 --
-name: core
-features: 
+- name: core
+- features: 
 
-Landing pages
-Login page
-Authentication Page
+- Landing pages
+- Login page
+- Authentication Page

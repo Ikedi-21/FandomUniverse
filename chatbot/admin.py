@@ -3,5 +3,5 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(EventHighlight)
-admin.site.register(FanSubmission)
+admin.site.register(ChatbotFAQ)
+admin.site.register(ChatbotQuery)

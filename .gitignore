@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .venv/
 .env
 staticfiles/
@@ -5,3 +6,28 @@ db.sqlite3
 __pycache__/
 *.pyc
 *.pyo
+=======
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Django
+db.sqlite3
+
+# Media files
+media/
+
+# Static files
+staticfiles/
+
+# VS Code
+.vscode/
+.env
+db
+>>>>>>> fada2cda43bb36c81e769d408370ea26f9ff4358

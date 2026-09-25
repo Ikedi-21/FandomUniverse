@@ -19,6 +19,5 @@ staticfiles/
 
 # VS Code
 .vscode/
-.venv/
 .env
 db

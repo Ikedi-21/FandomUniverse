@@ -42,8 +42,8 @@ class Content(models.Model):
     
     thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
     source_type = models.CharField(max_length=20, choices=SOURCE_TYPES, default='upload')
-    video_url = models.URLField(blank=True, null=True, help_text="Used if source_type is embed")
-    file = models.FileField(upload_to='content_files/', blank=True, null=True, help_text="Used if source_type is upload")
+    video_url = models.URLField(blank=True, null=True)
+    file = models.FileField(upload_to='content_files/', blank=True, null=True)
     
     is_published = models.BooleanField(default=False)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='created_contents')

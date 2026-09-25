@@ -1,23 +1,64 @@
-from django.db import models
-
-# Create your models here.
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from catalog import Category
-
-# Create your models here.
+# Custom User model
 class User(AbstractUser):
-    email = models.EmailField(max_length=254, unique=True)
-    role = models.CharField(max_length=50)
+
+    # User roles
+    class Role(models.TextChoices):
+        USER = "user", "User"
+        ADMIN = "admin", "Admin"
+
+    # User email
+    email = models.EmailField(unique=True)
+
+    # User role: normal user or admin
+    role = models.CharField(
+        max_length=10,
+        choices=Role.choices,
+        default=Role.USER
+    )
+
+    # Check if the user's email has been verified
     email_verified = models.BooleanField(default=False)
 
+    # Account creation date
+    created_at = models.DateTimeField(auto_now_add=True)
 
+
+# Stores additional information about each user
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None)
-    bio = models.CharField(max_length=100)
-    theme = models.CharField(max_length=50)
-    font_size = models.CharField(max_length=5)
-    favorite_categories = models.ManyToManyField(Category)
 
-    
+    # One user can have only one profile
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="profile"
+    )
+
+    # User profile picture
+    avatar = models.ImageField(
+        upload_to="avatars/",
+        blank=True,
+        null=True
+    )
+
+    # User biography
+    bio = models.TextField(blank=True)
+
+    # User's preferred theme
+    theme = models.CharField(
+        max_length=50,
+        default="dark"
+    )
+
+    # User's preferred font size
+    font_size = models.CharField(
+        max_length=20,
+        default="medium"
+    )
+
+    # User's favorite fandom categories
+    # Category comes from the catalog app
+    favorite_categories = models.ManyToManyField(
+        "catalog.Category",
+        blank=True,
+        related_name="favorite_by_profiles"
+    )

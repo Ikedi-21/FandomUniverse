@@ -40,9 +40,14 @@ INSTALLED_APPS = [
     'core',
     'article',
     'chatbot',
-
+    'characters',
+    'dashboard',
+    'engagements',
+    'media_centre',
+    'merch',
     'events',
-    'merch'
+    'accounts',
+    'catalog'
 ]
 
 MIDDLEWARE = [

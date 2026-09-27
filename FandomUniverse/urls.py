@@ -19,5 +19,15 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("core.urls"))
+    path('', include("core.urls")),
+    path('accounts/', include("accounts.urls")),
+    path('article/', include("article.urls")),
+    path('catalog/', include("catalog.urls")),
+    path('characters/', include("characters.urls")),
+    path('chatbot/', include("chatbot.urls")),
+    path('dashboard/', include("dasboard.urls")),
+    path('engagements/', include("engagements.urls")),
+    path('events/', include("events.urls")),
+    path('media_centre/', include("media_centre.urls")),
+    path('merch/', include("merch.urls"))
 ]

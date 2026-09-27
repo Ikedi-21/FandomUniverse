@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Archive &amp; Hall of Heroes | FAN HUB+</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+
+  <script src="../js/auth-context.js" defer></script>
+  <script src="../js/cart.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/chatbot-data.js" defer></script>
+  <script src="../js/chatbot.js" defer></script>
+
+  <style>
+    .char-card-portrait {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      display: block;
+      transition: transform var(--transition-smooth);
+    }
+    .char-card:hover .char-card-portrait {
+      transform: scale(1.04);
+    }
+    .char-portrait-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      background: #000;
+    }
+    .char-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+    .char-stat-bar {
+      height: 4px;
+      background: var(--border-medium);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+    .char-stat-fill {
+      height: 100%;
+      background: var(--accent-red);
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="../index.html" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="../index.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a></li>
+            <li><a href="explore.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="character-list.html" class="sidebar-nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
+            <li><a href="merch-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg><span>Merch &amp; Store</span></a></li>
+            <li><a href="events.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="submit-content.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="feedback.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
+            <li><a href="sitemap.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="dashboard.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
+            <li><a href="profile.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Management</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="admin-overview.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><span>Admin Portal</span></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="../index.html" class="header-nav-tab">Home</a>
+            <a href="explore.html" class="header-nav-tab">Explore</a>
+            <a href="character-list.html" class="header-nav-tab active">Characters</a>
+            <a href="merch-list.html" class="header-nav-tab">Merch</a>
+            <a href="events.html" class="header-nav-tab">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-center">
+          <div class="search-bar-wrapper">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
+            <span class="search-bar-hotkey">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="login.html" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="register.html" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SHARED BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item active" aria-current="page">Character Archive</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; Hall of Heroes</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT -->
+      <main class="page-content">
+        <div style="display:flex; flex-direction:column; gap:var(--space-6);">
+
+          <!-- HEADER & SEARCH ROW -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--border-subtle); padding-bottom:var(--space-4);">
+            <div>
+              <h1 style="margin:0; font-size:var(--font-xxl); font-weight:var(--fw-black);">Character Archive &amp; Dossiers</h1>
+              <p style="margin:4px 0 0; font-size:var(--font-sm); color:var(--text-muted);">
+                Detailed combat stat breakdown, voice actors, lore biographies, and key story arcs across major fandom universes.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="position:relative;">
+                <input type="text" class="form-input" id="searchCharactersInput" placeholder="Filter characters (e.g. Tanjiro, Gojo)..." style="width:260px; height:36px; padding-left:32px; font-size:var(--font-xs);" aria-label="Search character name" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute; left:10px; top:10px; color:var(--text-dim); pointer-events:none;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHARACTER SPOTLIGHT HERO -->
+          <div style="background:linear-gradient(135deg, rgba(20,24,33,0.95) 0%, rgba(139,92,246,0.18) 100%); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; box-shadow:var(--shadow-lg);">
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+              <img src="../images/posters/solo_leveling.jpg" alt="Sung Jinwoo Spotlight" style="width:110px; height:110px; border-radius:var(--radius-lg); object-fit:cover; border:3px solid #8b5cf6; box-shadow:0 0 20px rgba(139,92,246,0.35);" />
+              <div style="max-width:550px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                  <span class="badge" style="background:#8b5cf6; color:#fff; font-weight:bold;">COMMUNITY SPOTLIGHT OF THE WEEK</span>
+                  <span style="font-size:11px; color:#c084fc; font-weight:bold;">Grade SSS &bull; 99.8% Approval</span>
+                </div>
+                <h2 style="font-size:var(--font-xl); font-weight:var(--fw-black); margin:0 0 4px; color:var(--text-main);">Sung Jinwoo &bull; Shadow Monarch</h2>
+                <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.5; margin:0;">
+                  From the weakest E-Rank hunter to the sovereign commander of endless shadow legions. Explore his full combat matrix, stat distributions, equipment loadouts, and timeline of dungeon clearances.
+                </p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <a href="character-detail.html?char=jinwoo" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:6px;">
+                Open Full Dossier
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.showToast('Voted for Sung Jinwoo as Character of the Month!')">
+                Vote for Hall of Fame
+              </button>
+            </div>
+          </div>
+
+          <!-- UNIVERSE FILTER PILLS -->
+          <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
+            <button type="button" class="btn btn-primary btn-sm char-filter-btn" data-universe="all">All Universes</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="demon-slayer">Demon Slayer</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="solo-leveling">Solo Leveling</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="one-piece">One Piece</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="naruto">Naruto</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="jjk">Jujutsu Kaisen</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="elden-ring">Elden Ring</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="cyberpunk">Cyberpunk</button>
+            <button type="button" class="btn btn-secondary btn-sm char-filter-btn" data-universe="gta">Gaming Icons</button>
+          </div>
+
+          <!-- CHARACTER CARDS GRID -->
+          <div class="cards-grid" id="charactersCardGrid">
+
+            <!-- Card 1: Tanjiro -->
+            <article class="content-card char-card" data-universe="demon-slayer" data-name="Tanjiro Kamado" data-role="Protagonist">
+              <div class="char-portrait-wrapper">
+                <img src="../images/posters/demon_slayer_thumb.jpg" alt="Tanjiro Kamado" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px;">Sun Breathing</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Demon Slayer Corps &bull; Kanoe Rank</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=tanjiro">Tanjiro Kamado (竈門 炭治郎)</a></h3>
+                <p class="content-card-desc">Compassionate warrior who mastered Hinokami Kagura to restore his sister Nezuko.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color:var(--accent-red);">Grade S</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:94%;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=tanjiro" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Tanjiro Kamado')" aria-label="Bookmark Tanjiro">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 2: Sung Jinwoo -->
+            <article class="content-card char-card" data-universe="solo-leveling" data-name="Sung Jinwoo" data-role="Shadow Monarch">
+              <div class="char-portrait-wrapper">
+                <img src="../images/posters/solo_leveling.jpg" alt="Sung Jinwoo" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px; background:#8b5cf6;">Shadow Monarch</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Solo Leveling &bull; National Level Hunter</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=jinwoo">Sung Jinwoo (성진우)</a></h3>
+                <p class="content-card-desc">Former E-rank hunter chosen by the System who commands hundreds of thousands of shadow soldiers.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color: var(--color-purple);">Grade SSS</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:100%; background:#8b5cf6;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=jinwoo" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Sung Jinwoo')" aria-label="Bookmark Jinwoo">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 3: Monkey D. Luffy -->
+            <article class="content-card char-card" data-universe="one-piece" data-name="Monkey D. Luffy" data-role="Yonko">
+              <div class="char-portrait-wrapper">
+                <img src="../images/posters/one_piece_thumb.jpg" alt="Monkey D. Luffy" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px;">Sun God Nika</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Straw Hat Pirates &bull; Emperor</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=luffy">Monkey D. Luffy (モンキー・D・ルフィ)</a></h3>
+                <p class="content-card-desc">Captain of the Straw Hats who awakened the Hito Hito no Mi, Model: Nika with Gear 5.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color:var(--accent-red);">Bounty 3 Billion</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:98%;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=luffy" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Monkey D. Luffy')" aria-label="Bookmark Luffy">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 4: Naruto Uzumaki -->
+            <article class="content-card char-card" data-universe="naruto" data-name="Naruto Uzumaki" data-role="Hokage">
+              <div class="char-portrait-wrapper">
+                <img src="../images/posters/naruto_thumb.jpg" alt="Naruto Uzumaki" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px; background:#f59e0b;">Seventh Hokage</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Hidden Leaf Village &bull; Jinchuriki</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=naruto">Naruto Uzumaki (うずまき ナルト)</a></h3>
+                <p class="content-card-desc">Nine-Tails Jinchuriki who brought peace to the shinobi world through unwavering determination.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color: var(--color-amber);">Six Paths Sage</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:97%; background:#f59e0b;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=naruto" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Naruto Uzumaki')" aria-label="Bookmark Naruto">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 5: Gojo Satoru -->
+            <article class="content-card char-card" data-universe="jjk" data-name="Gojo Satoru" data-role="Special Grade">
+              <div class="char-portrait-wrapper">
+                <img src="../images/fandoms/manga.jpg" alt="Gojo Satoru" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px; background:#06b6d4;">Limitless &bull; Six Eyes</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Jujutsu High &bull; Special Grade</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=gojo">Gojo Satoru (五条 悟)</a></h3>
+                <p class="content-card-desc">The strongest contemporary sorcerer who wields Infinity, Hollow Purple, and Infinite Void.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color: var(--color-blue);">The Strongest (100)</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:100%; background:#06b6d4;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=gojo" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Gojo Satoru')" aria-label="Bookmark Gojo">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 6: David Martinez -->
+            <article class="content-card char-card" data-universe="cyberpunk" data-name="David Martinez" data-role="Mercenary">
+              <div class="char-portrait-wrapper">
+                <img src="../images/fandoms/gaming.jpg" alt="David Martinez" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px; background:#3b82f6;">Sandevistan</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Night City &bull; Edgerunner</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=david">David Martinez (デイビッド)</a></h3>
+                <p class="content-card-desc">Street kid who equipped the military Sandevistan spinal cyberware and led a top crew.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color: var(--color-blue);">Cyberpunk Legend</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:91%; background:#3b82f6;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=david" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'David Martinez')" aria-label="Bookmark David">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 7: Kyojuro Rengoku -->
+            <article class="content-card char-card" data-universe="demon-slayer" data-name="Kyojuro Rengoku" data-role="Hashira">
+              <div class="char-portrait-wrapper">
+                <img src="../images/hero_section/demon_slayer_hero.jpg" alt="Kyojuro Rengoku" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px;">Flame Hashira</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Demon Slayer Corps &bull; Pillar</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=rengoku">Kyojuro Rengoku (煉獄 杏寿郎)</a></h3>
+                <p class="content-card-desc">Charismatic master of Flame Breathing who protected 200 train passengers with his life.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color:var(--accent-red);">Hashira Supreme</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:96%;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=rengoku" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Kyojuro Rengoku')" aria-label="Bookmark Rengoku">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 8: Lucia & Jason (GTA VI) -->
+            <article class="content-card char-card" data-universe="gta" data-name="Lucia & Jason" data-role="Outlaw Duo">
+              <div class="char-portrait-wrapper">
+                <img src="../images/posters/gta_sunset.jpg" alt="Lucia and Jason" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px; background:#10b981;">Leonida Outlaws</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Vice City &bull; Syndicate Duo</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=lucia">Lucia &amp; Jason (Vice City)</a></h3>
+                <p class="content-card-desc">Dynamic modern criminal partnership carving their empire through the neon streets of Leonida.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color: var(--color-green);">5-Star Wanted</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:89%; background:#10b981;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=lucia" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Lucia & Jason')" aria-label="Bookmark Lucia">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 9: Kakashi Hatake -->
+            <article class="content-card char-card" data-universe="naruto" data-name="Kakashi Hatake" data-role="Copy Ninja">
+              <div class="char-portrait-wrapper">
+                <img src="../images/hero_section/naruto_hero.jpg" alt="Kakashi Hatake" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px; background:#6366f1;">Sharingan Master</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Hidden Leaf Village &bull; Jonin Leader</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=kakashi">Kakashi Hatake (はたけ カカシ)</a></h3>
+                <p class="content-card-desc">The famed Copy Ninja of the Leaf who copied over 1,000 jutsu with Obito's Sharingan.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color:#6366f1;">Jonin Commander</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:93%; background:#6366f1;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=kakashi" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Kakashi Hatake')" aria-label="Bookmark Kakashi">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 10: Ranni the Witch -->
+            <article class="content-card char-card" data-universe="elden-ring" data-name="Ranni the Witch" data-role="Lunar Demigod">
+              <div class="char-portrait-wrapper">
+                <img src="../images/fandoms/tv_shows.jpg" alt="Ranni" class="char-card-portrait" loading="lazy" />
+                <span class="card-badge badge-stream" style="position:absolute; top:10px; left:10px; background:#38bdf8;">Age of the Stars</span>
+              </div>
+              <div class="content-card-body" style="padding:16px;">
+                <span class="content-card-category">Lands Between &bull; Lunar Princess</span>
+                <h3 class="content-card-title"><a href="character-detail.html?char=ranni">Ranni the Witch (ラニ)</a></h3>
+                <p class="content-card-desc">Daughter of Rennala who cast aside her flesh to usher in a thousand-year celestial voyage.</p>
+                
+                <div style="margin:8px 0;">
+                  <div class="char-stat-row">
+                    <span>Combat Rating:</span>
+                    <strong style="color:#38bdf8;">Lunar Sovereign</strong>
+                  </div>
+                  <div class="char-stat-bar">
+                    <div class="char-stat-fill" style="width:95%; background:#38bdf8;"></div>
+                  </div>
+                </div>
+
+                <div class="content-card-meta" style="margin-top:10px;">
+                  <a href="character-detail.html?char=ranni" class="btn btn-primary btn-sm" style="flex:1;">Full Dossier</a>
+                  <button type="button" class="btn btn-outline btn-sm bookmark-btn" onclick="toggleCharBookmark(this, 'Ranni the Witch')" aria-label="Bookmark Ranni">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
+              <div class="footer-social-links">
+                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="explore.html">Catalog &amp; Media</a></li>
+                <li><a href="character-list.html">Characters</a></li>
+                <li><a href="merch-list.html">Merchandise</a></li>
+                <li><a href="events.html">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Community</h4>
+              <ul>
+                <li><a href="submit-content.html">Submit Content</a></li>
+                <li><a href="feedback.html">Feedback &amp; Bugs</a></li>
+                <li><a href="sitemap.html">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile Settings</a></li>
+                <li><a href="login.html">Sign In</a></li>
+                <li><a href="register.html">Register</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Management</h4>
+              <ul>
+                <li><a href="admin-overview.html">Admin Overview</a></li>
+                <li><a href="admin-content-form.html">Content Manager</a></li>
+                <li><a href="admin-submissions-queue.html">Submissions Queue</a></li>
+                <li><a href="admin-chatbot-faq.html">Bot Knowledge Base</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
+            <div class="footer-meta-links">
+              <a href="sitemap.html">Sitemap</a>
+              <a href="feedback.html">Support</a>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- CART DRAWER OVERLAY -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
+      <div class="cart-drawer-header">
+        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+          Shopping Bag
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cartDrawerItems"></div>
+      <div class="cart-drawer-footer">
+        <div class="cart-subtotal-row">
+          <span>Estimated Subtotal</span>
+          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CHATBOT WIDGET (CLEAN SVG ICONS ONLY) -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <span class="chatbot-launcher-close" style="display:none; font-size:22px; font-weight:bold;">&times;</span>
+    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
+  </button>
+
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, characters, lore..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- INTERACTIVE CHARACTER ARCHIVE SCRIPT -->
+  <script>
+    function toggleCharBookmark(btn, name) {
+      var isSaved = btn.classList.contains('saved');
+      var svg = btn.querySelector('svg');
+      if (isSaved) {
+        btn.classList.remove('saved');
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline');
+        if (svg) svg.setAttribute('fill', 'none');
+        window.showToast('Removed ' + name + ' from favorites.');
+      } else {
+        btn.classList.add('saved');
+        btn.classList.remove('btn-outline');
+        btn.classList.add('btn-primary');
+        if (svg) svg.setAttribute('fill', 'currentColor');
+        window.showToast('Saved ' + name + ' to your Hall of Favorites!');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var filterBtns = document.querySelectorAll('.char-filter-btn');
+      var searchInput = document.getElementById('searchCharactersInput');
+      var cards = document.querySelectorAll('.char-card');
+
+      var currentUniverse = 'all';
+
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          filterBtns.forEach(function (b) { b.classList.remove('btn-primary'); b.classList.add('btn-secondary'); });
+          btn.classList.remove('btn-secondary');
+          btn.classList.add('btn-primary');
+          currentUniverse = btn.getAttribute('data-universe') || 'all';
+          applyCharFilters();
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', applyCharFilters);
+      }
+
+      function applyCharFilters() {
+        var query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+        cards.forEach(function (card) {
+          var u = card.getAttribute('data-universe') || '';
+          var name = (card.getAttribute('data-name') || '').toLowerCase();
+          var role = (card.getAttribute('data-role') || '').toLowerCase();
+
+          var universeMatch = (currentUniverse === 'all') || (u === currentUniverse);
+          var searchMatch = !query || name.includes(query) || role.includes(query);
+
+          card.style.display = (universeMatch && searchMatch) ? 'flex' : 'none';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

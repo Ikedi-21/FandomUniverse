@@ -1,66 +1,47 @@
 from django.db import models
-from django.contrib.auth.models import User,AbstractUser
-# Custom User model
-class User(AbstractUser):
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 
-    # User roles
+
+class User(AbstractUser):
     class Role(models.TextChoices):
         USER = "user", "User"
         ADMIN = "admin", "Admin"
 
-    # User email
     email = models.EmailField(unique=True)
-
-    # User role: normal user or admin
-    role = models.CharField(
-        max_length=10,
-        choices=Role.choices,
-        default=Role.USER
-    )
-
-    # Check if the user's email has been verified
+    role = models.CharField(max_length=10, choices=Role.choices, default=Role.USER)
     email_verified = models.BooleanField(default=False)
-
-    # Account creation date
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-# Stores additional information about each user
+class Avatar(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="avatar_gallery/")
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Profile(models.Model):
-
-    # One user can have only one profile
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="profile"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
     )
-
-    # User profile picture
-    avatar = models.ImageField(
-        upload_to="avatars/",
-        blank=True,
-        null=True
-    )
-
-    # User biography
+    avatar = models.ForeignKey(Avatar, null=True, blank=True, on_delete=models.SET_NULL)
+    custom_avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     bio = models.TextField(blank=True)
-
-    # User's preferred theme
-    theme = models.CharField(
-        max_length=50,
-        default="dark"
-    )
-
-    # User's preferred font size
-    font_size = models.CharField(
-        max_length=20,
-        default="medium"
-    )
-
-    # User's favorite fandom categories
-    # Category comes from the catalog app
+    theme = models.CharField(max_length=50, default="dark")
+    font_size = models.CharField(max_length=20, default="medium")
     favorite_categories = models.ManyToManyField(
-        "catalog.Category",
-        blank=True,
-        related_name="favorite_by_profiles"
+        "catalog.Category", blank=True, related_name="favorite_by_profiles"
     )
+
+    def get_avatar_url(self):
+        if self.custom_avatar:
+            return self.custom_avatar.url
+        if self.avatar:
+            return self.avatar.image.url
+        return None
+
+    def __str__(self):
+        return f"{self.user}'s profile"

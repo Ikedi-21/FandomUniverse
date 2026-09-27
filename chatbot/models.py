@@ -1,6 +1,6 @@
 from django.db import models
-from accounts import User
-from catalog import Category
+from accounts.models import User
+from catalog.models import Category
 
 
 class ChatbotFAQ(models.Model):

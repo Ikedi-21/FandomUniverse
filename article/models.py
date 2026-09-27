@@ -1,6 +1,6 @@
 from django.db import models
-from accounts import User
-from catalog import Category
+from accounts.models import User
+from catalog.models import Category
 
 
 # This is used as a foreign key multiple times to ensure consistency 
@@ -39,7 +39,7 @@ class EventHighlight(models.Model):
 
 # This is where fanmade posts will be stored
 class FanSubmission(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fan_submission")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     body = models.TextField()
@@ -53,7 +53,7 @@ class FanSubmission(models.Model):
     # This will be used by the admin, I left it null with the knowledge that it might take a while before it gets reviewed by an admin
     review_note = models.TextField(blank=True, null=True)
     reviewed_at = models.DateField(blank=True, null=True)
-    reviewed_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    reviewed_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="reviewed_submissions")
 
     created_at = models.DateField(auto_now_add=True)
 

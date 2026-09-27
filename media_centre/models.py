@@ -1,4 +1,4 @@
-# from django.db import models
+from accounts.models import User
 
 
 # # Stores multimedia content available on Fan Hub.
@@ -95,7 +95,7 @@ class Rating(models.Model):
 
     # Media item being rated.
     media = models.ForeignKey(
-        "media_centers.Media",
+        "catalog.Content",
         on_delete=models.CASCADE,
         related_name="ratings"
     )

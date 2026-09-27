@@ -25,7 +25,7 @@ urlpatterns = [
     path('catalog/', include("catalog.urls")),
     path('characters/', include("characters.urls")),
     path('chatbot/', include("chatbot.urls")),
-    path('dashboard/', include("dasboard.urls")),
+    path('dashboard/', include("dashboard.urls")),
     path('engagements/', include("engagements.urls")),
     path('events/', include("events.urls")),
     path('media_centre/', include("media_centre.urls")),

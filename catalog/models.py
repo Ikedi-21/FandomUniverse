@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from accounts.models import User
 
 # Create your models here.
 """
@@ -8,6 +9,18 @@ catalog	Genre	name, slug
 catalog	Tag	name, slug
 catalog	Content	category (FK), title, type (article/video/audio/image), description, body (rich text, for articles), genres (M2M), tags (M2M), release_date, popularity_score, view_count, thumbnail, source_type (embed/upload), video_url or file, is_published, created_by, created_at
 """
+
+CONTENT_TYPES = [
+    ('article', 'Article'),
+    ('video', 'Video'),
+    ('audio', 'Audio'),
+    ('image', 'Image'),
+]
+
+SOURCE_TYPES = [
+    ('upload', 'Uploaded file'),
+    ('embed', 'Embedded link'),
+]
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)

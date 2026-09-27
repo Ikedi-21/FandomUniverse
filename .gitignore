@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-.venv/
-.env
-staticfiles/
-db.sqlite3
-__pycache__/
-*.pyc
-*.pyo
-=======
 # Virtual environment
 .venv/
 
@@ -30,4 +21,3 @@ staticfiles/
 .vscode/
 .env
 db
->>>>>>> fada2cda43bb36c81e769d408370ea26f9ff4358

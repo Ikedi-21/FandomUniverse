@@ -80,6 +80,7 @@ from accounts.models import User
 #         return self.name
 
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -100,14 +101,25 @@ class Rating(models.Model):
         related_name="ratings"
     )
 
-    # Rating given by the user, from 1 to 5.
-    rating = models.PositiveSmallIntegerField()
+    # Rating given by the user, from 1 to 5 (enforced below and in views).
+    rating = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
 
     # Date and time when the rating was created.
     created_at = models.DateTimeField(auto_now_add=True)
 
     # Date and time when the rating was last updated.
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # One rating per user per item; re-rating updates the same row.
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "media"],
+                name="unique_user_media_rating",
+            )
+        ]
 
     def __str__(self):
         return f"{self.media.title} - {self.rating}/5"

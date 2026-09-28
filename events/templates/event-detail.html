@@ -1,0 +1,493 @@
+{% load static %}
+{# Single convention page. Context from events.views.event_detail: event #}
+{# (one Event) and related_events (same category). Ticket modal tiers #}
+{# scale from the event price via the script at the bottom. #}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ event.title }} | FAN HUB+ Events</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+
+  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  <script src="{% static 'js/cart.js' %}" defer></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  <script src="{% static 'js/chatbot.js' %}" defer></script>
+
+  <style>
+    .event-card-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      transition: all var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .event-card-item:hover {
+      border-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .guest-chip {
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="/" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span>Home</span></a></li>
+            <li><a href="/catalog/explore/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="{% url 'character-list' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
+            <li><a href="{% url 'merch-list' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg><span>Merch &amp; Store</span></a></li>
+            <li><a href="{% url 'events' %}" class="sidebar-nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="/catalog/submit-content/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="#" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
+            <li><a href="#" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="/dashboard/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
+            <li><a href="#" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="/catalog/submit-content/" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="/" class="header-nav-tab">Home</a>
+            <a href="/catalog/explore/" class="header-nav-tab">Explore</a>
+            <a href="{% url 'character-list' %}" class="header-nav-tab">Characters</a>
+            <a href="{% url 'merch-list' %}" class="header-nav-tab">Merch</a>
+            <a href="{% url 'events' %}" class="header-nav-tab active">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="/accounts/login/" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="/accounts/register/" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item"><a href="{% url 'events' %}">Events &amp; Cons</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ event.title|truncatechars:32 }}</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; Official Convention</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT -->
+      <main class="page-content">
+        <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6);">
+
+          <!-- EVENT HERO -->
+          <div style="background: linear-gradient(135deg, #0e121a 0%, #1a1e2b 60%, rgba(239,35,60,0.2) 100%); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:var(--space-8); box-shadow:var(--shadow-lg);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
+              <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">{{ event.category_label|upper }}</span>
+              {% if event.date_badge %}<span class="badge" style="background:rgba(16,185,129,0.15); color:var(--color-green); font-weight:bold;">{{ event.date_badge }}</span>
+              {% elif event.start_datetime %}<span class="badge" style="background:rgba(16,185,129,0.15); color:var(--color-green); font-weight:bold;">{{ event.start_datetime|date:"M d, Y"|upper }}</span>{% endif %}
+            </div>
+            <h1 style="font-size:var(--font-3xl); font-weight:var(--fw-black); margin:4px 0 8px; line-height:1.2;">{{ event.title }}</h1>
+            <p style="color:var(--text-muted); font-size:var(--font-base); margin:0; line-height:1.5;">
+              {{ event.venue }} &bull; {{ event.city }}
+            </p>
+            <div style="display:flex; align-items:center; gap:16px; margin-top:16px; flex-wrap:wrap;">
+              <span style="font-size:var(--font-2xl); font-weight:var(--fw-black); color:var(--accent-red);">{{ event.currency_symbol }}{{ event.price }}</span>
+              {% if event.status_line %}<span style="color:var(--color-green); font-weight:bold; font-size:var(--font-sm);">&#10003; {{ event.status_line }}</span>{% endif %}
+            </div>
+            <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary" onclick="openTicketModal('{{ event.title|escapejs }}', '{{ event.currency_symbol|escapejs }}{{ event.price }}', '{{ event.venue|escapejs }}', '{{ event.date_badge|escapejs }}')">Get Tickets</button>
+              {% if event.ticket_link %}<a href="{{ event.ticket_link }}" target="_blank" rel="noopener" class="btn btn-secondary">Official Ticket Site</a>{% endif %}
+            </div>
+          </div>
+
+          <!-- ABOUT + SCHEDULE -->
+          <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:var(--space-6); align-items:start;">
+            <div style="display:flex; flex-direction:column; gap:var(--space-6);">
+              <section style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-6);">
+                <span class="eyebrow">ABOUT THIS EVENT</span>
+                <h2 style="margin:4px 0 8px;">Overview</h2>
+                <p style="color:var(--text-muted); line-height:1.6; font-size:var(--font-sm); margin:0;">
+                  {{ event.description|default:"Official convention listing. Schedule and guest announcements appear here."|linebreaks }}
+                </p>
+                {% if event.highlight_list %}
+                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;">
+                  {% for h in event.highlight_list %}<span class="guest-chip">{{ h }}</span>{% endfor %}
+                </div>
+                {% endif %}
+              </section>
+
+              {% if event.start_datetime or event.end_datetime %}
+              <section style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-6);">
+                <span class="eyebrow">SCHEDULE</span>
+                <h2 style="margin:4px 0 8px;">Dates &amp; Times</h2>
+                <table class="admin-table">
+                  <tbody>
+                    {% if event.start_datetime %}<tr><td style="width:160px; color:var(--text-muted); font-weight:bold;">Opens</td><td>{{ event.start_datetime|date:"M d, Y, H:i" }}</td></tr>{% endif %}
+                    {% if event.end_datetime %}<tr><td style="color:var(--text-muted); font-weight:bold;">Closes</td><td>{{ event.end_datetime|date:"M d, Y, H:i" }}</td></tr>{% endif %}
+                  </tbody>
+                </table>
+              </section>
+              {% endif %}
+            </div>
+
+            <!-- VENUE PANEL -->
+            <aside style="background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px; gap:8px;">
+                <div>
+                  <h4 style="margin:0; font-size:var(--font-sm); font-weight:bold; color:var(--text-main);">{{ event.venue }}</h4>
+                  {% if event.venue_address %}<span style="font-size:11px; color:var(--text-dim);">{{ event.venue_address }}</span>{% endif %}
+                </div>
+                <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-size:11px;">Host: {{ event.title|truncatechars:24 }}</span>
+              </div>
+              {% if event.venue_info %}
+              <div style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.5; margin-top:8px;">{{ event.venue_info|safe }}</div>
+              {% endif %}
+              {% if event.city %}<div style="font-size:var(--font-xs); color:var(--text-dim); margin-top:8px;">{{ event.city }}</div>{% endif %}
+            </aside>
+          </div>
+
+          <!-- RELATED EVENTS -->
+          {% if related_events %}
+          <section aria-label="Related events">
+            <div class="section-header">
+              <h2 class="section-title">More {{ event.category_label }}</h2>
+              <a href="{% url 'events' %}?category={{ event.category }}" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">View all &rarr;</a>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              {% for item in related_events %}
+              <article class="event-card-item">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+                  <div>
+                    {% if item.date_badge %}<span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">{{ item.date_badge }}</span>{% endif %}
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);"><a href="{% url 'event-detail' item.pk %}">{{ item.title }}</a></h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">{{ item.venue }} &bull; {{ item.city }}</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color:var(--accent-red);">{{ item.currency_symbol }}{{ item.price }}</span>
+                </div>
+                <div style="display:flex; justify-content:flex-end;">
+                  <a href="{% url 'event-detail' item.pk %}" class="btn btn-secondary btn-sm">View</a>
+                </div>
+              </article>
+              {% endfor %}
+            </div>
+          </section>
+          {% endif %}
+
+          <!-- BACK -->
+          <div>
+            <a href="{% url 'events' %}" class="btn btn-secondary" style="display:inline-flex; align-items:center; gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              Back to Events
+            </a>
+          </div>
+
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
+              <div class="footer-social-links">
+                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="/catalog/explore/">Catalog &amp; Media</a></li>
+                <li><a href="{% url 'character-list' %}">Characters</a></li>
+                <li><a href="{% url 'merch-list' %}">Merchandise</a></li>
+                <li><a href="{% url 'events' %}">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Community</h4>
+              <ul>
+                <li><a href="/catalog/submit-content/">Submit Content</a></li>
+                <li><a href="#">Feedback &amp; Bugs</a></li>
+                <li><a href="#">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <ul>
+                <li><a href="/dashboard/">Dashboard</a></li>
+                <li><a href="/accounts/login/">Sign In</a></li>
+                <li><a href="/accounts/register/">Register</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform.</div>
+            <div class="footer-meta-links">
+              <a href="#">Sitemap</a>
+              <a href="#">Support</a>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- TICKET BOOKING MODAL -->
+  <div class="modal-overlay" id="ticketModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); max-width:500px; width:100%; padding:var(--space-6); box-shadow:var(--shadow-xl); position:relative;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">OFFICIAL CONVENTION BADGE</span>
+          <h3 style="margin:4px 0 0; font-size:var(--font-xl); font-weight:var(--fw-bold);" id="modalConTitle">{{ event.title }}</h3>
+          <span style="font-size:var(--font-xs); color:var(--text-muted);" id="modalConVenue">{{ event.venue }}</span>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeTicketModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <label style="font-size:var(--font-xs); font-weight:bold; color:var(--text-dim); text-transform:uppercase;">Select Pass Tier</label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="Single-Day Pass" data-mult="0.5" checked />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">1-Day Exhibition Pass</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--text-main);" class="tier-price" data-mult="0.5"></span>
+        </label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="4-Day Full Pass" data-mult="1" />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">4-Day Weekend Full Access</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--accent-red);" class="tier-price" data-mult="1"></span>
+        </label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="VIP Fast-Pass" data-mult="2" />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">VIP Fast-Pass &amp; Lounge</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--color-amber);" class="tier-price" data-mult="2"></span>
+        </label>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--border-subtle);">
+        <div>
+          <span style="font-size:var(--font-xs); color:var(--text-dim); display:block;">Total Estimated</span>
+          <span style="font-size:var(--font-lg); font-weight:bold; color:var(--accent-red);" id="modalTotalCost"></span>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="confirmTicketOrder()">
+          Confirm &amp; Issue E-Badge
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER OVERLAY -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
+      <div class="cart-drawer-header">
+        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+          Shopping Bag
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cartDrawerItems"></div>
+      <div class="cart-drawer-footer">
+        <div class="cart-subtotal-row">
+          <span>Estimated Subtotal</span>
+          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CHATBOT WIDGET -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chatbot-launcher-close" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
+  </button>
+
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, movies, orders..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- TICKET MODAL SCRIPT (tiers scale from this event's price) -->
+  <script>
+    var activeModalCon = '{{ event.title|escapejs }}';
+    var activeModalSymbol = '{{ event.currency_symbol|escapejs }}';
+    var activeModalPrice = parseFloat('{{ event.price }}') || 0;
+
+    function formatTier(amount, symbol) {
+      var n = Math.round(amount * 100) / 100;
+      return symbol + n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function openTicketModal(title, priceText, venue, dates) {
+      activeModalCon = title;
+      var m = priceText.match(/^(\D*)([\d,]+\.?\d*)$/);
+      activeModalSymbol = (m && m[1]) || activeModalSymbol;
+      activeModalPrice = parseFloat(((m && m[2]) || '0').replace(/,/g, '')) || activeModalPrice;
+
+      document.getElementById('modalConTitle').textContent = title;
+      document.getElementById('modalConVenue').textContent = venue + ' \u2022 ' + dates;
+
+      document.querySelectorAll('#ticketModal .tier-price').forEach(function (el) {
+        var mult = parseFloat(el.getAttribute('data-mult') || 1);
+        el.textContent = formatTier(activeModalPrice * mult, activeModalSymbol);
+      });
+      updateModalTotal();
+
+      var radios = document.querySelectorAll('input[name="passTier"]');
+      if (radios.length > 1) radios[1].checked = true;
+      document.getElementById('ticketModal').style.display = 'flex';
+    }
+
+    function updateModalTotal() {
+      var checked = document.querySelector('input[name="passTier"]:checked');
+      var mult = checked ? parseFloat(checked.getAttribute('data-mult') || 1) : 1;
+      document.getElementById('modalTotalCost').textContent = formatTier(activeModalPrice * mult, activeModalSymbol);
+    }
+
+    function closeTicketModal() {
+      document.getElementById('ticketModal').style.display = 'none';
+    }
+
+    function confirmTicketOrder() {
+      closeTicketModal();
+      if (window.showToast) window.showToast('Convention e-Badge reserved for ' + activeModalCon + '! Confirmation sent to your profile.');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Paint tier prices on load so the modal is correct before opening
+      document.querySelectorAll('#ticketModal .tier-price').forEach(function (el) {
+        var mult = parseFloat(el.getAttribute('data-mult') || 1);
+        el.textContent = formatTier(activeModalPrice * mult, activeModalSymbol);
+      });
+      updateModalTotal();
+
+      document.querySelectorAll('input[name="passTier"]').forEach(function (r) {
+        r.addEventListener('change', updateModalTotal);
+      });
+    });
+  </script>
+</body>
+</html>

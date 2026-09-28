@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAN HUB+ | Explore, Connect, Beyond - Anime &amp; Fandom Entertainment</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/components.css">
+  <link rel="stylesheet" href="/static/css/chatbot.css">
+
+  <script src="/static/js/auth-context.js" defer></script>
+  <script src="/static/js/cart.js" defer></script>
+  <script src="/static/js/main.js" defer></script>
+  <script src="/static/js/chatbot-data.js" defer></script>
+  <script src="/static/js/chatbot.js" defer></script>
+  <script src="/static/js/carousel.js" defer></script>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="{% url 'home' %}" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="{% url 'home' %}" class="sidebar-nav-link active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'explore' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                <span>Explore Catalog</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'character-list' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Characters</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'merch-list' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span>Merch &amp; Store</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'events' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span>Events &amp; Cons</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="{% url 'submit-content' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                <span>Submit Content</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'feedback' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <span>Feedback &amp; Help</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'sitemap' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <span>Site Directory</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="{% url 'dashboard' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'profile' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Profile &amp; Settings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Management</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="{% url 'admin-overview' %}" class="sidebar-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                <span>Admin Portal</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Sidebar User / CTA Slot -->
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="{% url 'submit-content' %}" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="{% url 'home' %}" class="header-nav-tab active">Home</a>
+            <a href="{% url 'explore' %}" class="header-nav-tab">Explore</a>
+            <a href="{% url 'character-list' %}" class="header-nav-tab">Characters</a>
+            <a href="{% url 'merch-list' %}" class="header-nav-tab">Merch</a>
+            <a href="{% url 'events' %}" class="header-nav-tab">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-center">
+          <div class="search-bar-wrapper">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
+            <span class="search-bar-hotkey">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="{% url 'login' %}" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="{% url 'register' %}" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SHARED BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; Ultimate Discovery Hub</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT (TWO COLUMN LAYOUT) -->
+      <main class="page-content">
+        <div class="two-column-layout">
+
+          <!-- FEED COLUMN (2/3) -->
+          <div class="feed-column">
+
+            <!-- HERO CAROUSEL -->
+            <section class="hero-carousel-container" id="heroBanner" aria-label="Featured Fandom Carousel">
+              <!-- Slide 1: Demon Slayer -->
+               {% for content in contents %}
+              <div class="hero-slide active" style="background-image: url('{{ content.thumbnail }}');">
+                <div class="hero-slide-overlay">
+                  <span class="hero-badge-tag">{{ content.category.name }}</span>
+                  <h1 class="hero-title">{{ content.title }}</h1>
+                  <p class="hero-desc">{{ content.description }}</p>
+                  <div class="hero-actions">
+                    <button type="button" class="btn btn-hero-primary" onclick="openTrailerModal('{{ content.title }}', '{{ content.video_url }}')">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                      Watch Stream
+                    </button>
+                    <a href="{% url 'explore' %}?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+              <div class="carousel-nav-dots" id="heroCarouselDots">
+                <button type="button" class="carousel-dot active" data-slide="0" aria-label="Go to slide 1"></button>
+                <button type="button" class="carousel-dot" data-slide="1" aria-label="Go to slide 2"></button>
+                <button type="button" class="carousel-dot" data-slide="2" aria-label="Go to slide 3"></button>
+              </div>
+
+              <div class="carousel-arrows">
+                <button type="button" class="carousel-arrow" id="heroPrevBtn" aria-label="Previous Slide">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button type="button" class="carousel-arrow" id="heroNextBtn" aria-label="Next Slide">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+            </section>
+
+            <!-- 8-CATEGORY STRIP (CLEAN SVG ICONS - ZERO EMOJIS) -->
+            <section class="category-strip" aria-label="Fandom Categories">
+              <div class="section-header">
+                <h2 class="section-title">Explore Fandom Universes</h2>
+                <a href="{% url 'explore' %}" class="section-view-all">All Universes &rarr;</a>
+              </div>
+              <div class="category-strip-grid">
+                {% for category in categories %}
+                <!-- Anime -->
+                <a href="{% url 'explore' %}?category=anime" class="category-strip-card">
+                  <div class="category-strip-icon">
+                    {{ category.cover_image }}
+                  </div>
+                  <span class="category-strip-name">{{ category.name }}</span>
+                </a>
+                 {% empty %}
+
+                    <p style="color:var(--text-muted);">
+                        No fandom categories available.
+                    </p>
+
+                {% endfor %}
+              </div>
+            </section>
+
+            <!-- TRENDING BROADCASTS ROW -->
+            <section style="margin-top:var(--space-6);" aria-label="Trending Content">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Trending Simulcasts &amp; Broadcasts</h2>
+                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Stream current season episodes in 4K HDR with dual audio tracks</p>
+                </div>
+                <a href="{% url 'explore' %}" class="section-view-all">Full Catalog &rarr;</a>
+              </div>
+              <div class="cards-grid">
+                {% for contentTwo in contentsTwo %}
+
+                <article class="content-card">
+                  <div class="content-card-poster">
+                    <img src="images/posters/demon_slayer_thumb.jpg" alt="Demon Slayer" loading="lazy" />
+                    <span class="card-badge badge-stream">{{ contentTwo.content_type }}</span>
+                    <span class="card-rating">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                      {{ contentTwo.popularity_score }}
+                    </span>
+                  </div>
+                  <div class="content-card-body">
+                    <span class="content-card-category">{{ contentTwo.category.name }}</span>
+                    <h3 class="content-card-title"><a href="{% url 'articles' contentTwo.slug %}">{{ contentTwo.title }}</a></h3>
+                    <p class="content-card-desc">{{ contentTwo.description }}</p>
+                    <div class="content-card-meta">
+                      <span>{{ contentTwo.tags }}</span>
+                      <a href="{% url 'articles' contentTwo.slug %}" class="btn btn-outline btn-sm">Watch Now</a>
+                    </div>
+                  </div>
+                </article>
+
+                {% empty %}
+
+                    <p style="color:var(--text-muted);">
+                        No broadcasts available.
+                    </p>
+
+                {% endfor %}
+            
+              </div>
+            </section>
+
+            <!-- FEATURED CHARACTERS ROW (RICH DOSSIER CARDS) -->
+            <section style="margin-top:var(--space-8);" aria-label="Featured Characters">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Hall of Heroes &bull; Character Dossiers</h2>
+                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Combat ratings, signature techniques, voice actors, and deep lore profiles</p>
+                </div>
+                <a href="{% url 'character-list' %}" class="section-view-all">All Characters &rarr;</a>
+              </div>
+              <div class="cards-grid">
+                {% for character in characters %}
+
+                <!-- Tanjiro -->
+                <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
+                  <div style="position:relative; height:120px; background:#111; overflow:hidden;">
+                    <img src="{{ character.image }}" alt="{{ character.name }}" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
+                    <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(239,35,60,0.85); color:#fff; font-weight:bold;">{{ character.source_title }}</span>
+                    <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">Grade S</span>
+                  </div>
+                  <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div>
+                      <h3 style="font-size:var(--font-md); font-weight:var(--fw-bold); margin:0 0 4px;">
+                        <a href="{% url 'characters-list' characters.pk %}" style="color:var(--text-main); text-decoration:none;">{{ character.name }}</a>
+                      </h3>
+                      <div style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold; margin-bottom:6px;">{{ character.source_title }}</div>
+                      <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.4; margin:0 0 12px;">{{ character.bio }}</p>
+                      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:4px;">
+                        <span>Combat Power</span>
+                        <strong style="color:var(--accent-red);">94 / 100</strong>
+                      </div>
+                      <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden; margin-bottom:12px;">
+                        <div style="width:94%; height:100%; background:var(--accent-red); border-radius:2px;"></div>
+                      </div>
+                    </div>
+                    <a href="{% url 'characters-list' characters.pk %}" class="btn btn-secondary btn-sm" style="width:100%; text-align:center;">Open Combat Dossier</a>
+                  </div>
+                </article>
+
+                {% empty %}
+
+                    <p style="color:var(--text-muted);">
+                        No characters available.
+                    </p>
+
+                {% endfor %}
+              </div>
+            </section>
+
+            <!-- OFFICIAL MERCH VAULT PREVIEW (WORKING CART BUTTONS) -->
+            <section style="margin-top:var(--space-8);" aria-label="Merchandise Vault">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Official Fandom Merch Vault</h2>
+                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Direct Tokyo &amp; Seoul studio collectibles &bull; 100% authentic serialized goods</p>
+                </div>
+                <a href="{% url 'merch-list' %}" class="section-view-all">All Merch Store &rarr;</a>
+              </div>
+              <div class="cards-grid">
+                {% for merch in merchs %}
+
+                <article class="content-card">
+                  <div class="content-card-poster">
+                    <img src="{{ merch.image }}" alt="{{ merch.name }}" loading="lazy" />
+                    <span class="card-badge badge-merch">{{ merch.tags }}</span>
+                  </div>
+                  <div class="content-card-body">
+                    <span class="content-card-category">{{ merch.category.name }}</span>
+                    <h3 class="content-card-title"><a href="{% url 'merch-details' %}">{{ merch.name }}</a></h3>
+                    <p class="content-card-desc">{{ merch.description }}</p>
+                    {% comment %} <div class="content-card-meta">
+                      <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock (14 left)</span>
+                      <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'fig-1', name:'Sung Jinwoo: Monarch Statue', price:249.99, image:'images/posters/solo_leveling.jpg'})">
+                        Add to Bag
+                      </button>
+                    </div> {% endcomment %}
+                  </div>
+                </article>
+
+                {% empty %}
+
+                    <p style="color:var(--text-muted);">
+                        No merch available.
+                    </p>
+
+                {% endfor %}
+              </div>
+            </section>
+
+            <!-- COMMUNITY PULSE & DISCUSSIONS -->
+            <section style="margin-top:var(--space-8);" aria-label="Community Discussions">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Community Pulse &amp; Fan Debates</h2>
+                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Join trending theorycrafting, episode breakdowns, and character showdowns</p>
+                </div>
+                <a href="{% url 'submit-content' %}" class="section-view-all">Post Discussion &rarr;</a>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                {% for article in articles %}
+
+                <!-- Thread 1 -->
+                <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                  <div style="display:flex; align-items:center; gap:14px;">
+                    <div style="width:42px; height:42px; border-radius:50%; background:#1e293b; display:flex; align-items:center; justify-content:center; border:2px solid var(--accent-red); flex-shrink:0;">
+                      {{ article.image }}
+                    </div>
+                    <div>
+                      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                        <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red);">{{ article.category.name }}</span>
+                        <span style="font-size:11px; color:var(--text-muted);">Posted by @{{ article.user.username }} &bull; 2 hours ago</span>
+                      </div>
+                      <h4 style="margin:0; font-size:var(--font-base); font-weight:var(--fw-bold); color:var(--text-main);">
+                        {{ article.title }}
+                      </h4>
+                    </div>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:16px;">
+                    {% comment %} <div style="display:flex; align-items:center; gap:6px; font-size:var(--font-xs); color:var(--text-muted);">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                      <span>342 Comments</span>
+                    </div> {% endcomment %}
+                    <a href="{% url 'feedback' %}" class="btn btn-outline btn-sm">Join Debate</a>
+                  </div>
+                </div>
+              {% endfor %}
+                
+              </div>
+            </section>
+
+            <!-- VIP FAN HUB+ PLATFORM GUARANTEE -->
+            <section style="margin-top:var(--space-8); padding:24px; background:linear-gradient(135deg, rgba(239,35,60,0.12) 0%, rgba(20,24,33,0.9) 100%); border:1px solid var(--border-medium); border-radius:var(--radius-lg); display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+              <div style="display:flex; align-items:flex-start; gap:12px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <div>
+                  <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">4K Ultra-HD Streams</strong>
+                  <span style="font-size:var(--font-xs); color:var(--text-muted);">Zero-lag streaming with dual Japanese and English audio</span>
+                </div>
+              </div>
+              <div style="display:flex; align-items:flex-start; gap:12px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <div>
+                  <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">100% Studio Licensed</strong>
+                  <span style="font-size:var(--font-xs); color:var(--text-muted);">Authentic serialized statues direct from Tokyo and Seoul</span>
+                </div>
+              </div>
+              <div style="display:flex; align-items:flex-start; gap:12px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <div>
+                  <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">VIP Convention Access</strong>
+                  <span style="font-size:var(--font-xs); color:var(--text-muted);">Priority early ticketing and exclusive panel pass raffles</span>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- SIDEBAR RIGHT (1/3) -->
+          <aside class="sidebar-right" aria-label="Community Hub Sidebar">
+            
+
+            <!-- Top This Week Leaderboard -->
+            <div class="widget-card">
+              <div class="widget-title">
+                <span>Top Broadcasts</span>
+                <a href="{% url 'explore' %}?sort=popularity" style="font-size:var(--font-xs); color:var(--accent-red);">See All</a>
+              </div>
+              <div class="ranked-list">
+                {% for contentLdb in contentsLdb %}
+
+                <div class="ranked-item">
+                  <span class="ranked-num">01</span>
+                  <img src="images/posters/solo_leveling.jpg" alt="Solo Leveling" class="ranked-thumb" />
+                  <div class="ranked-details">
+                    <div class="ranked-title">{{ contentLdb.title }}</div>
+                    <div class="ranked-sub">{{ contentLdb.view_count }}plays</div>
+                  </div>
+                </div>
+
+                {% endfor %}
+
+              </div>
+            </div>
+
+            <!-- Live Community Poll -->
+            <div class="widget-card">
+              <div class="widget-title">
+                <span>Community Poll</span>
+                <span style="font-size:11px; color: var(--color-green); font-weight:bold;">LIVE</span>
+              </div>
+              <p style="font-size:var(--font-xs); color:var(--text-main); font-weight:bold; margin:6px 0 10px;">
+                Which upcoming adaptation are you most hyped for?
+              </p>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+                  <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+                    <span>Demon Slayer Infinity Castle</span>
+                    <strong style="color:var(--accent-red);">58%</strong>
+                  </div>
+                  <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+                    <div style="width:58%; height:100%; background:var(--accent-red);"></div>
+                  </div>
+                </div>
+                <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+                  <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+                    <span>Solo Leveling: Season 2</span>
+                    <strong style="color: var(--color-purple);">28%</strong>
+                  </div>
+                  <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+                    <div style="width:28%; height:100%; background:#8b5cf6;"></div>
+                  </div>
+                </div>
+                <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+                  <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+                    <span>GTA VI Story Mode</span>
+                    <strong style="color: var(--color-blue);">14%</strong>
+                  </div>
+                  <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+                    <div style="width:14%; height:100%; background:#3b82f6;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Global Convention Spotlight -->
+            <div class="widget-card">
+              <div class="widget-title">
+                <span>Upcoming Cons</span>
+                <a href="{% url 'events' %}" style="font-size:var(--font-xs); color:var(--accent-red);">View Map</a>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+                {% for event in events %}
+
+                <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border-left:3px solid var(--accent-red);">
+                  <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">{{ event.title }}</strong>
+                  <span style="font-size:11px; color:var(--text-muted);">{{ event.category.name }} &bull; {{ event.date }}</span>
+                </div>
+
+                {% endfor %}
+                
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
+              <div class="footer-social-links">
+                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="{% url 'explore' %}">Catalog &amp; Media</a></li>
+                <li><a href="{% url 'character-list' %}">Characters</a></li>
+                <li><a href="{% url 'merch-list' %}">Merchandise</a></li>
+                <li><a href="{% url 'events' %}">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Community</h4>
+              <ul>
+                <li><a href="{% url 'submit-content' %}">Submit Content</a></li>
+                <li><a href="{% url 'feedback' %}">Feedback &amp; Bugs</a></li>
+                <li><a href="{% url 'sitemap' %}">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'profile' %}">Profile Settings</a></li>
+                <li><a href="{% url 'login' %}">Sign In</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Management</h4>
+              <ul>
+                <li><a href="{% url 'admin' %}">Admin Overview</a></li>
+                <li><a href="{% url 'admin-content-form' %}">Content Manager</a></li>
+                <li><a href="{% url 'admin-submissions-queue' %}">Submissions Queue</a></li>
+                <li><a href="{% url 'admin-chatbot-faq' %}">Bot Knowledge Base</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
+            <div class="footer-meta-links">
+              <a href="{% url 'sitemap' %}">Sitemap</a>
+              <a href="{% url 'feedback' %}">Support</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- VIDEO TRAILER STREAM MODAL -->
+  <div class="modal-overlay" id="videoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#0a0c10; border:1px solid var(--border-medium); border-radius:var(--radius-lg); max-width:800px; width:100%; overflow:hidden; box-shadow:var(--shadow-xl); position:relative;">
+      <div style="padding:14px 18px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); background:var(--bg-card);">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-stream">Ultra HD Stream</span>
+          <strong id="videoModalTitle" style="font-size:var(--font-sm); color:var(--text-main);">Demon Slayer: Swordsmith Village</strong>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeTrailerModal()" aria-label="Close player">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div style="position:relative; width:100%; aspect-ratio:16/9; background:#000;">
+        <video id="mainVideoPlayer" controls style="width:100%; height:100%;" poster="images/hero_section/demon_slayer_hero.jpg">
+          <source id="videoSource" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+          Your browser does not support HTML5 video streaming.
+        </video>
+      </div>
+      <div style="padding:14px 18px; display:flex; justify-content:space-between; align-items:center; background:var(--bg-card); border-top:1px solid var(--border-subtle);">
+        <span style="font-size:var(--font-xs); color:var(--text-muted);">4K HDR 60fps &bull; English &amp; Japanese Audio &bull; Dolby Atmos</span>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeTrailerModal()">Done Watching</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- CHATBOT WIDGET (SVG ONLY) -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <span class="chatbot-launcher-close" style="display:none; font-size:22px; font-weight:bold;">&times;</span>
+    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
+  </button>
+
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, characters, lore..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- VIDEO MODAL CONTROLS -->
+  <script>
+    function openTrailerModal(title, videoUrl) {
+      document.getElementById('videoModalTitle').textContent = title;
+      var player = document.getElementById('mainVideoPlayer');
+      var source = document.getElementById('videoSource');
+      if (player && source) {
+        source.src = videoUrl;
+        player.load();
+        player.play().catch(function() {});
+      }
+      document.getElementById('videoModal').style.display = 'flex';
+    }
+
+    function closeTrailerModal() {
+      var player = document.getElementById('mainVideoPlayer');
+      if (player) player.pause();
+      document.getElementById('videoModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

@@ -6,13 +6,17 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from accounts.models import User, Profile, Avatar
-from catalog.models import Category
+from media_centre.models import Rating
+from catalog.models import Content, Category
+from characters.models import CharacterProfile
+from merch.models import Merch
+from article.models import FanSubmission, EventHighlight
 from django.contrib.auth import authenticate, login as auth_login
+from django.db.models import Avg
 
 
 
 def register(request):
-
     categories = Category.objects.all()
     avatars = Avatar.objects.all()
 
@@ -228,3 +232,28 @@ def login(request):
             return render(request, "login.html")
 
     return render(request, "login.html")
+
+def home(request):
+    contents = Content.objects.all().order_by("-created_at")[:3]
+    contentsTwo = Content.objects.all().order_by("-created_at")[:4]
+    contentsLdb = Content.objects.all().order_by("view_count")[:3]
+    categories = Category.objects.all().order_by("-created_at")[:4]
+    characters = CharacterProfile.objects.all().order_by("name")[:4]
+    merchs = Merch.objects.all().order_by("name")[:4]
+    articles = FanSubmission.objects.all().order_by("title")[:3]
+    events = EventHighlight.objects.all().order_by("event_date")[:3]
+
+
+    context = {
+        "categories": categories,
+        "contents": contents,
+        "contentsTwo": contentsTwo,
+        "characters": characters,
+        "merchs": merchs,
+        "articles": articles,
+        "events": events,
+        "contentsLdb": contentsLdb,
+
+    }
+
+    return render(request, "index.html", context)

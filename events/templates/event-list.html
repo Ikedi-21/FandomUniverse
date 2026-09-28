@@ -1,0 +1,668 @@
+{% load static %}
+{# Conventions listing. Context from events.views.event_list: events #}
+{# (published Event rows), city_options, categories, selected_city, #}
+{# selected_category, query, total_count. Cards keep data-* attributes so #}
+{# the map/filter JS works unchanged; venuesData is built from the DOM. #}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fandom Conventions &amp; World Events | FAN HUB+</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+
+  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  <script src="{% static 'js/cart.js' %}" defer></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  <script src="{% static 'js/chatbot.js' %}" defer></script>
+
+  <style>
+    .map-container-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      position: sticky;
+      top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      box-shadow: var(--shadow-md);
+    }
+    .svg-map-wrapper {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      background: #090b10;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .map-pin {
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    .map-pin:hover, .map-pin.active-pin {
+      transform: scale(1.35);
+      filter: drop-shadow(0 0 8px var(--accent-red));
+    }
+    .event-card-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      transition: all var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .event-card-item:hover, .event-card-item.highlighted-event {
+      border-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .guest-chip {
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="/" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span>Home</span></a></li>
+            <li><a href="/catalog/explore/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="{% url 'character-list' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
+            <li><a href="{% url 'merch-list' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg><span>Merch &amp; Store</span></a></li>
+            <li><a href="{% url 'events' %}" class="sidebar-nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="/catalog/submit-content/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="#" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
+            <li><a href="#" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="/dashboard/" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
+            <li><a href="#" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Management</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="#" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><span>Admin Portal</span></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="/catalog/submit-content/" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="/" class="header-nav-tab">Home</a>
+            <a href="/catalog/explore/" class="header-nav-tab">Explore</a>
+            <a href="{% url 'character-list' %}" class="header-nav-tab">Characters</a>
+            <a href="{% url 'merch-list' %}" class="header-nav-tab">Merch</a>
+            <a href="{% url 'events' %}" class="header-nav-tab active">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-center">
+          <div class="search-bar-wrapper">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
+            <span class="search-bar-hotkey">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="/accounts/login/" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="/accounts/register/" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item active" aria-current="page">Events &amp; Cons</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; {{ total_count }} upcoming event{{ total_count|pluralize }}</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT -->
+      <main class="page-content">
+        <div style="display:flex; flex-direction:column; gap:var(--space-6);">
+
+          <!-- TOP BAR & FILTERS (server-side form; selects auto-submit) -->
+          <form method="get" action="{% url 'events' %}" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-subtle); padding-bottom:var(--space-4);">
+            <div>
+              <h1 style="margin:0; font-size:var(--font-xxl); font-weight:var(--fw-black);">Fandom Conventions &amp; World Events</h1>
+              <p style="margin:4px 0 0; font-size:var(--font-sm); color:var(--text-muted);">
+                Reserve official passes, view stage schedules, and explore venue transit for premier anime expos and gaming summits.
+              </p>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label for="cityFilterSelect" style="font-size:var(--font-xs); color:var(--text-muted); font-weight:bold;">City:</label>
+                <select id="cityFilterSelect" name="city" class="form-select" style="width:160px; height:34px; font-size:var(--font-xs);" onchange="this.form.submit()">
+                  <option value="all">All Global Cities</option>
+                  {% for c in city_options %}
+                  <option value="{{ c.city_slug }}" {% if selected_city == c.city_slug %}selected{% endif %}>{{ c.city }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label for="categoryEventSelect" style="font-size:var(--font-xs); color:var(--text-muted); font-weight:bold;">Category:</label>
+                <select id="categoryEventSelect" name="category" class="form-select" style="width:140px; height:34px; font-size:var(--font-xs);" onchange="this.form.submit()">
+                  <option value="all">All Categories</option>
+                  {% for value, label in categories %}
+                  <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <input type="text" id="eventSearchInput" name="q" value="{{ query }}" class="form-input" placeholder="Search events..." style="width:180px; height:34px; font-size:var(--font-xs);" />
+
+              <a href="{% url 'events' %}" class="btn btn-secondary btn-sm" style="height:34px;">Reset</a>
+            </div>
+          </form>
+
+          <!-- SIDE BY SIDE: EVENT CARDS LIST & INTERACTIVE MAP -->
+          <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:var(--space-6); align-items:start;">
+
+            <!-- LEFT: CONVENTION CARDS (DB-driven) -->
+            <div style="display:flex; flex-direction:column; gap:16px;" id="eventsListContainer">
+              {% for event in events %}
+              <article class="event-card-item"
+                  data-id="{{ event.map_code|default:event.pk }}"
+                  data-city="{{ event.city_slug }}"
+                  data-category="{{ event.category }}"
+                  data-title="{{ event.title|lower }}"
+                  data-venue-title="{{ event.venue|escape }}"
+                  data-venue-address="{{ event.venue_address|default:event.venue|escape }}"
+                  data-venue-badge="Host: {{ event.title|escape }}"
+                  data-venue-desc="{{ event.venue_info|default:'Transit and hotel details coming soon.'|escape }}">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div>
+                    {% if event.date_badge %}<span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">{{ event.date_badge }}</span>
+                    {% elif event.start_datetime %}<span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">{{ event.start_datetime|date:"M d, Y"|upper }}</span>{% endif %}
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);"><a href="{% url 'event-detail' event.pk %}">{{ event.title }}</a></h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">{{ event.venue }} &bull; {{ event.city }}</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color:var(--accent-red);">{{ event.currency_symbol }}{{ event.price }}</span>
+                </div>
+                {% if event.description %}<p style="color:var(--text-muted); font-size:var(--font-sm); line-height:1.5; margin:4px 0;">{{ event.description|truncatewords:30 }}</p>{% endif %}
+                {% if event.highlight_list %}
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  {% for h in event.highlight_list %}<span class="guest-chip">{{ h }}</span>{% endfor %}
+                </div>
+                {% endif %}
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-subtle); margin-top:4px; padding-top:8px; flex-wrap:wrap; gap:8px;">
+                  {% if event.status_line %}<span style="font-size:var(--font-xs); color:var(--color-green); font-weight:bold;">&#10003; {{ event.status_line }}</span>{% endif %}
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="highlightPin('{{ event.map_code|default:event.pk|escapejs }}')">View on Map</button>
+                    <a href="{% url 'event-detail' event.pk %}" class="btn btn-secondary btn-sm">Details</a>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openTicketModal('{{ event.title|escapejs }}', '{{ event.currency_symbol|escapejs }}{{ event.price }}', '{{ event.venue|escapejs }}', '{{ event.date_badge|default:event.start_datetime|date:'M d, Y'|escapejs }}')">Get Tickets</button>
+                  </div>
+                </div>
+              </article>
+              {% empty %}
+              <div style="padding:32px; text-align:center; border:1px dashed var(--border-medium); border-radius:var(--radius-lg);">
+                <h3 style="margin:0 0 6px;">No events found</h3>
+                <p style="margin:0 0 12px; color:var(--text-muted); font-size:var(--font-sm);">
+                  {% if query %}Nothing matches &ldquo;{{ query }}&rdquo;.{% else %}No conventions match these filters.{% endif %}
+                </p>
+                <a href="{% url 'events' %}" class="btn btn-secondary btn-sm">Clear filters</a>
+              </div>
+              {% endfor %}
+            </div>
+
+            <!-- RIGHT: INTERACTIVE MAP & VENUE COMPASS -->
+            <div class="map-container-box" style="position:sticky; top:100px; display:flex; flex-direction:column; gap:var(--space-4);">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; font-size:var(--font-md); font-weight:var(--fw-bold); display:flex; align-items:center; gap:8px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  Interactive Convention Map
+                </h3>
+                <span id="mapCityIndicator" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">All Locations</span>
+              </div>
+
+              <!-- Stylized Dark World/City SVG Map -->
+              <div class="svg-map-wrapper" style="position:relative; overflow:hidden;">
+                <iframe
+                  width="100%" height="100%"
+                  style="border:0; display:block; min-height:320px; filter:saturate(0.7) brightness(0.55) contrast(1.1);"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-130%2C-10%2C155%2C65&amp;layer=mapnik"
+                  loading="lazy"
+                  title="Interactive Convention Map"
+                  aria-hidden="true"
+                ></iframe>
+                <!-- City pins: static overlay; data-id matches Event.map_code -->
+                <svg viewBox="0 0 800 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute; top:0; left:0; pointer-events:none;">
+                  <g class="map-pin active-pin" id="pin-ax" onclick="selectMapPin('ax')" transform="translate(170, 215)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="12" fill="rgba(239, 35, 60, 0.25)" />
+                    <circle r="6" fill="var(--accent-red)" />
+                    <text x="0" y="24" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Los Angeles</text>
+                  </g>
+                  <g class="map-pin" id="pin-nycc" onclick="selectMapPin('nycc')" transform="translate(248, 185)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="10" fill="rgba(239, 35, 60, 0.2)" />
+                    <circle r="5" fill="var(--accent-red)" />
+                    <text x="0" y="22" fill="#ffffff" font-size="10" text-anchor="middle">New York</text>
+                  </g>
+                  <g class="map-pin" id="pin-london" onclick="selectMapPin('london')" transform="translate(418, 145)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="10" fill="rgba(16, 185, 129, 0.2)" />
+                    <circle r="5" fill="#10b981" />
+                    <text x="0" y="22" fill="#ffffff" font-size="10" text-anchor="middle">London</text>
+                  </g>
+                  <g class="map-pin" id="pin-gamescom" onclick="selectMapPin('gamescom')" transform="translate(435, 155)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="12" fill="rgba(59, 130, 246, 0.25)" />
+                    <circle r="6" fill="#3b82f6" />
+                    <text x="0" y="24" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Cologne</text>
+                  </g>
+                  <g class="map-pin" id="pin-tgs" onclick="selectMapPin('tgs')" transform="translate(680, 190)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="12" fill="rgba(139, 92, 246, 0.25)" />
+                    <circle r="6" fill="#8b5cf6" />
+                    <text x="0" y="24" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Tokyo</text>
+                  </g>
+                  <g class="map-pin" id="pin-seoul" onclick="selectMapPin('seoul')" transform="translate(650, 185)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="10" fill="rgba(245, 158, 11, 0.2)" />
+                    <circle r="5" fill="#f59e0b" />
+                    <text x="0" y="22" fill="#ffffff" font-size="10" text-anchor="middle">Seoul</text>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Venue Details & Travel Info Panel (filled from card data) -->
+              <div style="background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:14px;" id="venueInfoCard">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+                  <div>
+                    <h4 style="margin:0; font-size:var(--font-sm); font-weight:bold; color:var(--text-main);" id="venueTitle">
+                      Select an event
+                    </h4>
+                    <span style="font-size:11px; color:var(--text-dim);" id="venueAddress">Click a card or map pin for venue details</span>
+                  </div>
+                  <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-size:11px;" id="venueBadge">Venue Info</span>
+                </div>
+                <div style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.5; margin-top:8px;" id="venueDesc">
+                  Transit, airport and hotel notes appear here.
+                </div>
+              </div>
+
+              <!-- Fast Filter Pills (DB cities) -->
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                {% for c in city_options %}
+                <button type="button" class="badge" style="cursor:pointer; border:1px solid var(--border-medium); background:var(--bg-card); color:var(--text-muted);" onclick="filterByCity('{{ c.city_slug|escapejs }}')">&#128205; {{ c.city }}</button>
+                {% endfor %}
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
+              <div class="footer-social-links">
+                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="/catalog/explore/">Catalog &amp; Media</a></li>
+                <li><a href="{% url 'character-list' %}">Characters</a></li>
+                <li><a href="{% url 'merch-list' %}">Merchandise</a></li>
+                <li><a href="{% url 'events' %}">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Community</h4>
+              <ul>
+                <li><a href="/catalog/submit-content/">Submit Content</a></li>
+                <li><a href="#">Feedback &amp; Bugs</a></li>
+                <li><a href="#">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <ul>
+                <li><a href="/dashboard/">Dashboard</a></li>
+                <li><a href="/accounts/login/">Sign In</a></li>
+                <li><a href="/accounts/register/">Register</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform.</div>
+            <div class="footer-meta-links">
+              <a href="#">Sitemap</a>
+              <a href="#">Support</a>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- TICKET BOOKING MODAL -->
+  <div class="modal-overlay" id="ticketModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); max-width:500px; width:100%; padding:var(--space-6); box-shadow:var(--shadow-xl); position:relative;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">OFFICIAL CONVENTION BADGE</span>
+          <h3 style="margin:4px 0 0; font-size:var(--font-xl); font-weight:var(--fw-bold);" id="modalConTitle">Convention</h3>
+          <span style="font-size:var(--font-xs); color:var(--text-muted);" id="modalConVenue">Venue</span>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeTicketModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <label style="font-size:var(--font-xs); font-weight:bold; color:var(--text-dim); text-transform:uppercase;">Select Pass Tier</label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="Single-Day Pass" data-mult="0.5" checked />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">1-Day Exhibition Pass</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--text-main);" class="tier-price" data-mult="0.5"></span>
+        </label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="4-Day Full Pass" data-mult="1" />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">4-Day Weekend Full Access</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--accent-red);" class="tier-price" data-mult="1"></span>
+        </label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="VIP Fast-Pass" data-mult="2" />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">VIP Fast-Pass &amp; Lounge</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--color-amber);" class="tier-price" data-mult="2"></span>
+        </label>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--border-subtle);">
+        <div>
+          <span style="font-size:var(--font-xs); color:var(--text-dim); display:block;">Total Estimated</span>
+          <span style="font-size:var(--font-lg); font-weight:bold; color:var(--accent-red);" id="modalTotalCost"></span>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="confirmTicketOrder()">
+          Confirm &amp; Issue E-Badge
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER OVERLAY -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
+      <div class="cart-drawer-header">
+        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+          Shopping Bag
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cartDrawerItems"></div>
+      <div class="cart-drawer-footer">
+        <div class="cart-subtotal-row">
+          <span>Estimated Subtotal</span>
+          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CHATBOT WIDGET -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chatbot-launcher-close" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
+  </button>
+
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, movies, orders..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- MAP, VENUE & TICKET SCRIPT (venuesData built from card data-*) -->
+  <script>
+    var venuesData = {};
+
+    function buildVenuesData() {
+      venuesData = {};
+      document.querySelectorAll('.event-card-item').forEach(function (card) {
+        var id = card.getAttribute('data-id');
+        if (!id) return;
+        venuesData[id] = {
+          title: card.getAttribute('data-venue-title') || '',
+          address: card.getAttribute('data-venue-address') || '',
+          badge: card.getAttribute('data-venue-badge') || '',
+          desc: card.getAttribute('data-venue-desc') || ''
+        };
+      });
+    }
+
+    function selectMapPin(id) {
+      document.querySelectorAll('.map-pin').forEach(function (p) { p.classList.remove('active-pin'); });
+      var pin = document.getElementById('pin-' + id);
+      if (pin) pin.classList.add('active-pin');
+
+      var data = venuesData[id];
+      if (data) {
+        document.getElementById('venueTitle').textContent = data.title;
+        document.getElementById('venueAddress').textContent = data.address;
+        document.getElementById('venueBadge').textContent = data.badge;
+        document.getElementById('venueDesc').innerHTML = data.desc;
+        document.getElementById('mapCityIndicator').textContent = data.badge.replace('Host: ', '');
+      }
+
+      // Highlight corresponding event card
+      document.querySelectorAll('.event-card-item').forEach(function (card) {
+        if (card.getAttribute('data-id') === id) {
+          card.classList.add('highlighted-event');
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          card.classList.remove('highlighted-event');
+        }
+      });
+    }
+
+    function highlightPin(id) {
+      selectMapPin(id);
+    }
+
+    function filterByCity(slug) {
+      var sel = document.getElementById('cityFilterSelect');
+      if (sel) {
+        sel.value = slug;
+        sel.form.submit();
+      }
+    }
+
+    // Ticket Modal Controls (tier prices scale from the event base price)
+    var activeModalCon = '';
+    var activeModalSymbol = '$';
+    var activeModalPrice = 0;
+
+    function formatTier(amount, symbol) {
+      var n = Math.round(amount * 100) / 100;
+      return symbol + n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function openTicketModal(title, priceText, venue, dates) {
+      activeModalCon = title;
+      // priceText arrives as "<symbol><amount>", e.g. "$125.00"
+      var m = priceText.match(/^(\D*)([\d,]+\.?\d*)$/);
+      activeModalSymbol = (m && m[1]) || '$';
+      activeModalPrice = parseFloat(((m && m[2]) || '0').replace(/,/g, '')) || 0;
+
+      document.getElementById('modalConTitle').textContent = title;
+      document.getElementById('modalConVenue').textContent = venue + ' \u2022 ' + dates;
+
+      document.querySelectorAll('#ticketModal .tier-price').forEach(function (el) {
+        var mult = parseFloat(el.getAttribute('data-mult') || 1);
+        el.textContent = formatTier(activeModalPrice * mult, activeModalSymbol);
+      });
+      updateModalTotal();
+
+      // Default back to the full-access tier
+      var radios = document.querySelectorAll('input[name="passTier"]');
+      if (radios.length > 1) radios[1].checked = true;
+      document.getElementById('ticketModal').style.display = 'flex';
+    }
+
+    function updateModalTotal() {
+      var checked = document.querySelector('input[name="passTier"]:checked');
+      var mult = checked ? parseFloat(checked.getAttribute('data-mult') || 1) : 1;
+      document.getElementById('modalTotalCost').textContent = formatTier(activeModalPrice * mult, activeModalSymbol);
+    }
+
+    function closeTicketModal() {
+      document.getElementById('ticketModal').style.display = 'none';
+    }
+
+    function confirmTicketOrder() {
+      closeTicketModal();
+      if (window.showToast) window.showToast('Convention e-Badge reserved for ' + activeModalCon + '! Confirmation sent to your profile.');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      buildVenuesData();
+
+      // Client-side live search within the server-rendered list
+      var searchInput = document.getElementById('eventSearchInput');
+      var cards = Array.from(document.querySelectorAll('.event-card-item'));
+      if (searchInput) {
+        searchInput.addEventListener('input', function () {
+          var q = searchInput.value.toLowerCase().trim();
+          cards.forEach(function (card) {
+            var title = (card.getAttribute('data-title') || '');
+            var id = (card.getAttribute('data-id') || '');
+            card.style.display = (!q || title.includes(q) || id.includes(q)) ? 'flex' : 'none';
+          });
+        });
+      }
+
+      // Ticket modal tier selection price update
+      document.querySelectorAll('input[name="passTier"]').forEach(function (r) {
+        r.addEventListener('change', updateModalTotal);
+      });
+    });
+  </script>
+</body>
+</html>

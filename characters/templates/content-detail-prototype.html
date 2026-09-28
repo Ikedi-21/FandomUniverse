@@ -1,21 +1,24 @@
+{% load static %}
+{# Static content prototype: CSS/JS via static tags; merch/character links #}
+{# use url tags, remaining nav keeps plain .html hrefs (see catalog app). #}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
   <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Submit Fan Content | FAN HUB+</title>
+  <title>Demon Slayer: Swordsmith Village Arc | FAN HUB+</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../css/tokens.css">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/chatbot.css">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
 
-  <script src="../js/auth-context.js" defer></script>
-  <script src="../js/cart.js" defer></script>
-  <script src="../js/main.js" defer></script>
-  <script src="../js/chatbot-data.js" defer></script>
-  <script src="../js/chatbot.js" defer></script>
+  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  <script src="{% static 'js/cart.js' %}" defer></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  <script src="{% static 'js/chatbot.js' %}" defer></script>
 
 </head>
 <body>
@@ -40,19 +43,19 @@
                 </a>
               </li>
               <li>
-                <a href="explore.html" class="sidebar-nav-link">
+                <a href="explore.html" class="sidebar-nav-link active">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
                   <span>Explore Catalog</span>
                 </a>
               </li>
               <li>
-                <a href="character-list.html" class="sidebar-nav-link">
+                <a href="{% url 'character-list' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                   <span>Characters</span>
                 </a>
               </li>
               <li>
-                <a href="merch-list.html" class="sidebar-nav-link">
+                <a href="{% url 'merch-list' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                   <span>Merch & Store</span>
                 </a>
@@ -71,7 +74,7 @@
           <ul class="sidebar-nav-list">
             
               <li>
-                <a href="submit-content.html" class="sidebar-nav-link active">
+                <a href="submit-content.html" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                   <span>Submit Content</span>
                 </a>
@@ -143,10 +146,10 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
         <nav class="header-nav-tabs" aria-label="Primary Navigation">
-          <a href="../index.html" class="header-nav-tab active">Home</a>
-<a href="explore.html" class="header-nav-tab">Explore</a>
-<a href="character-list.html" class="header-nav-tab">Characters</a>
-<a href="merch-list.html" class="header-nav-tab">Merch</a>
+          <a href="../index.html" class="header-nav-tab">Home</a>
+<a href="explore.html" class="header-nav-tab active">Explore</a>
+<a href="{% url 'character-list' %}" class="header-nav-tab">Characters</a>
+<a href="{% url 'merch-list' %}" class="header-nav-tab">Merch</a>
 <a href="events.html" class="header-nav-tab">Events</a>
 
         </nav>
@@ -188,11 +191,11 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
                 <span>Explore</span>
               </a>
-              <a href="character-list.html" class="apps-item">
+              <a href="{% url 'character-list' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 <span>Characters</span>
               </a>
-              <a href="merch-list.html" class="apps-item">
+              <a href="{% url 'merch-list' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
                 <span>Merch</span>
               </a>
@@ -235,7 +238,9 @@
         <ol class="breadcrumb-list">
           <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
 <li class="breadcrumb-separator">/</li>
-<li class="breadcrumb-item active" aria-current="page">Submit Content</li>
+<li class="breadcrumb-item"><a href="explore.html">Explore</a></li>
+<li class="breadcrumb-separator">/</li>
+<li class="breadcrumb-item active" aria-current="page">Demon Slayer</li>
 
         </ol>
         <div class="breadcrumb-actions">
@@ -246,116 +251,199 @@
 
       <main class="page-content">
 
-<div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6);">
-  <!-- PENDING REVIEW NOTICE BANNER -->
-  <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); display: flex; align-items: center; gap: 14px;">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6);">
+  <!-- VIDEO PLAYER CONTAINER (HTML5 Player) -->
+  <div style="background: #000; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-medium); box-shadow: var(--shadow-lg);">
+    <video id="mainVideoPlayer" controls poster="../images/hero_section/demon_slayer_hero.jpg" style="width: 100%; aspect-ratio: 16/9; display: block; background: #000;">
+      <source src="../media/videos/demon-slayer-trailer.mp4" type="video/mp4">
+      Your browser does not support high definition HTML5 video streams.
+    </video>
+  </div>
+
+  <!-- TITLE & ACTIONS BAR -->
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:var(--space-4);">
     <div>
-      <div style="font-weight: bold; color: var(--color-amber); font-size: var(--font-base);">Community Curation Notice</div>
-      <p style="margin: 2px 0 0; color: var(--text-muted); font-size: var(--font-xs);">
-        All submitted fan edits, theories, AMVs, and artwork enter our "Pending Review" queue before appearing publicly. Our moderators review submissions within 24&ndash;48 hours to ensure compliance with fandom quality guidelines.
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">Anime Broadcast</span>
+        <span class="badge" style="background:rgba(16,185,129,0.15); color: var(--color-green);">Simulcast Ep 11</span>
+        <span style="font-size:var(--font-xs); color:var(--text-muted);">Ufotable Studio &bull; 2026</span>
+      </div>
+      <h1 id="detailTitle" style="font-size:var(--font-xxl); font-weight:var(--fw-bold); margin:0;">Demon Slayer: Swordsmith Village Arc</h1>
+    </div>
+
+    <!-- Interactive Star Rating Widget & Bookmark Actions -->
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div class="star-rating-widget" id="starRatingWidget" aria-label="User Rating">
+        <button type="button" class="star-btn active" data-rating="1" aria-label="Rate 1 star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        <button type="button" class="star-btn active" data-rating="2" aria-label="Rate 2 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        <button type="button" class="star-btn active" data-rating="3" aria-label="Rate 3 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        <button type="button" class="star-btn active" data-rating="4" aria-label="Rate 4 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        <button type="button" class="star-btn active" data-rating="5" aria-label="Rate 5 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        <span id="starScoreDisplay" style="font-weight:bold; font-size:var(--font-sm); margin-left:4px;">5.0</span>
+      </div>
+
+      <button type="button" class="btn btn-outline btn-md" id="btnToggleBookmark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+        <span id="bookmarkBtnText">Bookmark</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- BOOKMARK NOTE FIELD (Expandable upon bookmarking) -->
+  <div class="bookmark-note-box" id="bookmarkNoteBox" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <label for="bookmarkNoteInput" style="font-size:var(--font-xs); font-weight:bold; color:var(--text-main);">Personal Note for Watchlist:</label>
+      <span style="font-size:var(--font-xs); color:var(--text-dim);">Saved to your Dashboard</span>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <input type="text" id="bookmarkNoteInput" class="form-input" placeholder="e.g. Watch Hashira battle scene with Tanjiro's Hinokami Kagura" />
+      <button type="button" class="btn btn-primary btn-sm" id="btnSaveBookmarkNote">Save Note</button>
+    </div>
+  </div>
+
+  <!-- CATEGORY / GENRE / TAG CHIPS -->
+  <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
+    <!-- LOOP: content tags -->
+    <a href="explore.html?category=anime" class="filter-chip" style="display:inline-flex; align-items:center; gap:6px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+      Anime Universe
+    </a>
+    <a href="explore.html?genre=shonen" class="filter-chip">Shonen</a>
+    <a href="explore.html?genre=dark-fantasy" class="filter-chip">Dark Fantasy</a>
+    <a href="explore.html?tag=swordsmith" class="filter-chip">Swordsmith Arc</a>
+    <a href="explore.html?tag=hashira" class="filter-chip">Hashira Training</a>
+    <a href="explore.html?tag=ufotable" class="filter-chip">Ufotable Quality</a>
+    <!-- ENDLOOP: content tags -->
+  </div>
+
+  <!-- SYNOPSIS & METADATA -->
+  <div style="display:grid; grid-template-columns: 2fr 1fr; gap:var(--space-6); background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:var(--space-6);">
+    <div>
+      <h3 style="margin-top:0; font-size:var(--font-md); font-weight:var(--fw-bold);">Episode Synopsis</h3>
+      <p style="color:var(--text-muted); line-height:1.6; font-size:var(--font-sm);">
+        Tanjiro journeys to a village of swordsmiths and has to explain how his sword was so severely damaged to Haganezuka, the smith who made it. While Tanjiro waits for his sword to be repaired, enemies close in... The Mist Hashira Muichiro Tokito and Love Hashira Mitsuri Kanroji join forces to confront the Upper Rank Four and Five demons.
       </p>
     </div>
+    <div style="border-left:1px solid var(--border-subtle); padding-left:var(--space-5);">
+      <h3 style="margin-top:0; font-size:var(--font-md); font-weight:var(--fw-bold);">Broadcast Info</h3>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; font-size:var(--font-xs); color:var(--text-muted);">
+        <li><strong style="color:var(--text-main);">Audio:</strong> Japanese 5.1, English Dub</li>
+        <li><strong style="color:var(--text-main);">Subtitles:</strong> English, Spanish, German, French</li>
+        <li><strong style="color:var(--text-main);">Episodes:</strong> Season 4 &bull; 11 Episodes</li>
+        <li><strong style="color:var(--text-main);">Rating:</strong> TV-MA (Violence, Gore)</li>
+        <li><strong style="color:var(--text-main);">Status:</strong> Completed Simulcast</li>
+      </ul>
+    </div>
   </div>
 
-  <!-- SUBMISSION FORM -->
-  <form id="creatorSubmitForm" class="widget-card" style="display: flex; flex-direction: column; gap: var(--space-5);">
-    <h2 style="font-size: var(--font-xl); font-weight: var(--fw-bold); margin: 0;">Submit Fandom Content</h2>
-
-    <div class="form-group">
-      <label class="form-label" for="subTitle">Content Title</label>
-      <input type="text" id="subTitle" class="form-input" placeholder="e.g. Demon Slayer: Flame Hashira Tribute 4K AMV" required />
+  <!-- RELATED CONTENT ROW -->
+  <section aria-label="Related Broadcasts">
+    <div class="section-header">
+      <h2 class="section-title">Related Content You May Like</h2>
+      <a href="explore.html?genre=dark-fantasy" class="section-view-all">More Dark Fantasy &rarr;</a>
     </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
-      <div class="form-group">
-        <label class="form-label" for="subCategory">Fandom Universe</label>
-        <select id="subCategory" class="form-select" required>
-          <option value="Anime">Anime Universe</option>
-          <option value="Gaming">Gaming Realm</option>
-          <option value="Movies">Cinema &amp; Movies</option>
-          <option value="K-Pop">K-Pop Wave</option>
-          <option value="Manga">Manga &amp; Comics</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="subContentType">Content Type</label>
-        <select id="subContentType" class="form-select" required>
-          <option value="amv">Video Edit / AMV</option>
-          <option value="art">Original Fan Art &amp; Illustration</option>
-          <option value="cosplay">Cosplay Photo Gallery</option>
-          <option value="theory">Lore Theory &amp; Analysis Article</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" for="subMediaUrl">Media / Stream / Video URL</label>
-      <input type="url" id="subMediaUrl" class="form-input" placeholder="https://..." required />
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" for="subThumbnail">Thumbnail Poster URL</label>
-      <input type="url" id="subThumbnail" class="form-input" placeholder="https://..." />
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" for="subDescription">Description &amp; Production Notes</label>
-      <textarea id="subDescription" class="form-input form-textarea" placeholder="Detail your creative process, software used (e.g. After Effects, Blender), and music credits..." rows="4" required></textarea>
-    </div>
-
-    <div class="form-group">
-      <label style="display: flex; align-items: center; gap: 8px; font-size: var(--font-sm); cursor: pointer;">
-        <input type="checkbox" id="subGuidelinesCheck" class="form-checkbox" required />
-        I confirm that this submission complies with the Fan Hub+ copyright and community safety rules.
-      </label>
-    </div>
-
-    <div style="display: flex; justify-content: flex-end; gap: var(--space-3); pt: 8px;">
-      <button type="reset" class="btn btn-secondary btn-md">Reset</button>
-      <button type="submit" class="btn btn-primary btn-md">Submit for Review</button>
-    </div>
-  </form>
-
-  <!-- RECENT USER SUBMISSIONS LIST -->
-  <div class="widget-card">
-    <div class="widget-title">
-      <span>Your Recent Submissions</span>
-      <span style="font-size:var(--font-xs); color:var(--text-muted);">Status tracking</span>
-    </div>
-    <!-- LOOP: user submissions -->
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-surface); border-radius: 6px; border: 1px solid var(--border-subtle);">
-        <div>
-          <div style="font-weight: bold; font-size: var(--font-sm);">Solo Leveling: Shadow Army 4K Wallpaper Pack</div>
-          <div style="font-size: var(--font-xs); color: var(--text-muted);">Submitted Sep 24, 2026 &bull; Illustration</div>
+    <!-- LOOP: related content -->
+    <div class="cards-grid">
+      <article class="content-card">
+        <div class="content-card-poster">
+          <img src="../images/posters/solo_leveling.jpg" alt="Solo Leveling" loading="lazy" />
+          <span class="card-badge badge-stream">Hot Series</span>
+          <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.8</span>
         </div>
-        <span class="admin-badge status-pending">Pending Review</span>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-surface); border-radius: 6px; border: 1px solid var(--border-subtle);">
-        <div>
-          <div style="font-weight: bold; font-size: var(--font-sm);">Cyberpunk Edgerunners: I Really Want to Stay At Your House Edit</div>
-          <div style="font-size: var(--font-xs); color: var(--text-muted);">Submitted Sep 20, 2026 &bull; AMV</div>
+        <div class="content-card-body">
+          <span class="content-card-category">Action Fantasy</span>
+          <h3 class="content-card-title"><a href="content-detail.html?title=solo-leveling">Solo Leveling: Arise</a></h3>
+          <p class="content-card-desc">Sung Jinwoo commands his shadow army from the depths of high-rank dungeons.</p>
         </div>
-        <span class="admin-badge status-approved">Approved &amp; Live</span>
-      </div>
+      </article>
+
+      <article class="content-card">
+        <div class="content-card-poster">
+          <img src="../images/posters/one_piece_thumb.jpg" alt="One Piece" loading="lazy" />
+          <span class="card-badge badge-stream">New Arc</span>
+          <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.9</span>
+        </div>
+        <div class="content-card-body">
+          <span class="content-card-category">Shonen Epic</span>
+          <h3 class="content-card-title"><a href="content-detail.html?title=one-piece">One Piece: Egghead Realm</a></h3>
+          <p class="content-card-desc">Luffy unleashes Gear 5 on the Island of the Future as ancient secrets unfold.</p>
+        </div>
+      </article>
+
+      <article class="content-card">
+        <div class="content-card-poster">
+          <img src="../images/posters/naruto_thumb.jpg" alt="Naruto Shippuden" loading="lazy" />
+          <span class="card-badge badge-stream">Ninja</span>
+          <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.7</span>
+        </div>
+        <div class="content-card-body">
+          <span class="content-card-category">Classic &bull; War Arc</span>
+          <h3 class="content-card-title"><a href="content-detail.html?title=naruto">Naruto Shippuden: Great Ninja War</a></h3>
+          <p class="content-card-desc">The allied nations clash with Madara Uchiha in the climax of shinobi history.</p>
+        </div>
+      </article>
     </div>
-    <!-- ENDLOOP: user submissions -->
-  </div>
+    <!-- ENDLOOP: related content -->
+  </section>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('creatorSubmitForm');
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      window.showToast('Submission received! Your content is now in the review queue.');
-      form.reset();
+  const bookmarkBtn = document.getElementById('btnToggleBookmark');
+  const bookmarkText = document.getElementById('bookmarkBtnText');
+  const noteBox = document.getElementById('bookmarkNoteBox');
+  const noteInput = document.getElementById('bookmarkNoteInput');
+  const saveNoteBtn = document.getElementById('btnSaveBookmarkNote');
+
+  let isBookmarked = false;
+  if (bookmarkBtn) {
+    bookmarkBtn.addEventListener('click', function () {
+      isBookmarked = !isBookmarked;
+      if (isBookmarked) {
+        bookmarkBtn.classList.remove('btn-outline');
+        bookmarkBtn.classList.add('btn-primary');
+        bookmarkText.textContent = 'Bookmarked';
+        noteBox.style.display = 'flex';
+        window.showToast('Added to your Dashboard watchlist!');
+      } else {
+        bookmarkBtn.classList.add('btn-outline');
+        bookmarkBtn.classList.remove('btn-primary');
+        bookmarkText.textContent = 'Bookmark';
+        noteBox.style.display = 'none';
+        window.showToast('Removed from your watchlist.');
+      }
     });
   }
+
+  if (saveNoteBtn) {
+    saveNoteBtn.addEventListener('click', function () {
+      const note = noteInput.value.trim();
+      if (note) {
+        window.showToast('Watchlist note saved: "' + note + '"');
+      } else {
+        window.showToast('Note saved to your dashboard.');
+      }
+    });
+  }
+
+  // Star Rating Interaction
+  const starBtns = document.querySelectorAll('.star-btn');
+  const scoreDisplay = document.getElementById('starScoreDisplay');
+  starBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      const rating = parseInt(this.getAttribute('data-rating'), 10);
+      starBtns.forEach(b => {
+        const r = parseInt(b.getAttribute('data-rating'), 10);
+        if (r <= rating) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+      scoreDisplay.textContent = rating + '.0';
+      window.showToast('Thank you for rating ' + rating + ' stars!');
+    });
+  });
 });
 </script>
 
@@ -381,8 +469,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <h4>Explore</h4>
             <ul>
               <li><a href="explore.html">Catalog & Media</a></li>
-              <li><a href="character-list.html">Characters</a></li>
-              <li><a href="merch-list.html">Merchandise</a></li>
+              <li><a href="{% url 'character-list' %}">Characters</a></li>
+              <li><a href="{% url 'merch-list' %}">Merchandise</a></li>
               <li><a href="events.html">Events & Cons</a></li>
             </ul>
           </div>

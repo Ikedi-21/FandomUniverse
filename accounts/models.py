@@ -11,7 +11,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.USER)
     email_verified = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    
 
 
 class Avatar(models.Model):

@@ -17,59 +17,6 @@
   <script src="{% static 'js/main.js' %}" defer></script>
   <script src="{% static 'js/chatbot-data.js' %}" defer></script>
   <script src="{% static 'js/chatbot.js' %}" defer></script>
-  <style>
-    /* Sticky filter sidebar while main content scrolls */
-    .filter-sidebar {
-      position: sticky;
-      top: calc(var(--header-h) + 12px);
-      max-height: calc(100vh - var(--header-h) - 24px);
-      overflow-y: auto;
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
-    }
-    .filter-sidebar::-webkit-scrollbar {
-      display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-    }
-
-    /* List view overrides */
-    .cards-list-view {
-      grid-template-columns: 1fr !important;
-    }
-    .cards-list-view .content-card {
-      display: flex !important;
-      flex-direction: row !important;
-      align-items: stretch;
-      min-height: 160px;
-      aspect-ratio: unset;
-    }
-    .cards-list-view .content-card-poster {
-      width: 180px !important;
-      aspect-ratio: unset !important;
-      height: 160px !important;
-      flex-shrink: 0;
-    }
-    .cards-list-view .content-card-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .cards-list-view .content-card-desc {
-      -webkit-line-clamp: 2;
-    }
-    @media (max-width: 640px) {
-      .cards-list-view .content-card {
-        flex-direction: column !important;
-        min-height: auto;
-      }
-      .cards-list-view .content-card-poster {
-        width: 100% !important;
-        height: 220px !important;
-      }
-    }
-  </style>
 </head>
 <body>
   <div class="app-container">
@@ -265,10 +212,22 @@
 
         <!-- Header Auth Slot -->
         <div id="headerAuthSlot">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <a href="{% url 'login' %}" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
-            <a href="{% url 'register' %}" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
-          </div>
+          {% if user.is_authenticated %}
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:var(--font-xs); color:var(--text-muted);">
+                Signed in as <strong>{{ user.username }}</strong>
+              </span>
+              <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ghost btn-sm">Sign Out</button>
+              </form>
+            </div>
+          {% else %}
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="{% url 'login' %}" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="{% url 'register' %}" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          {% endif %}
         </div>
       </div>
     </header>
@@ -291,11 +250,11 @@
 
     <main class="page-content">
       <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6);">
-        
+
         <!-- VIDEO PLAYER CONTAINER -->
         <div style="background: #000; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-medium); box-shadow: var(--shadow-lg);">
-          <video id="mainVideoPlayer" controls 
-                 {% if content.thumbnail %}poster="{{ content.thumbnail.url }}"{% endif %} 
+          <video id="mainVideoPlayer" controls
+                 {% if content.thumbnail %}poster="{{ content.thumbnail.url }}"{% endif %}
                  style="width: 100%; aspect-ratio: 16/9; display: block; background: #000;">
             {% if content.source_type == 'upload' and content.file %}
               <source src="{{ content.file.url }}" type="video/mp4">
@@ -332,21 +291,29 @@
               <span id="starScoreDisplay" style="font-weight:bold; font-size:var(--font-sm); margin-left:4px;">{{ content.average_rating|floatformat:1 }}</span>
             </div>
 
-            <button type="button" class="btn btn-outline btn-md" id="btnToggleBookmark">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-              <span id="bookmarkBtnText">Bookmark</span>
+            <button type="button"
+                    class="btn {% if is_bookmarked %}btn-primary{% else %}btn-outline{% endif %} btn-md"
+                    id="btnToggleBookmark"
+                    data-content-type-id="{{ content_type_id }}"
+                    data-object-id="{{ content.id }}"
+                    data-bookmarked="{% if is_bookmarked %}true{% else %}false{% endif %}">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="{% if is_bookmarked %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              <span id="bookmarkBtnText">{% if is_bookmarked %}Bookmarked{% else %}Bookmark{% endif %}</span>
             </button>
           </div>
         </div>
 
         <!-- BOOKMARK NOTE FIELD -->
-        <div class="bookmark-note-box" id="bookmarkNoteBox" style="display:none;">
+        <div class="bookmark-note-box" id="bookmarkNoteBox"
+             style="display:{% if is_bookmarked %}flex{% else %}none{% endif %};">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <label for="bookmarkNoteInput" style="font-size:var(--font-xs); font-weight:bold; color:var(--text-main);">Personal Note for Watchlist:</label>
             <span style="font-size:var(--font-xs); color:var(--text-dim);">Saved to your Dashboard</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <input type="text" id="bookmarkNoteInput" class="form-input" placeholder="e.g. Watch favorite scene..." />
+            <input type="text" id="bookmarkNoteInput" class="form-input"
+                   placeholder="e.g. Watch favorite scene..."
+                   value="{{ bookmark_note|escape }}" />
             <button type="button" class="btn btn-primary btn-sm" id="btnSaveBookmarkNote">Save Note</button>
           </div>
         </div>
@@ -357,11 +324,11 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
             {{ content.category.name }}
           </a>
-          
+
           {% for genre in content.genres.all %}
             <a href="{% url 'explore' %}?genre={{ genre.slug }}" class="filter-chip">{{ genre.name }}</a>
           {% endfor %}
-          
+
           {% for tag in content.tags.all %}
             <a href="{% url 'explore' %}?tag={{ tag.slug }}" class="filter-chip">{{ tag.name }}</a>
           {% endfor %}
@@ -374,7 +341,7 @@
             <p style="color:var(--text-muted); line-height:1.6; font-size:var(--font-sm);">
               {{ content.description }}
             </p>
-            
+
             {% if content.content_type == 'article' and content.body %}
               <div style="margin-top: 20px; color:var(--text-main); font-size:var(--font-sm);">
                 {{ content.body|safe }}
@@ -401,7 +368,7 @@
             <h2 class="section-title">Related Content You May Like</h2>
             <a href="{% url 'explore' %}?category={{ content.category.slug }}" class="section-view-all">More in {{ content.category.name }} &rarr;</a>
           </div>
-          
+
           <div class="cards-grid">
             {% for related in related_contents %}
             <article class="content-card">
@@ -547,7 +514,7 @@
         </button>
       </div>
     </div>
-    
+
     <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
     <div class="chatbot-quick-chips" id="chatbotQuickChip" aria-label="Suggested questions"></div>
 
@@ -564,44 +531,83 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const bookmarkBtn = document.getElementById('btnToggleBookmark');
+    const bookmarkBtn  = document.getElementById('btnToggleBookmark');
     const bookmarkText = document.getElementById('bookmarkBtnText');
-    const noteBox = document.getElementById('bookmarkNoteBox');
-    const noteInput = document.getElementById('bookmarkNoteInput');
-    const saveNoteBtn = document.getElementById('btnSaveBookmarkNote');
+    const bookmarkIcon = bookmarkBtn ? bookmarkBtn.querySelector('svg') : null;
+    const noteBox      = document.getElementById('bookmarkNoteBox');
+    const noteInput    = document.getElementById('bookmarkNoteInput');
+    const saveNoteBtn  = document.getElementById('btnSaveBookmarkNote');
 
-    let isBookmarked = false;
+    function getCookie(name) {
+      const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return v ? decodeURIComponent(v.pop()) : '';
+    }
+
+    function setBookmarkUI(on) {
+      if (!bookmarkBtn) return;
+      bookmarkBtn.classList.toggle('btn-primary', on);
+      bookmarkBtn.classList.toggle('btn-outline', !on);
+      bookmarkBtn.dataset.bookmarked = on ? 'true' : 'false';
+      bookmarkText.textContent = on ? 'Bookmarked' : 'Bookmark';
+      if (bookmarkIcon) bookmarkIcon.setAttribute('fill', on ? 'currentColor' : 'none');
+      noteBox.style.display = on ? 'flex' : 'none';
+    }
+
+    function postBookmark(extraParams) {
+      const body = new URLSearchParams();
+      body.append('content_type_id', bookmarkBtn.dataset.contentTypeId);
+      body.append('object_id', bookmarkBtn.dataset.objectId);
+      if (extraParams) {
+        Object.entries(extraParams).forEach(([k, v]) => body.append(k, v));
+      }
+      return fetch("{% url 'bookmark-toggle' %}", {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: body.toString(),
+      }).then(r => r.json());
+    }
+
+    // Toggle bookmark
     if (bookmarkBtn) {
       bookmarkBtn.addEventListener('click', function () {
-        isBookmarked = !isBookmarked;
-        if (isBookmarked) {
-          bookmarkBtn.classList.remove('btn-outline');
-          bookmarkBtn.classList.add('btn-primary');
-          bookmarkText.textContent = 'Bookmarked';
-          noteBox.style.display = 'flex';
-          window.showToast('Added to your Dashboard watchlist!');
-        } else {
-          bookmarkBtn.classList.add('btn-outline');
-          bookmarkBtn.classList.remove('btn-primary');
-          bookmarkText.textContent = 'Bookmark';
-          noteBox.style.display = 'none';
-          window.showToast('Removed from your watchlist.');
-        }
+        {% if not user.is_authenticated %}
+          window.showToast('Please sign in to bookmark.');
+          window.location.href = "{% url 'login' %}?next=" + encodeURIComponent(window.location.pathname);
+          return;
+        {% endif %}
+
+        postBookmark().then(data => {
+          if (!data.ok) { window.showToast(data.error || 'Something went wrong.'); return; }
+          const on = !!data.bookmarked;
+          setBookmarkUI(on);
+          window.showToast(on ? 'Added to your watchlist!' : 'Removed from your watchlist.');
+          if (!on && noteInput) noteInput.value = '';
+        }).catch(() => window.showToast('Network error. Try again.'));
       });
     }
 
-    if (saveNoteBtn) {
+    // Save note
+    if (saveNoteBtn && noteInput) {
       saveNoteBtn.addEventListener('click', function () {
+        {% if not user.is_authenticated %}
+          window.showToast('Please sign in first.');
+          return;
+        {% endif %}
+
         const note = noteInput.value.trim();
-        if (note) {
-          window.showToast('Watchlist note saved: "' + note + '"');
-        } else {
-          window.showToast('Note saved to your dashboard.');
-        }
+        if (!note) { window.showToast('Write a note first.'); return; }
+        postBookmark({ note: note }).then(data => {
+          if (!data.ok) { window.showToast(data.error || 'Could not save note.'); return; }
+          setBookmarkUI(true);
+          window.showToast('Note saved.');
+        }).catch(() => window.showToast('Network error. Try again.'));
       });
     }
 
-    // Star Rating Interaction
+    // Star rating — frontend only (no Rating model yet)
     const starBtns = document.querySelectorAll('.star-btn');
     const scoreDisplay = document.getElementById('starScoreDisplay');
     starBtns.forEach(btn => {
@@ -609,13 +615,9 @@
         const rating = parseInt(this.getAttribute('data-rating'), 10);
         starBtns.forEach(b => {
           const r = parseInt(b.getAttribute('data-rating'), 10);
-          if (r <= rating) {
-            b.classList.add('active');
-          } else {
-            b.classList.remove('active');
-          }
+          b.classList.toggle('active', r <= rating);
         });
-        scoreDisplay.textContent = rating + '.0';
+        if (scoreDisplay) scoreDisplay.textContent = rating + '.0';
         window.showToast('Thank you for rating ' + rating + ' stars!');
       });
     });

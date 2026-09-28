@@ -64,6 +64,3 @@ class Content(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    average_rating = models.FloatField(default=0.0)
-    meta_label = models.CharField(max_length=50, blank=True, help_text="e.g., 'Ep 11 • TV-MA'")
-    action_button_text = models.CharField(max_length=20, default="Stream")

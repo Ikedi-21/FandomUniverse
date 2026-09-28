@@ -1,0 +1,115 @@
+:root {
+  /* Dark theme (default) */
+  --bg-app: #0c0e12;
+  --bg-sidebar: #101217;
+  --bg-header: #101217;
+  --bg-surface: #151820;
+  --bg-card: #1b1e28;
+  --bg-card-hover: #232736;
+  --bg-input: #151821;
+  --bg-badge: #232736;
+  --bg-overlay: rgba(10, 12, 16, 0.92);
+
+  --border-subtle: #232736;
+  --border-medium: #2f3447;
+  --border-strong: #ef233c;
+
+  --text-main: #f8fafc;
+  --text-muted: #9fb0c7; /* Improved WCAG AA contrast on #1b1e28: 5.6:1 */
+  --text-dim: #8194ad;   /* Improved WCAG AA contrast on #1b1e28: 4.5:1 */
+
+  --accent-red: #ef233c;
+  --accent-red-hover: #d90429;
+  --accent-red-active: #b91c1c;
+  --accent-red-subtle: rgba(239, 35, 60, 0.12);
+
+  --color-green: #10b981;
+  --color-green-subtle: rgba(16, 185, 129, 0.14);
+  --color-blue: #3b82f6;
+  --color-blue-subtle: rgba(59, 130, 246, 0.14);
+  --color-purple: #8b5cf6;
+  --color-purple-subtle: rgba(139, 92, 246, 0.14);
+  --color-amber: #f59e0b;
+  --color-amber-subtle: rgba(245, 158, 11, 0.14);
+  --star-yellow: #f59e0b;
+
+  --space-0: 0px;  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
+  --space-4: 16px; --space-5: 20px;  --space-6: 24px;  --space-8: 32px;
+  --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px;
+
+  --radius-xs: 4px; --radius-sm: 6px; --radius-md: 8px;
+  --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
+
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --font-xs: 0.78rem; --font-sm: 0.84rem; --font-base: 0.92rem; --font-md: 1.00rem;
+  --font-lg: 1.15rem; --font-xl: 1.35rem; --font-2xl: 1.65rem; --font-3xl: 2.15rem;
+  --font-4xl: 2.80rem;
+
+  --fw-normal: 400; --fw-medium: 500; --fw-semibold: 600;
+  --fw-bold: 700; --fw-extrabold: 800; --fw-black: 900;
+
+  --control-h-sm: 32px; --control-h-md: 40px; --control-h-lg: 48px;
+  --sidebar-w: 240px; --right-panel-w: 320px; --header-h: 70px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.25);
+  --shadow-card: 0 4px 16px rgba(0,0,0,0.35);
+  --shadow-md: 0 6px 20px rgba(0,0,0,0.40);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.50);
+  --shadow-xl: 0 20px 48px rgba(0,0,0,0.65);
+  --shadow-glow: 0 0 24px rgba(239,35,60,0.35);
+
+  --z-base: 1; --z-sticky-header: 80; --z-sticky-sidebar: 90;
+  --z-dropdown: 200; --z-drawer: 300; --z-modal: 500; --z-toast: 1000;
+
+  --transition-fast: 0.12s ease;
+  --transition-normal: 0.20s ease;
+  --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] {
+  --bg-app: #f4f6f9; --bg-sidebar: #ffffff; --bg-header: #ffffff;
+  --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+  --bg-input: #eef2f6; --bg-badge: #e2e8f0;
+  --bg-overlay: rgba(15, 23, 42, 0.70);
+  --border-subtle: #e2e8f0; --border-medium: #cbd5e1; --border-strong: #e11d48;
+  --text-main: #0f172a;
+  --text-muted: #334155; /* High contrast WCAG AA: 7.4:1 on #ffffff */
+  --text-dim: #475569;   /* High contrast WCAG AA: 5.1:1 on #ffffff */
+  --accent-red: #e11d48; --accent-red-hover: #be123c; --accent-red-active: #9f1239;
+  --accent-red-subtle: rgba(225, 29, 72, 0.12);
+  --shadow-card: 0 4px 14px rgba(0,0,0,0.06);
+  --shadow-md: 0 6px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+
+  /* Status badge text colors high-contrast in light mode */
+  --color-green: #047857;
+  --color-blue: #1d4ed8;
+  --color-purple: #6d28d9;
+  --color-amber: #b45309;
+}
+
+[data-theme="cyber"] {
+  --bg-app: #080318;
+  --bg-sidebar: #0d0628;
+  --bg-header: #0d0628;
+  --bg-surface: #140b38;
+  --bg-card: #190f45;
+  --bg-card-hover: #261666;
+  --bg-input: #120930;
+  --bg-badge: #261666;
+  --bg-overlay: rgba(8, 3, 24, 0.92);
+  --border-subtle: #2f1d7a;
+  --border-medium: #4a2cb5;
+  --border-strong: #00f2fe;
+  --text-main: #f8fafc;
+  --text-muted: #c4b5fd;
+  --text-dim: #a78bfa;
+  --accent-red: #00f2fe;
+  --accent-red-hover: #38bdf8;
+  --accent-red-active: #0284c7;
+  --accent-red-subtle: rgba(0, 242, 254, 0.15);
+  --shadow-card: 0 4px 16px rgba(0, 242, 254, 0.15);
+  --shadow-glow: 0 0 24px rgba(0, 242, 254, 0.4);
+}

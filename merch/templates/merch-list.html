@@ -3,7 +3,7 @@
 {# Merch), upcoming_drops, categories, selected_category, query, sort, #}
 {# total_count, page_obj. Design ported from the static merch-list prototype. #}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

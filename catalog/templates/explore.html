@@ -1,8 +1,8 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 <head>
-  {% comment %} <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script> {% endcomment %}
+  {% comment %} <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script> {% endcomment %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explore Fandom Catalog & Universes | FAN HUB+</title>
@@ -202,7 +202,7 @@
                   <input type="checkbox" class="form-checkbox cat-cb" value="all" checked />
                   <span>All Universes</span>
                 </label>
-                
+
                 {% for category in categories %}
                 <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
                   <input type="checkbox" class="form-checkbox cat-cb" value="{{ category.slug }}" />
@@ -312,19 +312,31 @@
               <button type="button" class="btn btn-primary btn-sm" id="resetEmptyStateBtn">Reset Filters to Default</button>
             </div>
 
+            <form method="get" action="{% url 'explore' %}" class="widget-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:var(--space-4);padding:var(--space-4);">
+              {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
+              {% if login_to_unlock %}<div class="content-card-category" style="grid-column:1/-1">Search, sorting, genre, year, and type filters are available after you <a href="{% url 'accounts:login' %}">log in</a>.</div>{% endif %}
+              <label>Search <input class="form-input" name="q" value="{{ selected_filters.q }}" {% if not user.is_authenticated %}disabled{% endif %}></label>
+              <label>Category <select class="form-select" name="category"><option value="">All categories</option>{% for item in categories %}<option value="{{ item.slug }}" {% if selected_category == item.slug %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></label>
+              <label>Genre <select class="form-select" name="genre" {% if not user.is_authenticated %}disabled{% endif %}><option value="">All genres</option>{% for item in genres %}<option value="{{ item.slug }}" {% if selected_filters.genre == item.slug %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></label>
+              <label>Release year <input class="form-input" type="number" min="1900" max="2100" name="year" value="{{ selected_filters.year }}" {% if not user.is_authenticated %}disabled{% endif %}></label>
+              <label>Content type <select class="form-select" name="content_type" {% if not user.is_authenticated %}disabled{% endif %}><option value="">All types</option>{% for value,label in content_type_choices %}<option value="{{ value }}" {% if selected_filters.content_type == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+              <label>Sort <select class="form-select" name="sort" {% if not user.is_authenticated %}disabled{% endif %}><option value="latest" {% if selected_filters.sort == 'latest' %}selected{% endif %}>Latest</option><option value="popular" {% if selected_filters.sort == 'popular' %}selected{% endif %}>Most popular</option><option value="alpha" {% if selected_filters.sort == 'alpha' %}selected{% endif %}>A to Z</option></select></label>
+              <button class="btn btn-primary btn-sm" type="submit">Apply filters</button>
+            </form>
+
             <!-- CARDS GRID (Dynamic) -->
             <div class="cards-grid" id="catalogCardGrid">
 
               {% for content in contents %}
-              <article class="content-card" 
-                  data-category="{{ content.category.slug }}" 
-                  data-genre="{% for genre in content.genres.all %}{{ genre.slug }} {% endfor %}" 
-                  data-year="{{ content.release_date|date:'Y' }}" 
-                  data-type="{{ content.content_type }}" 
-                  data-rating="{{ content.average_rating }}" 
-                  data-popularity="{{ content.view_count }}" 
+              <article class="content-card"
+                  data-category="{{ content.category.slug }}"
+                  data-genre="{% for genre in content.genres.all %}{{ genre.slug }} {% endfor %}"
+                  data-year="{{ content.release_date|date:'Y' }}"
+                  data-type="{{ content.content_type }}"
+                  data-rating="{{ content.avg_rating }}"
+                  data-popularity="{{ content.view_count }}"
                   data-title="{{ content.title|lower }}">
-                  
+
                 <div class="content-card-poster">
                   {% if content.thumbnail %}
                     <img src="{{ content.thumbnail.url }}" alt="{{ content.title }}" loading="lazy" />
@@ -332,26 +344,26 @@
                     <!-- Fallback image -->
                     <img src="{% static 'images/placeholder.jpg' %}" alt="Placeholder" loading="lazy" />
                   {% endif %}
-                  
+
                   <span class="card-badge badge-stream">{{ content.category.name }}</span>
                   <span class="card-rating">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    {{ content.average_rating|floatformat:1 }}
+                    {{ content.avg_rating|floatformat:1 }}
                   </span>
                 </div>
-                
+
                 <div class="content-card-body">
                   <span class="content-card-category">{{ content.genres.first.name }} &bull; {{ content.release_date|date:'Y' }}</span>
-                  
+
                   <h3 class="content-card-title">
                     <a href="{% url 'content-detail' content.slug %}">{{ content.title }}</a>
                   </h3>
-                  
+
                   <p class="content-card-desc">{{ content.description|truncatechars:120 }}</p>
-                  
+
                   <div class="content-card-meta">
-                    <span>{{ content.meta_label }}</span>
-                    <a href="{% url 'content-detail' content.slug %}" class="btn btn-outline btn-sm">{{ content.action_button_text }}</a>
+                    <span>{{ content.content_type|title }}</span>
+                    <a href="{% url 'content-detail' content.slug %}" class="btn btn-outline btn-sm">View details</a>
                   </div>
                 </div>
               </article>
@@ -362,18 +374,10 @@
             </div>
 
             <!-- Pagination Bar -->
-            <nav class="pagination-bar" aria-label="Catalog Pagination" style="margin-top:var(--space-8); display:flex; justify-content:center; gap:6px;">
-              <button type="button" class="btn btn-secondary btn-sm" disabled style="display:inline-flex; align-items:center; gap:4px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                Previous
-              </button>
-              <button type="button" class="btn btn-primary btn-sm">1</button>
-              <button type="button" class="btn btn-secondary btn-sm" onclick="window.showToast('Page 2 is a demo catalog expansion.')">2</button>
-              <button type="button" class="btn btn-secondary btn-sm" onclick="window.showToast('Page 3 is a demo catalog expansion.')">3</button>
-              <button type="button" class="btn btn-secondary btn-sm" onclick="window.showToast('Page 2 is a demo catalog expansion.')" style="display:inline-flex; align-items:center; gap:4px;">
-                Next
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </button>
+            <nav class="pagination-bar" aria-label="Catalog Pagination" style="margin-top:var(--space-8);display:flex;justify-content:center;gap:6px;">
+              {% if page_obj.has_previous %}<a class="btn btn-secondary btn-sm" href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}
+              <span class="btn btn-primary btn-sm">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+              {% if page_obj.has_next %}<a class="btn btn-secondary btn-sm" href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Next</a>{% endif %}
             </nav>
           </div>
 

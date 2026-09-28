@@ -1,8 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 <head>
-  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile & Preferences | FAN HUB+</title>
@@ -121,76 +121,48 @@
           </div>
 
           <!-- Profile Form -->
-          <form id="profileForm" class="widget-card" style="display: flex; flex-direction: column; gap: var(--space-5);">
+          <form id="profileForm" method="post" enctype="multipart/form-data" class="widget-card" style="display: flex; flex-direction: column; gap: var(--space-5);">{% csrf_token %}{{ form.non_field_errors }}
             <!-- Avatar & Identity -->
             <div style="display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--space-5);">
-              <img id="profileAvatarImg" src="{% static 'images/avatars/alex.jpg' %}" alt="Current Avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-red);" />
+              <img id="profileAvatarImg" src="{% if profile.get_avatar_url %}{{ profile.get_avatar_url }}{% else %}{% static 'images/avatars/alex.jpg' %}{% endif %}" alt="Current Avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-red);" />
               <div>
                 <label class="form-label" style="margin-bottom: 4px;">Profile Avatar</label>
-                <div style="display: flex; gap: 8px;">
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('profileAvatarImg').src='{% static 'images/avatars/alex.jpg' %}'">Avatar 1</button>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('profileAvatarImg').src='../images/avatars/yuki.jpg'">Avatar 2</button>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('profileAvatarImg').src='../images/avatars/marcus.jpg'">Avatar 3</button>
-                </div>
+                <label for="id_avatar">Choose an avatar</label>{{ form.avatar }}
+                <label for="id_custom_avatar">Or upload an image (maximum 2 MB)</label>{{ form.custom_avatar }}{{ form.custom_avatar.errors }}
               </div>
             </div>
 
-            <!-- Name and Handle -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
-              <div class="form-group">
-                <label class="form-label" for="profileDisplayName">Display Name</label>
-                <input type="text" id="profileDisplayName" class="form-input" value="Alex Vance" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="profileHandle">Public Handle</label>
-                <input type="text" id="profileHandle" class="form-input" value="@alex_prime" required />
-              </div>
-            </div>
+            <p class="content-card-category">Signed in as {{ request.user.username }}</p>
 
             <!-- Bio -->
             <div class="form-group">
               <label class="form-label" for="profileBio">Bio / Fandom Status</label>
-              <textarea id="profileBio" class="form-input form-textarea" rows="3">Shonen anime aficionado, collector of 1/7 scale statues, and enthusiast of dark fantasy lore.</textarea>
+              {{ form.bio }}{{ form.bio.errors }}
             </div>
 
             <!-- Streaming Preferences -->
             <div style="border-top: 1px solid var(--border-subtle); padding-top: var(--space-4);">
-              <h3 style="font-size: var(--font-base); font-weight: var(--fw-bold); margin: 0 0 10px;">Streaming &amp; Display Preferences</h3>
+              <h3 style="font-size: var(--font-base); font-weight: var(--fw-bold); margin: 0 0 10px;">Display Preferences</h3>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
                 <div class="form-group">
                   <label class="form-label" for="prefTheme">Default Visual Theme</label>
-                  <select id="prefTheme" class="form-select">
-                    <option value="dark">Deep Night Dark (Default)</option>
-                    <option value="light">High Noon Light</option>
-                    <option value="auto">Sync with Operating System</option>
-                  </select>
+                  {{ form.theme }}
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="prefAudio">Audio &amp; Subtitle Default</label>
-                  <select id="prefAudio" class="form-select">
-                    <option value="sub">Japanese Audio + English Subtitles</option>
-                    <option value="dub">English Dubbed Broadcast</option>
-                    <option value="orig">Original Studio Track</option>
-                  </select>
+                  <label class="form-label" for="id_font_size">Font size</label>{{ form.font_size }}
                 </div>
               </div>
             </div>
 
-            <!-- Notification Toggles -->
-            <div style="border-top: 1px solid var(--border-subtle); padding-top: var(--space-4);">
-              <h3 style="font-size: var(--font-base); font-weight: var(--fw-bold); margin: 0 0 10px;">Notification Preferences</h3>
-              <div style="display: flex; flex-direction: column; gap: 8px; font-size: var(--font-sm);">
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" class="form-checkbox" checked /> Alert me when newly simulcasted episodes release
+            <fieldset class="form-group" style="border-top:1px solid var(--border-subtle); padding-top:var(--space-4);">
+              <legend>Favorite fandoms</legend>
+              {% for category in categories %}
+                <label style="display:inline-flex;gap:8px;margin:6px 12px 6px 0;">
+                  <input type="checkbox" name="favorite_categories" value="{{ category.pk }}" {% if category.pk in selected_category_ids %}checked{% endif %}> {{ category.name }}
                 </label>
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" class="form-checkbox" checked /> Notify 15 minutes before limited merchandise drops
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" class="form-checkbox" checked /> Email receipt for ticket orders &amp; convention badges
-                </label>
-              </div>
-            </div>
+              {% endfor %}
+              {{ form.favorite_categories.errors }}
+            </fieldset>
 
             <div style="display: flex; justify-content: flex-end; gap: var(--space-3); pt: 8px;">
               <button type="reset" class="btn btn-secondary btn-md">Discard</button>
@@ -247,18 +219,7 @@
   </aside>
   <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('profileForm');
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const name = document.getElementById('profileDisplayName').value.trim();
-        window.showToast('Profile and streaming preferences successfully saved for ' + name + '!');
-      });
-    }
-  });
-  </script>
+
 </body>
 </html>
 

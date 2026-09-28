@@ -3,6 +3,10 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from catalog.models import Category, Content
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import redirect
+from accounts.forms import ProfileForm
+from accounts.models import Avatar, Profile
 
 def home(request):
     return render(request, 'home.html', {
@@ -15,7 +19,23 @@ def sitemap_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'profile.html', {'profile': getattr(request.user, 'profile', None), 'categories': Category.objects.all()})
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            saved = form.save()
+            if saved.custom_avatar:
+                saved.avatar = None
+                saved.save(update_fields=['avatar'])
+            messages.success(request, 'Your profile preferences have been saved.')
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'profile.html', {
+        'profile': profile, 'form': form, 'categories': Category.objects.all(),
+        'avatars': Avatar.objects.filter(is_active=True),
+        'selected_category_ids': set(profile.favorite_categories.values_list('pk', flat=True)),
+    })
 
 def ratelimited(request, exception=None):
     if request.path.startswith('/chatbot/'):

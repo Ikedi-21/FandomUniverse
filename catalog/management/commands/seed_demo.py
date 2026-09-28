@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.utils.text import slugify
-from accounts.models import Profile
+from accounts.models import Avatar, Profile
 from article.models import ApprovalStatus, EventHighlight, FanSubmission
 from catalog.models import Category, Content, Genre, Tag
 from characters.models import Category as CharacterCategory, CharacterProfile
@@ -28,7 +28,7 @@ class Command(BaseCommand):
         for name, email in [('admin', 'admin@fanhubplus.local'), ('demo_user', 'demo@fanhubplus.local'), ('new_user', 'new@fanhubplus.local')]:
             user, _ = User.objects.get_or_create(username=name, defaults={'email': email})
             user.email = email
-            user.email_verified = name != 'new_user'
+            user.email_verified = True
             user.is_staff = name == 'admin'
             user.is_superuser = name == 'admin'
             user.set_password(self.passwords[name])
@@ -55,7 +55,7 @@ class Command(BaseCommand):
         genres = [Genre.objects.get_or_create(slug=slugify(name), defaults={'name': name})[0] for name in ['Adventure', 'Mystery', 'Comedy']]
         tags = [Tag.objects.get_or_create(slug=slugify(name), defaults={'name': name})[0] for name in ['Featured', 'Community', 'New']]
         image_root = Path(settings.BASE_DIR) / 'static' / 'images'
-        source_images = sorted(list((image_root / 'posters').glob('*')) + list((image_root / 'hero_section').glob('*')))
+        source_images = sorted(list((image_root / 'posters').glob('*')) + list((image_root / 'hero_section').glob('*')) + list((image_root / 'avatars').glob('*')))
         media_dir = Path(settings.MEDIA_ROOT) / 'seed-assets'
         media_dir.mkdir(parents=True, exist_ok=True)
         local_images = []
@@ -70,6 +70,9 @@ class Command(BaseCommand):
             for index, category in enumerate(categories.values()):
                 category.cover_image = hero_images[index % len(hero_images)]
                 category.save(update_fields=['cover_image'])
+        avatar_name = next((name for name in image_names if Path(name).name == 'alex.jpg'), '')
+        if avatar_name:
+            Avatar.objects.get_or_create(name='Fan Hub Default', defaults={'image': avatar_name, 'is_active': True})
         content_items = []
         kinds = ['article', 'video', 'audio', 'image']
         for cat_name, category in categories.items():
@@ -163,6 +166,7 @@ class Command(BaseCommand):
             f'events={Event.objects.count()}',
             f'users={User.objects.count()}',
             f'profiles={Profile.objects.count()}',
+            f'avatars={Avatar.objects.count()}',
             f'faq={ChatbotFAQ.objects.count()}',
             f'bookmarks={Bookmark.objects.count()}',
             f'ratings={Rating.objects.count()}',

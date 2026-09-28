@@ -1,8 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 <head>
-  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Dashboard | FAN HUB+</title>
@@ -30,7 +30,7 @@
           <div class="sidebar-section-title">Explore</div>
           <ul class="sidebar-nav-list">
             <li><a href="../index.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a></li>
-            <li><a href="explore.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="{% url 'explore' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
             <li><a href="character-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
             <li><a href="merch-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg><span>Merch &amp; Store</span></a></li>
             <li><a href="events.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
@@ -39,7 +39,7 @@
         <div>
           <div class="sidebar-section-title">Community</div>
           <ul class="sidebar-nav-list">
-            <li><a href="submit-content.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="{% url 'submit-content' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
             <li><a href="feedback.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
             <li><a href="sitemap.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
           </ul>
@@ -48,7 +48,7 @@
           <div class="sidebar-section-title">My Account</div>
           <ul class="sidebar-nav-list">
             <li><a href="dashboard.html" class="sidebar-nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
-            <li><a href="profile.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+            <li><a href="{% url 'profile' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
           </ul>
         </div>
         <div>
@@ -59,7 +59,7 @@
         </div>
       </nav>
       <div class="sidebar-footer-actions" id="sidebarFooterSlot">
-        <a href="submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+        <a href="{% url 'submit-content' %}" class="sidebar-cta-btn" id="sidebarSubmitBtn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           <span class="cta-text">Submit Content</span>
         </a>
@@ -76,7 +76,7 @@
           </button>
           <nav class="header-nav-tabs" aria-label="Primary Navigation">
             <a href="../index.html" class="header-nav-tab">Home</a>
-            <a href="explore.html" class="header-nav-tab">Explore</a>
+            <a href="{% url 'explore' %}" class="header-nav-tab">Explore</a>
             <a href="character-list.html" class="header-nav-tab">Characters</a>
             <a href="merch-list.html" class="header-nav-tab">Merch</a>
             <a href="events.html" class="header-nav-tab">Events</a>
@@ -120,20 +120,20 @@
           <!-- IF: user is logged in -->
           <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: var(--space-6); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div style="display: flex; align-items: center; gap: 16px;">
-              <img src="../images/avatars/alex.jpg" alt="User Avatar" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-red);" />
+              <img src="{% if profile and profile.get_avatar_url %}{{ profile.get_avatar_url }}{% else %}{% static 'images/avatars/alex.jpg' %}{% endif %}" alt="User Avatar" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-red);" />
               <div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <h1 style="margin: 0; font-size: var(--font-xl); font-weight: var(--fw-bold);" id="dashUserGreeting">Welcome back, Alex Vance</h1>
-                  <span class="badge" style="background: rgba(239, 35, 60, 0.15); color: var(--accent-red); font-weight: bold;">Level 4 Gold Explorer</span>
+                  <h1 style="margin: 0; font-size: var(--font-xl); font-weight: var(--fw-bold);" id="dashUserGreeting">Welcome back, {{ request.user.first_name|default:request.user.username }}</h1>
+                  <span class="badge" style="background: rgba(239, 35, 60, 0.15); color: var(--accent-red); font-weight: bold;">Fan Hub member</span>
                 </div>
                 <p style="margin: 4px 0 0; font-size: var(--font-xs); color: var(--text-muted);">
-                  Member since 2024 &bull; 3 new simulcast episodes and 1 limited drop ready in your alert feed.
+                  Member since {{ request.user.date_joined|date:"M Y" }}. Your saved fandoms and recent activity are below.
                 </p>
               </div>
             </div>
             <div style="display: flex; gap: 8px;">
-              <a href="profile.html" class="btn btn-secondary btn-sm">Edit Profile</a>
-              <a href="submit-content.html" class="btn btn-primary btn-sm">Submit Fan Work</a>
+              <a href="{% url 'profile' %}" class="btn btn-secondary btn-sm">Edit Profile</a>
+              <a href="{% url 'submit-content' %}" class="btn btn-primary btn-sm">Submit Fan Work</a>
             </div>
           </div>
           <!-- ENDIF -->
@@ -142,41 +142,37 @@
           <div class="widget-card" style="padding: var(--space-4) var(--space-5);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
               <span style="font-size: var(--font-xs); font-weight: bold; color: var(--text-muted); text-transform: uppercase;">Your Favorite Fandoms</span>
-              <a href="profile.html" style="font-size: var(--font-xs); color: var(--accent-red); text-decoration: none;">Manage Fandoms &rarr;</a>
+              <a href="{% url 'profile' %}" style="font-size: var(--font-xs); color: var(--accent-red); text-decoration: none;">Manage Fandoms &rarr;</a>
             </div>
-            <!-- LOOP: favorite fandom chips -->
-            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-              <span class="filter-chip"><span style="width:8px; height:8px; border-radius:50%; background:var(--accent-red); display:inline-block; margin-right:6px;"></span>Demon Slayer</span>
-              <span class="filter-chip"><span style="width:8px; height:8px; border-radius:50%; background:#8b5cf6; display:inline-block; margin-right:6px;"></span>Solo Leveling</span>
-              <span class="filter-chip"><span style="width:8px; height:8px; border-radius:50%; background:#f59e0b; display:inline-block; margin-right:6px;"></span>One Piece</span>
-              <span class="filter-chip"><span style="width:8px; height:8px; border-radius:50%; background:#3b82f6; display:inline-block; margin-right:6px;"></span>Cyberpunk 2077</span>
-              <span class="filter-chip"><span style="width:8px; height:8px; border-radius:50%; background:#ec4899; display:inline-block; margin-right:6px;"></span>BLACKPINK Live</span>
-              <button type="button" class="btn btn-ghost btn-sm" style="font-size: var(--font-xs); padding: 0 6px;" onclick="window.location.href='profile.html'">+ Add More</button>
-            </div>
-            <!-- ENDLOOP: favorite fandom chips -->
+            {% for category in favorite_categories %}
+              <span class="filter-chip">{{ category.name }}</span>
+            {% empty %}
+              <span class="content-card-category">Choose favorite fandoms in your profile settings.</span>
+            {% endfor %}
+            <a class="btn btn-ghost btn-sm" href="{% url 'profile' %}">Manage fandoms</a>
           </div>
 
           <!-- QUICK STATS CARDS -->
           <div class="admin-stat-grid">
             <div class="admin-stat-card">
               <span class="admin-stat-label">Bookmarked Items</span>
-              <span class="admin-stat-value" style="color: var(--accent-red);">18</span>
+              <span class="admin-stat-value" style="color: var(--accent-red);">{{ bookmark_count }}</span>
               <span style="font-size: var(--font-xs); color: var(--text-muted);">Episodes, figures &amp; characters</span>
             </div>
             <div class="admin-stat-card">
               <span class="admin-stat-label">Community Submissions</span>
-              <span class="admin-stat-value" style="color: var(--color-blue);">4</span>
-              <span style="font-size: var(--font-xs); color: var(--text-muted);">2 Approved, 2 in Review</span>
+              <span class="admin-stat-value" style="color: var(--color-blue);">{{ submission_count }}</span>
+              <span style="font-size: var(--font-xs); color: var(--text-muted);">Awaiting review</span>
             </div>
             <div class="admin-stat-card">
-              <span class="admin-stat-label">Fandom Guilds Joined</span>
-              <span class="admin-stat-value" style="color: var(--color-green);">7</span>
-              <span style="font-size: var(--font-xs); color: var(--text-muted);">Active contributor rank</span>
+              <span class="admin-stat-label">Favorite Fandoms</span>
+              <span class="admin-stat-value" style="color: var(--color-green);">{{ favorite_count }}</span>
+              <span style="font-size: var(--font-xs); color: var(--text-muted);">Saved on your profile</span>
             </div>
             <div class="admin-stat-card">
-              <span class="admin-stat-label">Hours Streamed</span>
-              <span class="admin-stat-value" style="color: var(--color-amber);">142h</span>
-              <span style="font-size: var(--font-xs); color: var(--text-muted);">Top 5% active listener</span>
+              <span class="admin-stat-label">Recent Actions</span>
+              <span class="admin-stat-value" style="color: var(--color-amber);">{{ recent_activity|length }}</span>
+              <span style="font-size: var(--font-xs); color: var(--text-muted);">From your account activity</span>
             </div>
           </div>
 
@@ -187,104 +183,37 @@
             <div>
               <div class="section-header">
                 <h2 class="section-title">Your Watchlist &amp; Bookmarks</h2>
-                <a href="explore.html" class="section-view-all">Find More Content &rarr;</a>
+                <a href="{% url 'explore' %}" class="section-view-all">Find More Content &rarr;</a>
               </div>
-              <!-- LOOP: bookmarked items -->
               <div class="cards-grid">
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="../images/posters/demon_slayer_thumb.jpg" alt="Demon Slayer" loading="lazy" />
-                    <span class="card-badge badge-stream">Anime</span>
-                    <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.9</span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Note: Watch Hashira scene</span>
-                    <h3 class="content-card-title"><a href="content-detail.html?title=demon-slayer">Demon Slayer: Swordsmith Village</a></h3>
-                    <div class="content-card-meta">
-                      <span>Ep 11 Ready</span>
-                      <a href="content-detail.html?title=demon-slayer" class="btn btn-primary btn-sm">Watch Now</a>
+                {% for item in bookmarks %}
+                  <article class="content-card">
+                    <div class="content-card-poster">
+                      {% if item.image %}<img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy" />{% else %}<img src="{% static 'images/placeholder.jpg' %}" alt="" loading="lazy" />{% endif %}
+                      <span class="card-badge badge-stream">{{ item.type }}</span>
                     </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="../images/posters/solo_leveling.jpg" alt="Solo Leveling" loading="lazy" />
-                    <span class="card-badge badge-stream">Fantasy</span>
-                    <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.8</span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Note: Season finale</span>
-                    <h3 class="content-card-title"><a href="content-detail.html?title=solo-leveling">Solo Leveling: Arise</a></h3>
-                    <div class="content-card-meta">
-                      <span>Ep 12 Ready</span>
-                      <a href="content-detail.html?title=solo-leveling" class="btn btn-primary btn-sm">Watch Now</a>
+                    <div class="content-card-body">
+                      <span class="content-card-category">{{ item.note|default:'Saved item' }}</span>
+                      <h3 class="content-card-title">{% if item.url %}<a href="{{ item.url }}">{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</h3>
                     </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="../images/posters/one_piece_thumb.jpg" alt="One Piece" loading="lazy" />
-                    <span class="card-badge badge-stream">Shonen</span>
-                    <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.9</span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Note: Egghead climax</span>
-                    <h3 class="content-card-title"><a href="content-detail.html?title=one-piece">One Piece: Egghead Realm</a></h3>
-                    <div class="content-card-meta">
-                      <span>Ep 1118 Ready</span>
-                      <a href="content-detail.html?title=one-piece" class="btn btn-primary btn-sm">Watch Now</a>
-                    </div>
-                  </div>
-                </article>
+                  </article>
+                {% empty %}<p>You have no saved items yet.</p>{% endfor %}
               </div>
-              <!-- ENDLOOP: bookmarked items -->
             </div>
 
             <!-- Recent Activity List -->
             <div class="widget-card">
               <div class="widget-title">Recent Activity</div>
-              <!-- LOOP: recent activity -->
               <div style="display: flex; flex-direction: column; gap: 12px;">
-                <div style="display: flex; gap: 10px; font-size: var(--font-xs);">
-                  <span style="color: var(--accent-red); display:flex; align-items:center;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                  </span>
-                  <div>
-                    <strong style="color: var(--text-main);">Finished Episode 10</strong>
-                    <div style="color: var(--text-muted);">Demon Slayer: Swordsmith Village &bull; 2 hours ago</div>
+                {% for activity in recent_activity %}
+                  <div style="display: flex; gap: 10px; font-size: var(--font-xs);">
+                    <span style="color: var(--accent-red);">{{ activity.get_action_display }}</span>
+                    <div><strong style="color: var(--text-main);">{{ activity.target_type }}</strong>
+                      <div style="color: var(--text-muted);">Item {{ activity.target_id }} &bull; {{ activity.created_at }}</div>
+                    </div>
                   </div>
-                </div>
-                <div style="display: flex; gap: 10px; font-size: var(--font-xs);">
-                  <span style="color: var(--color-amber); display:flex; align-items:center;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                  </span>
-                  <div>
-                    <strong style="color: var(--text-main);">Rated 5 Stars</strong>
-                    <div style="color: var(--text-muted);">Solo Leveling: Arise &bull; Yesterday</div>
-                  </div>
-                </div>
-                <div style="display: flex; gap: 10px; font-size: var(--font-xs);">
-                  <span style="color: var(--color-blue); display:flex; align-items:center;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                  </span>
-                  <div>
-                    <strong style="color: var(--text-main);">Asked FanBot</strong>
-                    <div style="color: var(--text-muted);">"How does membership work?" &bull; 2 days ago</div>
-                  </div>
-                </div>
-                <div style="display: flex; gap: 10px; font-size: var(--font-xs);">
-                  <span style="color: var(--color-green); display:flex; align-items:center;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
-                  </span>
-                  <div>
-                    <strong style="color: var(--text-main);">Added to Bag</strong>
-                    <div style="color: var(--text-muted);">Sung Jinwoo Monarch 1/7 Statue &bull; 3 days ago</div>
-                  </div>
-                </div>
+                {% empty %}<p>No activity recorded yet.</p>{% endfor %}
               </div>
-              <!-- ENDLOOP: recent activity -->
             </div>
 
           </div>

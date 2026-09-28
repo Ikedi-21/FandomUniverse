@@ -3,7 +3,7 @@
 {# (one Merch) and related_products (same category). Quantity/cart JS at #}
 {# the bottom wires the purchase panel to the shared cart drawer. #}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

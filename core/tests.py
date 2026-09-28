@@ -75,3 +75,68 @@ class RouteAccessTests(TestCase):
         self.assertEqual(client.get('/dashboard/admin/').status_code, 200)
         client.force_login(self.user)
         self.assertEqual(client.get('/dashboard/admin/').status_code, 302)
+
+    def test_profile_saves_current_preferences(self):
+        from accounts.models import Profile
+        from catalog.models import Category
+        category = Category.objects.create(name='Test fandom', slug='test-fandom')
+        client = Client(SERVER_NAME='127.0.0.1')
+        client.force_login(self.user)
+        response = client.post('/profile/', {
+            'bio': 'A short test bio', 'theme': 'dark', 'font_size': 'large',
+            'favorite_categories': [category.pk], 'avatar': '',
+        })
+        self.assertEqual(response.status_code, 302)
+        profile = Profile.objects.get(user=self.user)
+        self.assertEqual(profile.theme, 'dark')
+        self.assertEqual(profile.font_size, 'large')
+        self.assertEqual(list(profile.favorite_categories.all()), [category])
+
+    def test_content_submission_uses_one_pending_flow(self):
+        from catalog.models import Category, Content
+        category = Category.objects.create(name='Submission fandom', slug='submission-fandom')
+        client = Client(SERVER_NAME='127.0.0.1')
+        client.force_login(self.user)
+        response = client.post('/catalog/submit-content/', {
+            'title': 'A valid community article', 'category': category.pk,
+            'content_type': 'article', 'description': 'An article description',
+            'body': 'The article body.',
+        })
+        self.assertEqual(response.status_code, 302)
+        item = Content.objects.get(title='A valid community article')
+        self.assertFalse(item.is_published)
+        self.assertEqual(item.created_by, self.user)
+
+    def test_bookmark_toggle_and_rating_update(self):
+        from catalog.models import Category, Content
+        from engagements.models import Bookmark
+        from media_centre.models import Rating
+        from django.contrib.contenttypes.models import ContentType
+        category = Category.objects.create(name='Engagement fandom', slug='engagement-fandom')
+        item = Content.objects.create(title='Engagement item', slug='engagement-item', category=category, is_published=True)
+        client = Client(SERVER_NAME='127.0.0.1')
+        client.force_login(self.user)
+        bookmark_response = client.post('/engagements/bookmarks/toggle/', {
+            'content_type_id': ContentType.objects.get_for_model(Content).pk,
+            'object_id': item.pk,
+        })
+        self.assertEqual(bookmark_response.status_code, 200)
+        self.assertEqual(Bookmark.objects.filter(user=self.user, object_id=item.pk).count(), 1)
+        for score in ('4', '5'):
+            response = client.post('/media_centre/rate/', {'content': item.slug, 'rating': score})
+            self.assertEqual(response.status_code, 200)
+        self.assertEqual(Rating.objects.filter(user=self.user, media=item).count(), 1)
+
+    def test_verification_link_activates_user(self):
+        from django.utils.encoding import force_bytes
+        from django.utils.http import urlsafe_base64_encode
+        from accounts.tokens import email_token_generator
+        self.user.email_verified = False
+        self.user.save(update_fields=['email_verified'])
+        uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+        token = email_token_generator.make_token(self.user)
+        client = Client(SERVER_NAME='127.0.0.1')
+        response = client.get(f'/accounts/verify/{uid}/{token}/')
+        self.assertEqual(response.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.email_verified)

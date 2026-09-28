@@ -14,11 +14,14 @@ def character_list(request):
 
     category_slug = request.GET.get("category") or ""
     category_slug = category_slug.strip()
+    source_title = (request.GET.get("source_title") or "").strip()
     query = (request.GET.get("q") or "").strip()
 
     # Fandom filter (?category=<slug>); blank means "All fandoms".
     if category_slug:
         characters = characters.filter(category__slug=category_slug)
+    if source_title:
+        characters = characters.filter(source_title__iexact=source_title)
 
     # Name search (?q=...).
     if query:
@@ -33,6 +36,8 @@ def character_list(request):
         "characters": page_obj.object_list,
         "categories": Category.objects.all(),
         "selected_category": category_slug,
+        "selected_source_title": source_title,
+        "source_titles": CharacterProfile.objects.filter(is_published=True).order_by('source_title').values_list('source_title', flat=True).distinct(),
         "query": query or "",
     }
     return render(request, "character-list.html", context)

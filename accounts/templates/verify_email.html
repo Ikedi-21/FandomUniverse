@@ -1,8 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 <head>
-  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verify Email Address | FAN HUB+</title>

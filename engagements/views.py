@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.contenttypes.models import ContentType
 from .models import Feedback, Bookmark
+from dashboard.models import ActivityLog, Actions
 
 
 @login_required
@@ -35,13 +36,14 @@ def feedback_view(request):
                 'form_data': request.POST,
             })
 
-        Feedback.objects.create(
+        feedback = Feedback.objects.create(
             user=request.user,
             type=fb_type,
             severity=severity,
             subject=subject,
             message=message_text,
         )
+        ActivityLog.objects.create(user=request.user, action=Actions.FEEDBACK, target_type='Feedback', target_id=feedback.pk)
         messages.success(request, 'Ticket logged. Our team will review it within 24–48 hours.')
         return redirect('feedback')
 
@@ -72,6 +74,8 @@ def bookmark_toggle(request):
         object_id=object_id,
         defaults={'note': note},
     )
+    if created:
+        ActivityLog.objects.create(user=request.user, action=Actions.BOOKMARKED, target_type=ct.model, target_id=object_id)
 
     # Existing bookmark + note provided → update note, don't delete
     if not created and note:

@@ -1,4 +1,4 @@
-# AI change log
+﻿# AI change log
 
 Assumptions and verification
 - No MySQL service answered at 127.0.0.1:3306; the project remains on SQLite and no SQL dumps were created.
@@ -6,8 +6,8 @@ Assumptions and verification
 - Template names remain flat. get_template resolved explore.html to catalog, merch-list.html to merch, feedback.html to engagements, and dashboard.html to dashboard.
 - FanSubmission.category is required; ApprovalStatus values are PENDING, APPROVED, REJECTED.
 - No files were deleted. Moved files remain in their destination or in _trash.
-- Verified commands: check, makemigrations --check --dry-run, migrate, seed_demo, manage.py test (4 tests), scripts/smoke.py, collectstatic --dry-run.
-- Seed counts: 8 catalog categories, 8 character categories, 40 content, 16 characters, 16 merch, 9 events, 4 users, 3 profiles, 1 FAQ, 1 bookmark, 1 rating, 1 feedback, 1 pending submission.
+- Verified commands: check, makemigrations --check --dry-run, migrate, seed_demo, manage.py test (8 tests), scripts/smoke.py, collectstatic --dry-run.
+- Seed counts: 8 catalog categories, 8 character categories, 40 content, 16 characters, 16 merch, 9 events, 4 users, 3 profiles, 1 avatar, 1 FAQ, 1 bookmark, 1 rating, 1 feedback, 1 pending submission.
 
 ## Files changed
 
@@ -290,13 +290,35 @@ Assumptions and verification
 - ..\author_notes.txt - Wrote the requested author notes outside the project directory.
 - CHANGELOG_AI.md - This file records individual change reasons, assumptions, verification, and remaining work.
 
+- FandomUniverse\context_processors.py - Added saved profile theme and font size to template context for site-wide rendering.
+- accounts\forms.py - Added validated profile preferences/avatar upload and branded password reset form.
+- accounts\templates\profile.html - Rewired profile settings to current model fields and preference upload controls.
+- core\views.py - Added authenticated profile editing with profile creation and save handling.
+- catalog\forms.py - Added validated content submission ModelForm, file size limits, and supported embed URL checks.
+- catalog\views.py - Added gated search/filter/sort/pagination, validated submissions, unique slugs, and activity logging.
+- catalog\templates\explore.html - Connected search/filter/sort/pagination controls to server-side query results.
+- catalog\templates\submit-content.html - Connected content submission fields and validation errors to the ModelForm.
+- catalog\templates\home.html - Updated theme/font attributes to use the saved profile preferences.
+- characters\views.py - Added source title filtering and preserved active filters in pagination.
+- characters\templates\character-list.html - Added source title filter and filter-preserving pagination.
+- article\views.py - Reused catalog content detail handling for article view counts.
+- dashboard\models.py - Added activity action choices for content submissions and feedback.
+- dashboard\migrations\0002_alter_activitylog_action.py - Generated and applied migration for the new activity actions.
+- dashboard\views.py - Populated dashboard from bookmarks, favorite categories, activity, and actual counts.
+- dashboard\templates\dashboard.html - Replaced placeholder cards and metrics with current member data.
+- engagements\views.py - Logged bookmark and feedback activity.
+- media_centre\views.py - Logged member rating activity.
+- catalog\management\commands\seed_demo.py - Marked seeded users verified and ensured each seeded user has a Profile.
+- core\tests.py - Added coverage for profile saving, content submission, bookmark/rating uniqueness, and verification tokens.
+- FandomUniverse\settings.py - Registered the profile preference context processor.
+
 ## NOT DONE
 
 - MySQL access, PyMySQL use, and MySQL schema/data dumps: no server was available; SQLite remains the verified backend.
-- Profile editing, avatar validation, and applying saved theme/font preferences site-wide.
-- Complete explorer filter/sort/pagination UI and validated ModelForm content submission.
-- Dynamic dashboard activity metrics and fully functional custom staff CRUD/moderation pages.
+
+
+- Fully functional custom staff CRUD/moderation pages.
 - Complete media tag/playback/rating UI; bookmark support for every model type and share links; event map/geolocation.
-- Full registration-verification, reset, moderation, bookmark, and rating workflow test coverage.
+- Moderation approval/rejection queue and full registration/reset/bookmark/rating workflow edge-case coverage.
 - Branded 404/500 pages and review of all prototype JavaScript files. cart.js was neutralized to prevent fake purchase/order behavior.
 - collectstatic --dry-run --noinput passed after cleanup: 166 static files copied in dry-run with no duplicate skips.

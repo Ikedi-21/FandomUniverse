@@ -7,7 +7,7 @@
 {# paths so unknown routes never raise NoReverseMatch. #}
 
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 
 <head>
 
@@ -751,6 +751,13 @@
 
                     </select>
 
+                    <select class="form-input" name="source_title" aria-label="Filter by source title">
+                        <option value="">All source titles</option>
+                        {% for source in source_titles %}
+                            <option value="{{ source }}" {% if selected_source_title == source %}selected{% endif %}>{{ source }}</option>
+                        {% endfor %}
+                    </select>
+
 
                     <button
                         type="submit"
@@ -1023,7 +1030,7 @@
 
                         <a
                             class="btn btn-secondary btn-sm"
-                            href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&page={{ page_obj.previous_page_number }}"
+                            href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&source_title={{ selected_source_title|urlencode }}&page={{ page_obj.previous_page_number }}"
                             style="display:inline-flex; align-items:center; gap:4px;"
                         >
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1048,7 +1055,7 @@
 
                             <a
                                 class="btn btn-secondary btn-sm"
-                                href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&page={{ num }}"
+                                href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&source_title={{ selected_source_title|urlencode }}&page={{ num }}"
                             >
                                 {{ num }}
                             </a>
@@ -1062,7 +1069,7 @@
 
                         <a
                             class="btn btn-secondary btn-sm"
-                            href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&page={{ page_obj.next_page_number }}"
+                            href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&source_title={{ selected_source_title|urlencode }}&page={{ page_obj.next_page_number }}"
                             style="display:inline-flex; align-items:center; gap:4px;"
                         >
                             Next

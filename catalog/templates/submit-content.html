@@ -1,8 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
 <head>
-  {% comment %} <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script> {% endcomment %}
+  {% comment %} <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script> {% endcomment %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Submit Fan Content | FAN HUB+</title>
@@ -252,48 +252,43 @@
         <!-- SUBMISSION FORM -->
         <form id="creatorSubmitForm" method="POST" action="{% url 'submit-content' %}" enctype="multipart/form-data" class="widget-card" style="display: flex; flex-direction: column; gap: var(--space-5);">
           {% csrf_token %}
-          <h2 style="font-size: var(--font-xl); font-weight: var(--fw-bold); margin: 0;">Submit Fandom Content</h2>
+          <h2 style="font-size: var(--font-xl); font-weight: var(--fw-bold); margin: 0;">Submit Fandom Content</h2>{{ form.non_field_errors }}
 
           <div class="form-group">
             <label class="form-label" for="subTitle">Content Title</label>
-            <input type="text" id="subTitle" name="title" class="form-input" placeholder="e.g. Demon Slayer: Flame Hashira Tribute 4K AMV" required />
+            {{ form.title }}{{ form.title.errors }}
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
             <div class="form-group">
               <label class="form-label" for="subCategory">Fandom Universe</label>
-              <select id="subCategory" name="category" class="form-select" required>
-                {% for category in categories %}
-                  <option value="{{ category.id }}">{{ category.name }}</option>
-                {% endfor %}
-              </select>
+              {{ form.category }}{{ form.category.errors }}
             </div>
 
             <div class="form-group">
               <label class="form-label" for="subContentType">Content Type</label>
-              <select id="subContentType" name="content_type" class="form-select" required>
-                <option value="article">Article / Theory</option>
-                <option value="video">Video Edit / AMV</option>
-                <option value="audio">Audio / Podcast</option>
-                <option value="image">Original Fan Art &amp; Illustration</option>
-              </select>
+              {{ form.content_type }}{{ form.content_type.errors }}
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="subMediaUrl">Media / Stream / Video URL</label>
-            <input type="url" id="subMediaUrl" name="video_url" class="form-input" placeholder="https://..." />
+            {{ form.video_url }}{{ form.video_url.errors }}
           </div>
 
           <div class="form-group">
             <label class="form-label" for="subThumbnail">Thumbnail Poster Image</label>
-            <input type="file" id="subThumbnail" name="thumbnail" class="form-input" accept="image/*" />
+            {{ form.thumbnail }}{{ form.thumbnail.errors }}
           </div>
 
           <div class="form-group">
             <label class="form-label" for="subDescription">Description &amp; Production Notes</label>
-            <textarea id="subDescription" name="description" class="form-input form-textarea" placeholder="Detail your creative process, software used, and credits..." rows="4" required></textarea>
+            {{ form.description }}{{ form.description.errors }}
           </div>
+          <div class="form-group"><label class="form-label">Article body</label>{{ form.body }}{{ form.body.errors }}</div>
+          <div class="form-group"><label class="form-label">Genres</label>{{ form.genres }}{{ form.genres.errors }}</div>
+          <div class="form-group"><label class="form-label">Tags</label>{{ form.tags }}{{ form.tags.errors }}</div>
+          <div class="form-group"><label class="form-label">Media file, if uploading</label>{{ form.file }}{{ form.file.errors }}</div>
 
           <div class="form-group">
             <label style="display: flex; align-items: center; gap: 8px; font-size: var(--font-sm); cursor: pointer;">

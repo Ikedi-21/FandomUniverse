@@ -7,6 +7,7 @@ from django.views.decorators.http import require_POST
 from catalog.models import Content
 
 from .models import Rating
+from dashboard.models import ActivityLog, Actions
 
 def media_list(request):
     items = Content.objects.filter(is_published=True, content_type__in=['video', 'audio']).prefetch_related('tags').order_by('-popularity_score')
@@ -60,6 +61,7 @@ def submit_rating(request):
         media=content,
         defaults={"rating": score},
     )
+    ActivityLog.objects.create(user=request.user, action=Actions.RATED, target_type='Content', target_id=content.pk)
 
     # 4. Recompute the displayed average from all ratings.
     aggregate = Rating.objects.filter(media=content).aggregate(

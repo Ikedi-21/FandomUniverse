@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | FAN HUB+</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/auth.css">
+  <script src="../js/auth-context.js" defer></script>
+  <script src="../js/cart.js" defer></script>
+  <script src="../js/main.js" defer></script>
+</head>
+<body class="auth-page">
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="../index.html" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="../index.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a></li>
+            <li><a href="explore.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="character-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
+            <li><a href="merch-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg><span>Merch &amp; Store</span></a></li>
+            <li><a href="events.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="submit-content.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="feedback.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
+            <li><a href="sitemap.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="dashboard.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
+            <li><a href="profile.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="../index.html" class="header-nav-tab">Home</a>
+            <a href="explore.html" class="header-nav-tab">Explore</a>
+            <a href="character-list.html" class="header-nav-tab">Characters</a>
+            <a href="merch-list.html" class="header-nav-tab">Merch</a>
+            <a href="events.html" class="header-nav-tab">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-center">
+          <div class="search-bar-wrapper">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
+            <span class="search-bar-hotkey">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="login.html" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="register.html" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item active" aria-current="page">Register</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; Multi-Step Onboarding</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT (4-STEP WIZARD) -->
+      <main class="page-content">
+        <div class="wizard-page-container">
+          <div class="wizard-card">
+
+            <!-- STEPPER HEADER PROGRESS -->
+            <div class="stepper-header">
+              <div class="stepper-progress-track">
+                <div class="stepper-progress-fill" id="stepperProgressFill" style="width: 25%;"></div>
+              </div>
+              <div class="stepper-nodes">
+                <div class="stepper-node active" id="stepperNode1" data-step="1">
+                  <div class="stepper-circle">1</div>
+                  <span class="stepper-label">Account</span>
+                </div>
+                <div class="stepper-node" id="stepperNode2" data-step="2">
+                  <div class="stepper-circle">2</div>
+                  <span class="stepper-label">Fandoms</span>
+                </div>
+                <div class="stepper-node" id="stepperNode3" data-step="3">
+                  <div class="stepper-circle">3</div>
+                  <span class="stepper-label">Avatar &amp; Bio</span>
+                </div>
+                <div class="stepper-node" id="stepperNode4" data-step="4">
+                  <div class="stepper-circle">4</div>
+                  <span class="stepper-label">Review</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="wizardErrorAlert" style="display:none; padding:10px 14px; background:rgba(239,35,60,0.15); border:1px solid var(--accent-red); border-radius:var(--radius-md); color: var(--accent-red); font-size:var(--font-xs); margin-bottom:var(--space-4);"></div>
+
+            <!-- CSRF: token -->
+            <form id="wizardForm">
+
+              <!-- STEP 1: CREDENTIALS -->
+              <div class="wizard-step-pane active" id="stepPane1">
+                <div>
+                  <h2 style="font-size: var(--font-xl); font-weight: var(--fw-bold); margin: 0 0 4px;">Step 1: Account Credentials</h2>
+                  <p style="font-size: var(--font-xs); color: var(--text-muted); margin: 0;">Create your unique identity to join discussions, rate broadcasts, and collect badges.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="regUsername">Username <span style="color:var(--accent-red)">*</span></label>
+                  <input type="text" id="regUsername" class="form-input" placeholder="e.g. shadow_slayer" required autocomplete="username" />
+                  <span style="font-size:11px; color:var(--text-dim); margin-top:2px;">3-20 characters, letters, numbers, and underscores only.</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="regEmail">Email Address <span style="color:var(--accent-red)">*</span></label>
+                  <input type="email" id="regEmail" class="form-input" placeholder="you@domain.com" required autocomplete="email" />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                  <div class="form-group">
+                    <label class="form-label" for="regPassword">Password <span style="color:var(--accent-red)">*</span></label>
+                    <input type="password" id="regPassword" class="form-input" placeholder="••••••••" required autocomplete="new-password" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="regConfirmPassword">Confirm Password <span style="color:var(--accent-red)">*</span></label>
+                    <input type="password" id="regConfirmPassword" class="form-input" placeholder="••••••••" required autocomplete="new-password" />
+                  </div>
+                </div>
+
+                <!-- Password Strength Meter -->
+                <div style="background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:10px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:var(--font-xs);">
+                    <span style="color:var(--text-muted);">Password Strength:</span>
+                    <span id="strengthLabel" style="font-weight:bold; color:var(--text-dim);">Enter a password</span>
+                  </div>
+                  <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+                    <div id="strengthBar" style="height:100%; width:0%; transition:all 0.3s ease; background:var(--text-dim);"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- STEP 2: FANDOMS SELECTION -->
+              <div class="wizard-step-pane" id="stepPane2">
+                <div>
+                  <h2 style="font-size: var(--font-xl); font-weight: var(--fw-bold); margin: 0 0 4px;">Step 2: Choose Your Fandom Universes</h2>
+                  <p style="font-size: var(--font-xs); color: var(--text-muted); margin: 0;">We'll curate your explore feed, live broadcasts, and upcoming releases based on what you love.</p>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span id="fandomCountNotice" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:var(--fw-bold);">Selected: 2 fandoms</span>
+                  <button type="button" class="btn btn-ghost btn-sm" id="btnSelectAllFandoms" style="font-size:11px;">Select All</button>
+                </div>
+
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:var(--space-3);" id="fandomGrid">
+                  <label class="theme-card selected" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="Anime" checked style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:var(--accent-red); background:rgba(239,35,60,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">Anime</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">Shonen, Isekai, Seinen</span>
+                  </label>
+
+                  <label class="theme-card selected" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="Gaming" checked style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color: var(--color-blue); background:rgba(59,130,246,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"></rect><path d="M6 12h4m-2-2v4m10-2h.01m-4 0h.01"></path></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">Gaming</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">RPGs, Esports, Shooters</span>
+                  </label>
+
+                  <label class="theme-card" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="Movies & TV" style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color: var(--accent-red); background:rgba(236,72,153,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">Movies &amp; TV</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">Marvel, Sci-Fi, Cult</span>
+                  </label>
+
+                  <label class="theme-card" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="K-Pop" style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color: var(--color-purple); background:rgba(168,85,247,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">K-Pop</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">Stray Kids, NewJeans</span>
+                  </label>
+
+                  <label class="theme-card" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="Manga & Comics" style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color: var(--color-green); background:rgba(16,185,129,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">Manga</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">Webtoons, Graphic Novels</span>
+                  </label>
+
+                  <label class="theme-card" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="Events & Cons" style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color: var(--color-amber); background:rgba(245,158,11,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">Events &amp; Cons</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">Anime Expo, Gamescom</span>
+                  </label>
+
+                  <label class="theme-card" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="Collectibles & Figures" style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color: var(--color-blue); background:rgba(6,182,212,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">Figures</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">1/7 Scale Statues &amp; Merch</span>
+                  </label>
+
+                  <label class="theme-card" style="cursor:pointer; text-align:center; padding:14px 10px;">
+                    <input type="checkbox" name="fandomChoice" value="Cosplay & Props" style="display:none;" />
+                    <div style="width:36px; height:36px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color: var(--accent-red); background:rgba(225,29,72,0.1); border-radius:8px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V6l8-4z"></path></svg>
+                    </div>
+                    <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">Cosplay</strong>
+                    <span style="font-size:11px; color:var(--text-muted);">Costumes &amp; Prop Makers</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- STEP 3: AVATAR & BIO -->
+              <div class="wizard-step-pane" id="stepPane3">
+                <div>
+                  <h2 style="font-size: var(--font-xl); font-weight: var(--fw-bold); margin: 0 0 4px;">Step 3: Avatar &amp; Profile Details</h2>
+                  <p style="font-size: var(--font-xs); color: var(--text-muted); margin: 0;">Select your fandom profile avatar and add a short bio to introduce yourself.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Choose an Avatar</label>
+                  <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;" id="avatarGrid">
+                    <div class="theme-card selected avatar-choice" data-avatar="alex.jpg" style="padding:10px; text-align:center; cursor:pointer;">
+                      <img src="../images/avatars/alex.jpg" alt="Alex Hero" style="width:52px; height:52px; border-radius:50%; object-fit:cover; margin:0 auto 6px; display:block; border:2px solid var(--accent-red);" />
+                      <span style="font-size:11px; font-weight:bold; color:var(--text-main);">Alex (Default)</span>
+                    </div>
+
+                    <div class="theme-card avatar-choice" data-avatar="tanjiro" style="padding:10px; text-align:center; cursor:pointer;">
+                      <img src="../images/posters/demon_slayer_thumb.jpg" alt="Demon Slayer" style="width:52px; height:52px; border-radius:50%; object-fit:cover; margin:0 auto 6px; display:block; border:2px solid transparent;" />
+                      <span style="font-size:11px; font-weight:bold; color:var(--text-main);">Demon Slayer</span>
+                    </div>
+
+                    <div class="theme-card avatar-choice" data-avatar="jinwoo" style="padding:10px; text-align:center; cursor:pointer;">
+                      <img src="../images/posters/solo_leveling.jpg" alt="Shadow Monarch" style="width:52px; height:52px; border-radius:50%; object-fit:cover; margin:0 auto 6px; display:block; border:2px solid transparent;" />
+                      <span style="font-size:11px; font-weight:bold; color:var(--text-main);">Shadow Monarch</span>
+                    </div>
+
+                    <div class="theme-card avatar-choice" data-avatar="cyberpunk" style="padding:10px; text-align:center; cursor:pointer;">
+                      <img src="../images/fandoms/gaming.jpg" alt="Cyber Runner" style="width:52px; height:52px; border-radius:50%; object-fit:cover; margin:0 auto 6px; display:block; border:2px solid transparent;" />
+                      <span style="font-size:11px; font-weight:bold; color:var(--text-main);">Cyber Runner</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="regDisplayName">Display Name</label>
+                  <input type="text" id="regDisplayName" class="form-input" placeholder="e.g. Alex Hunter (VIP)" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="regBio">Short Fandom Bio</label>
+                  <textarea id="regBio" class="form-input" rows="3" placeholder="Tell other fans about your favorite anime, games, or upcoming cons you're attending..."></textarea>
+                </div>
+              </div>
+
+              <!-- STEP 4: PREFERENCES & CONFIRMATION -->
+              <div class="wizard-step-pane" id="stepPane4">
+                <div>
+                  <h2 style="font-size: var(--font-xl); font-weight: var(--fw-bold); margin: 0 0 4px;">Step 4: Display Preferences &amp; Confirmation</h2>
+                  <p style="font-size: var(--font-xs); color: var(--text-muted); margin: 0;">Customize your visual theme and review your account details before creating.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Theme Preference</label>
+                  <div class="theme-options-grid">
+                    <div class="theme-card selected" id="themeOptDark" onclick="selectThemeChoice('dark')">
+                      <div class="theme-preview-swatch" style="background:#0a0c10; border:1px solid #2a2e3f; display:flex; align-items:center; justify-content:center; color: var(--color-purple);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                      </div>
+                      <strong style="font-size:var(--font-xs); color:var(--text-main);">Dark Mode (Default)</strong>
+                    </div>
+                    <div class="theme-card" id="themeOptLight" onclick="selectThemeChoice('light')">
+                      <div class="theme-preview-swatch" style="background:#f8fafc; border:1px solid #cbd5e1; display:flex; align-items:center; justify-content:center; color: var(--color-amber);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                      </div>
+                      <strong style="font-size:var(--font-xs); color:var(--text-main);">Light Mode</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Review Summary Box -->
+                <div class="review-summary-box">
+                  <div class="review-summary-row">
+                    <span class="review-summary-label">Username:</span>
+                    <span class="review-summary-value" id="summaryUsername">-</span>
+                  </div>
+                  <div class="review-summary-row">
+                    <span class="review-summary-label">Email:</span>
+                    <span class="review-summary-value" id="summaryEmail">-</span>
+                  </div>
+                  <div class="review-summary-row">
+                    <span class="review-summary-label">Selected Fandoms:</span>
+                    <span class="review-summary-value" id="summaryFandoms">Anime, Gaming</span>
+                  </div>
+                  <div class="review-summary-row">
+                    <span class="review-summary-label">Avatar:</span>
+                    <span class="review-summary-value" id="summaryAvatar">Alex (Default)</span>
+                  </div>
+                  <div class="review-summary-row">
+                    <span class="review-summary-label">Membership Tier:</span>
+                    <span class="review-summary-value" style="color:var(--accent-red);">Fan Hub+ Free Explorer</span>
+                  </div>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <input type="checkbox" id="regTerms" class="form-checkbox" checked required />
+                  <label for="regTerms" style="font-size:var(--font-xs); color:var(--text-muted); cursor:pointer;">
+                    I agree to the <a href="#" style="color:var(--accent-red);">Terms of Service</a>, Community Guidelines, and Privacy Policy.
+                  </label>
+                </div>
+              </div>
+
+              <!-- WIZARD ACTIONS NAV -->
+              <div class="wizard-actions">
+                <button type="button" class="btn btn-secondary" id="btnWizardPrev" style="visibility:hidden;">
+                  &larr; Back
+                </button>
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <span style="font-size:var(--font-xs); color:var(--text-dim);" id="stepProgressText">Step 1 of 4</span>
+                  <button type="button" class="btn btn-primary" id="btnWizardNext">
+                    Continue &rarr;
+                  </button>
+                </div>
+              </div>
+
+            </form>
+
+            <div style="margin-top:var(--space-6); text-align:center; font-size:var(--font-xs); color:var(--text-dim); pt:var(--space-4); border-top:1px solid var(--border-subtle);">
+              Already have a Fan Hub+ account? <a href="login.html" style="color:var(--accent-red); font-weight:var(--fw-bold); text-decoration:none;">Sign in here &rarr;</a>
+            </div>
+
+          </div>
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-tagline">
+                The premier interactive fandom platform. Built with plain static HTML, CSS, and vanilla JavaScript.
+              </p>
+            </div>
+            <div class="footer-nav-col">
+              <h4 class="footer-nav-heading">Explore</h4>
+              <ul class="footer-nav-links">
+                <li><a href="explore.html">Catalog</a></li>
+                <li><a href="character-list.html">Characters</a></li>
+                <li><a href="merch-list.html">Merch Store</a></li>
+                <li><a href="events.html">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-nav-col">
+              <h4 class="footer-nav-heading">Community</h4>
+              <ul class="footer-nav-links">
+                <li><a href="submit-content.html">Submit Content</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="sitemap.html">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-nav-col">
+              <h4 class="footer-nav-heading">Account</h4>
+              <ul class="footer-nav-links">
+                <li><a href="login.html">Sign In</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
+            <div class="footer-meta-links">
+              <a href="sitemap.html">Sitemap</a>
+              <a href="feedback.html">Support</a>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- 4-STEP WIZARD LOGIC -->
+  <script>
+    var currentStep = 1;
+    var totalSteps = 4;
+    var selectedTheme = 'dark';
+    var selectedAvatarName = 'Alex (Default)';
+
+    function selectThemeChoice(th) {
+      selectedTheme = th;
+      document.getElementById('themeOptDark').classList.toggle('selected', th === 'dark');
+      document.getElementById('themeOptLight').classList.toggle('selected', th === 'light');
+      if (document.documentElement) {
+        document.documentElement.setAttribute('data-theme', th);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var passInput = document.getElementById('regPassword');
+      var strengthBar = document.getElementById('strengthBar');
+      var strengthLabel = document.getElementById('strengthLabel');
+      var errorAlert = document.getElementById('wizardErrorAlert');
+
+      // Password Strength Checker
+      if (passInput && strengthBar && strengthLabel) {
+        passInput.addEventListener('input', function() {
+          var val = passInput.value;
+          var score = 0;
+          if (val.length >= 6) score++;
+          if (val.length >= 10) score++;
+          if (/[A-Z]/.test(val)) score++;
+          if (/[0-9]/.test(val)) score++;
+          if (/[^A-Za-z0-9]/.test(val)) score++;
+
+          if (val.length === 0) {
+            strengthBar.style.width = '0%';
+            strengthBar.style.background = 'var(--text-dim)';
+            strengthLabel.textContent = 'Enter a password';
+            strengthLabel.style.color = 'var(--text-dim)';
+          } else if (score <= 2) {
+            strengthBar.style.width = '25%';
+            strengthBar.style.background = '#ef4444';
+            strengthLabel.textContent = 'Weak';
+            strengthLabel.style.color = '#ef4444';
+          } else if (score === 3) {
+            strengthBar.style.width = '55%';
+            strengthBar.style.background = '#f59e0b';
+            strengthLabel.textContent = 'Medium';
+            strengthLabel.style.color = '#f59e0b';
+          } else if (score >= 4) {
+            strengthBar.style.width = '100%';
+            strengthBar.style.background = '#10b981';
+            strengthLabel.textContent = 'Strong';
+            strengthLabel.style.color = '#10b981';
+          }
+        });
+      }
+
+      // Fandom Choice Cards Interaction
+      var fandomCards = document.querySelectorAll('#fandomGrid .theme-card');
+      var fandomNotice = document.getElementById('fandomCountNotice');
+      function updateFandomCount() {
+        var checked = document.querySelectorAll('#fandomGrid input[type="checkbox"]:checked');
+        if (fandomNotice) {
+          fandomNotice.textContent = 'Selected: ' + checked.length + ' fandoms';
+        }
+      }
+      fandomCards.forEach(function(card) {
+        card.addEventListener('click', function(e) {
+          var cb = card.querySelector('input[type="checkbox"]');
+          if (cb) {
+            cb.checked = !cb.checked;
+            card.classList.toggle('selected', cb.checked);
+            updateFandomCount();
+          }
+        });
+      });
+
+      // Select All Fandoms Button
+      var selectAllBtn = document.getElementById('btnSelectAllFandoms');
+      if (selectAllBtn) {
+        selectAllBtn.addEventListener('click', function() {
+          var cards = document.querySelectorAll('#fandomGrid .theme-card');
+          cards.forEach(function(card) {
+            var cb = card.querySelector('input[type="checkbox"]');
+            if (cb) {
+              cb.checked = true;
+              card.classList.add('selected');
+            }
+          });
+          updateFandomCount();
+        });
+      }
+
+      // Avatar Choices Interaction
+      var avatarChoices = document.querySelectorAll('.avatar-choice');
+      avatarChoices.forEach(function(av) {
+        av.addEventListener('click', function() {
+          avatarChoices.forEach(function(a) { a.classList.remove('selected'); });
+          av.classList.add('selected');
+          selectedAvatarName = av.querySelector('span') ? av.querySelector('span').textContent : 'Custom Avatar';
+        });
+      });
+
+      // Wizard Nav Buttons
+      var prevBtn = document.getElementById('btnWizardPrev');
+      var nextBtn = document.getElementById('btnWizardNext');
+      var stepProgressText = document.getElementById('stepProgressText');
+      var progressFill = document.getElementById('stepperProgressFill');
+
+      function showStep(step) {
+        errorAlert.style.display = 'none';
+
+        for (var i = 1; i <= totalSteps; i++) {
+          var pane = document.getElementById('stepPane' + i);
+          var node = document.getElementById('stepperNode' + i);
+          if (pane) pane.classList.toggle('active', i === step);
+          if (node) {
+            node.classList.toggle('active', i === step);
+            node.classList.toggle('completed', i < step);
+          }
+        }
+
+        progressFill.style.width = ((step / totalSteps) * 100) + '%';
+        stepProgressText.textContent = 'Step ' + step + ' of ' + totalSteps;
+
+        prevBtn.style.visibility = step === 1 ? 'hidden' : 'visible';
+        nextBtn.textContent = step === totalSteps ? 'Complete Registration & Launch' : 'Continue →';
+
+        if (step === 4) {
+          // Populate summary
+          var uname = document.getElementById('regUsername').value || 'alex';
+          var email = document.getElementById('regEmail').value || 'alex@fanhub.com';
+          document.getElementById('summaryUsername').textContent = uname;
+          document.getElementById('summaryEmail').textContent = email;
+          document.getElementById('summaryAvatar').textContent = selectedAvatarName;
+
+          var checkedFandoms = [];
+          document.querySelectorAll('#fandomGrid input[type="checkbox"]:checked').forEach(function(c) {
+            checkedFandoms.push(c.value);
+          });
+          document.getElementById('summaryFandoms').textContent = checkedFandoms.length > 0 ? checkedFandoms.join(', ') : 'Anime, Gaming';
+        }
+      }
+
+      function validateStep(step) {
+        if (step === 1) {
+          var uname = document.getElementById('regUsername').value.trim();
+          var email = document.getElementById('regEmail').value.trim();
+          var p1 = document.getElementById('regPassword').value;
+          var p2 = document.getElementById('regConfirmPassword').value;
+
+          if (!uname || uname.length < 3) {
+            showError('Please enter a valid username with at least 3 characters.');
+            return false;
+          }
+          if (!email || !email.includes('@')) {
+            showError('Please enter a valid email address.');
+            return false;
+          }
+          if (!p1 || p1.length < 6) {
+            showError('Password must be at least 6 characters.');
+            return false;
+          }
+          if (p1 !== p2) {
+            showError('Passwords do not match. Please verify.');
+            return false;
+          }
+        } else if (step === 2) {
+          var checkedFandoms = document.querySelectorAll('#fandomGrid input[type="checkbox"]:checked');
+          if (checkedFandoms.length === 0) {
+            showError('Please pick at least one fandom universe to personalize your feed.');
+            return false;
+          }
+        } else if (step === 4) {
+          var terms = document.getElementById('regTerms');
+          if (!terms.checked) {
+            showError('You must agree to the Terms of Service to create an account.');
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function showError(msg) {
+        errorAlert.textContent = msg;
+        errorAlert.style.display = 'block';
+        window.scrollTo({ top: errorAlert.offsetTop - 80, behavior: 'smooth' });
+      }
+
+      nextBtn.addEventListener('click', function() {
+        if (!validateStep(currentStep)) return;
+
+        if (currentStep < totalSteps) {
+          currentStep++;
+          showStep(currentStep);
+        } else {
+          // Final submission
+          var finalUsername = document.getElementById('regUsername').value.trim();
+          var finalEmail = document.getElementById('regEmail').value.trim();
+          var finalPass = document.getElementById('regPassword').value;
+          var finalDisplayName = document.getElementById('regDisplayName').value.trim() || finalUsername;
+
+          // Register in AuthContext
+          if (window.AuthContext) {
+            window.AuthContext.login(finalUsername, finalPass);
+          }
+          window.showToast('Registration complete! Welcome to Fan Hub+, ' + finalDisplayName);
+          setTimeout(function() {
+            window.location.href = 'dashboard.html';
+          }, 800);
+        }
+      });
+
+      prevBtn.addEventListener('click', function() {
+        if (currentStep > 1) {
+          currentStep--;
+          showStep(currentStep);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -28,7 +28,7 @@ def character_list(request):
         "selected_category": category_slug,
         "query": query or "",
     }
-    return render(request, "characters/character_list.html", context)
+    return render(request, "character-list.html", context)
 
 
 def character_detail(request, pk):
@@ -45,4 +45,4 @@ def character_detail(request, pk):
         "character": character,
         "related_characters": related_characters,
     }
-    return render(request, "characters/character_detail.html", context)
+    return render(request, "character-detail.html", context)

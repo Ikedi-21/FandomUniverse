@@ -1,0 +1,794 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  {% comment %} <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script> {% endcomment %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Fandom Catalog & Universes | FAN HUB+</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+
+  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  <script src="{% static 'js/cart.js' %}" defer></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  <script src="{% static 'js/chatbot.js' %}" defer></script>
+  <style>
+    /* Sticky filter sidebar while main content scrolls */
+    .filter-sidebar {
+      position: sticky;
+      top: calc(var(--header-h) + 12px);
+      max-height: calc(100vh - var(--header-h) - 24px);
+      overflow-y: auto;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    .filter-sidebar::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    /* List view overrides */
+    .cards-list-view {
+      grid-template-columns: 1fr !important;
+    }
+    .cards-list-view .content-card {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch;
+      min-height: 160px;
+      aspect-ratio: unset;
+    }
+    .cards-list-view .content-card-poster {
+      width: 180px !important;
+      aspect-ratio: unset !important;
+      height: 160px !important;
+      flex-shrink: 0;
+    }
+    .cards-list-view .content-card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .cards-list-view .content-card-desc {
+      -webkit-line-clamp: 2;
+    }
+    @media (max-width: 640px) {
+      .cards-list-view .content-card {
+        flex-direction: column !important;
+        min-height: auto;
+      }
+      .cards-list-view .content-card-poster {
+        width: 100% !important;
+        height: 220px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="{% url 'home' %}" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="{% url 'home' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a></li>
+            <li><a href="{% url 'explore' %}" class="sidebar-nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="{% url 'characters' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
+            <li><a href="{% url 'merch-list' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg><span>Merch &amp; Store</span></a></li>
+            <li><a href="{% url 'events' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="{% url 'submit-content' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="{% url 'feedback' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
+            <li><a href="{% url 'sitemap' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="{% url 'dashboard' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
+            <li><a href="{% url 'profile' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Management</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="{% url 'admin-overview' %}" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><span>Admin Portal</span></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="{% url 'submit-content' %}" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="{% url 'home' %}" class="header-nav-tab">Home</a>
+            <a href="{% url 'explore' %}" class="header-nav-tab active">Explore</a>
+            <a href="{% url 'characters' %}" class="header-nav-tab">Characters</a>
+            <a href="{% url 'merch-list' %}" class="header-nav-tab">Merch</a>
+            <a href="{% url 'events' %}" class="header-nav-tab">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-center">
+          <div class="search-bar-wrapper">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
+            <span class="search-bar-hotkey">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="{% url 'login' %}" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="{% url 'register' %}" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SHARED BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item active" aria-current="page">Explore Catalog</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; 2026 Universes</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT -->
+      <main class="page-content">
+        <div class="explore-layout">
+
+          <!-- FILTER SIDEBAR -->
+          <aside class="filter-sidebar" aria-label="Catalog Filters">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-2);">
+              <h3 style="margin:0; font-size:var(--font-md); font-weight:var(--fw-bold);">Catalog Filters</h3>
+              <button type="button" class="btn btn-ghost btn-sm" id="resetFiltersBtn" style="font-size:var(--font-xs); color:var(--accent-red); padding:2px 8px;">Reset All</button>
+            </div>
+
+            <!-- Category Filter (Dynamic) -->
+            <div>
+              <div class="filter-group-title">Category</div>
+              <div style="display:flex; flex-direction:column; gap:8px;" id="categoryFilterGroup">
+                <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
+                  <input type="checkbox" class="form-checkbox cat-cb" value="all" checked />
+                  <span>All Universes</span>
+                </label>
+                
+                {% for category in categories %}
+                <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
+                  <input type="checkbox" class="form-checkbox cat-cb" value="{{ category.slug }}" />
+                  <span>{{ category.name }}</span>
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Genre Filter (Dynamic) -->
+            <div>
+              <div class="filter-group-title">Genre</div>
+              <div style="display:flex; flex-direction:column; gap:8px;" id="genreFilterGroup">
+                {% for genre in genres %}
+                <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
+                  <input type="checkbox" class="form-checkbox genre-cb" value="{{ genre.slug }}" /> {{ genre.name }}
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Release Year Filter -->
+            <div>
+              <div class="filter-group-title">Release Year</div>
+              <select class="form-select" id="filterYearSelect" aria-label="Filter by Year">
+                <option value="all">All Release Years</option>
+                <option value="2026">2026 (Latest Season)</option>
+                <option value="2025">2025 Broadcasts</option>
+                <option value="2024">2024 Archive</option>
+                <option value="classic">Classics &amp; Retro</option>
+              </select>
+            </div>
+
+            <!-- Content Format Filter -->
+            <div>
+              <div class="filter-group-title">Format</div>
+              <div style="display:flex; flex-direction:column; gap:8px;" id="formatFilterGroup">
+                <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
+                  <input type="radio" name="formatRadio" value="all" class="form-radio" checked /> All Formats
+                </label>
+                <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
+                  <input type="radio" name="formatRadio" value="article" class="form-radio" /> Articles & Editorials
+                </label>
+                <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
+                  <input type="radio" name="formatRadio" value="video" class="form-radio" /> Videos & Streams
+                </label>
+                <label style="display:flex; align-items:center; gap:8px; font-size:var(--font-sm); cursor:pointer;">
+                  <input type="radio" name="formatRadio" value="audio" class="form-radio" /> Audio & Podcasts
+                </label>
+              </div>
+            </div>
+
+            <!-- Rating Threshold -->
+            <div>
+              <div class="filter-group-title">Minimum Rating</div>
+              <select class="form-select" id="filterRatingSelect" aria-label="Filter by Minimum Rating">
+                <option value="0">Any Rating</option>
+                <option value="4.5">4.5 &amp; Up (Masterpiece)</option>
+                <option value="4.8">4.8 &amp; Up (Top Rated)</option>
+              </select>
+            </div>
+          </aside>
+
+          <!-- MAIN CATALOG CONTENT AREA -->
+          <div>
+            <!-- Top Controls Bar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+              <div>
+                <h1 style="margin:0; font-size:var(--font-xl); font-weight:var(--fw-bold);">Explore Universes</h1>
+                <p style="margin:4px 0 0; font-size:var(--font-xs); color:var(--text-muted);" id="catalogCountText">
+                  Showing {{ contents|length }} of {{ contents|length }} items across all fandoms
+                </p>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <label for="catalogSortSelect" style="font-size:var(--font-xs); color:var(--text-muted);">Sort by:</label>
+                <select id="catalogSortSelect" class="form-select" style="width:160px;">
+                  <option value="popular">Most Popular</option>
+                  <option value="rating">Highest Rated</option>
+                  <option value="latest">Latest Release</option>
+                  <option value="alpha">Title A-Z</option>
+                </select>
+                <div style="display:flex; border:1px solid var(--border-medium); border-radius:var(--radius-md); overflow:hidden;">
+                  <button type="button" class="btn btn-ghost btn-sm" id="viewGridBtn" style="padding:6px 10px; border-radius:0; background:var(--bg-card); color:var(--accent-red);" aria-label="Grid View" title="Grid View">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                  </button>
+                  <button type="button" class="btn btn-ghost btn-sm" id="viewListBtn" style="padding:6px 10px; border-radius:0;" aria-label="Compact View" title="Compact View">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Filter Chips Bar -->
+            <div class="active-filters-bar" id="activeFilterBar">
+              <span style="font-size:var(--font-xs); color:var(--text-muted); font-weight:bold;">Active:</span>
+              <span id="activeFilterChipsContainer" style="display:flex; flex-wrap:wrap; gap:6px;"></span>
+              <button type="button" class="btn btn-ghost btn-sm" id="clearAllChipsBtn" style="font-size:var(--font-xs); padding:2px 8px; color:var(--accent-red);">Clear All</button>
+            </div>
+
+            <!-- Empty Results State (shown when 0 matches or toggled) -->
+            <div class="empty-state-card" id="emptyStateDemo" style="display:none;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-dim);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              <h3 style="margin:0; font-size:var(--font-lg);">No matching universes found</h3>
+              <p style="margin:0; color:var(--text-muted); font-size:var(--font-sm); max-width:440px;">
+                We couldn't find any titles matching your selected filters. Try broadening your criteria or reset to full catalog view.
+              </p>
+              <button type="button" class="btn btn-primary btn-sm" id="resetEmptyStateBtn">Reset Filters to Default</button>
+            </div>
+
+            <!-- CARDS GRID (Dynamic) -->
+            <div class="cards-grid" id="catalogCardGrid">
+
+              {% for content in contents %}
+              <article class="content-card" 
+                  data-category="{{ content.category.slug }}" 
+                  data-genre="{% for genre in content.genres.all %}{{ genre.slug }} {% endfor %}" 
+                  data-year="{{ content.release_date|date:'Y' }}" 
+                  data-type="{{ content.content_type }}" 
+                  data-rating="{{ content.average_rating }}" 
+                  data-popularity="{{ content.view_count }}" 
+                  data-title="{{ content.title|lower }}">
+                  
+                <div class="content-card-poster">
+                  {% if content.thumbnail %}
+                    <img src="{{ content.thumbnail.url }}" alt="{{ content.title }}" loading="lazy" />
+                  {% else %}
+                    <!-- Fallback image -->
+                    <img src="{% static 'images/placeholder.jpg' %}" alt="Placeholder" loading="lazy" />
+                  {% endif %}
+                  
+                  <span class="card-badge badge-stream">{{ content.category.name }}</span>
+                  <span class="card-rating">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    {{ content.average_rating|floatformat:1 }}
+                  </span>
+                </div>
+                
+                <div class="content-card-body">
+                  <span class="content-card-category">{{ content.genres.first.name }} &bull; {{ content.release_date|date:'Y' }}</span>
+                  
+                  <h3 class="content-card-title">
+                    <a href="{% url 'content-detail' content.slug %}">{{ content.title }}</a>
+                  </h3>
+                  
+                  <p class="content-card-desc">{{ content.description|truncatechars:120 }}</p>
+                  
+                  <div class="content-card-meta">
+                    <span>{{ content.meta_label }}</span>
+                    <a href="{% url 'content-detail' content.slug %}" class="btn btn-outline btn-sm">{{ content.action_button_text }}</a>
+                  </div>
+                </div>
+              </article>
+              {% empty %}
+                <p style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: var(--space-8);">No content items currently available in the database.</p>
+              {% endfor %}
+
+            </div>
+
+            <!-- Pagination Bar -->
+            <nav class="pagination-bar" aria-label="Catalog Pagination" style="margin-top:var(--space-8); display:flex; justify-content:center; gap:6px;">
+              <button type="button" class="btn btn-secondary btn-sm" disabled style="display:inline-flex; align-items:center; gap:4px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                Previous
+              </button>
+              <button type="button" class="btn btn-primary btn-sm">1</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.showToast('Page 2 is a demo catalog expansion.')">2</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.showToast('Page 3 is a demo catalog expansion.')">3</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.showToast('Page 2 is a demo catalog expansion.')" style="display:inline-flex; align-items:center; gap:4px;">
+                Next
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </nav>
+          </div>
+
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
+              <div class="footer-social-links">
+                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="{% url 'explore' %}">Catalog &amp; Media</a></li>
+                <li><a href="{% url 'characters' %}">Characters</a></li>
+                <li><a href="{% url 'merch-list' %}">Merchandise</a></li>
+                <li><a href="{% url 'events' %}">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Community</h4>
+              <ul>
+                <li><a href="{% url 'submit-content' %}">Submit Content</a></li>
+                <li><a href="{% url 'feedback' %}">Feedback &amp; Bugs</a></li>
+                <li><a href="{% url 'sitemap' %}">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'profile' %}">Profile Settings</a></li>
+                <li><a href="{% url 'login' %}">Sign In</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Management</h4>
+              <ul>
+                <li><a href="{% url 'admin-overview' %}">Admin Overview</a></li>
+                <li><a href="{% url 'admin-overview' %}">Content Manager</a></li>
+                <li><a href="{% url 'admin-overview' %}">Submissions Queue</a></li>
+                <li><a href="{% url 'admin-overview' %}">Bot Knowledge Base</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
+            <div class="footer-meta-links">
+              <a href="{% url 'sitemap' %}">Sitemap</a>
+              <a href="{% url 'feedback' %}">Support</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- CART DRAWER OVERLAY -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
+      <div class="cart-drawer-header">
+        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+          Shopping Bag
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cartDrawerItems"></div>
+      <div class="cart-drawer-footer">
+        <div class="cart-subtotal-row">
+          <span>Estimated Subtotal</span>
+          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CHATBOT WIDGET (SVG ONLY) -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-close" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
+  </button>
+
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, movies, orders..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- LIVE DYNAMIC FILTERING & CATALOG SCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var grid = document.getElementById('catalogCardGrid');
+      var cards = Array.from(grid.querySelectorAll('.content-card'));
+      var countText = document.getElementById('catalogCountText');
+      var emptyState = document.getElementById('emptyStateDemo');
+      var chipsContainer = document.getElementById('activeFilterChipsContainer');
+      var clearAllBtn = document.getElementById('clearAllChipsBtn');
+      var resetSideBtn = document.getElementById('resetFiltersBtn');
+      var resetEmptyBtn = document.getElementById('resetEmptyStateBtn');
+      var toggleEmptyBtn = document.getElementById('toggleEmptyStateBtn');
+      var sortSelect = document.getElementById('catalogSortSelect');
+      var yearSelect = document.getElementById('filterYearSelect');
+      var ratingSelect = document.getElementById('filterRatingSelect');
+      var searchInput = document.getElementById('globalSearchInput');
+
+      var catCheckboxes = document.querySelectorAll('#categoryFilterGroup .cat-cb');
+      var genreCheckboxes = document.querySelectorAll('#genreFilterGroup .genre-cb');
+      var formatRadios = document.querySelectorAll('#formatFilterGroup input[name="formatRadio"]');
+
+      // Update total count initially based on loaded cards
+      if (countText) {
+        countText.textContent = 'Showing ' + cards.length + ' of ' + cards.length + ' items across all fandoms';
+      }
+
+      // "All Universes" checkbox exclusivity handling
+      catCheckboxes.forEach(function (cb) {
+        cb.addEventListener('change', function () {
+          if (cb.value === 'all' && cb.checked) {
+            catCheckboxes.forEach(function (c) { if (c.value !== 'all') c.checked = false; });
+          } else if (cb.value !== 'all' && cb.checked) {
+            var allCb = document.querySelector('#categoryFilterGroup .cat-cb[value="all"]');
+            if (allCb) allCb.checked = false;
+          }
+          // If none checked, revert to 'all'
+          var anyChecked = Array.from(catCheckboxes).some(function (c) { return c.checked; });
+          if (!anyChecked) {
+            var allCb = document.querySelector('#categoryFilterGroup .cat-cb[value="all"]');
+            if (allCb) allCb.checked = true;
+          }
+          applyFilters();
+        });
+      });
+
+      genreCheckboxes.forEach(function (cb) {
+        cb.addEventListener('change', applyFilters);
+      });
+
+      formatRadios.forEach(function (rb) {
+        rb.addEventListener('change', applyFilters);
+      });
+
+      if (yearSelect) yearSelect.addEventListener('change', applyFilters);
+      if (ratingSelect) ratingSelect.addEventListener('change', applyFilters);
+      if (sortSelect) sortSelect.addEventListener('change', applySorting);
+
+      if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+      }
+
+      function applyFilters() {
+        var selectedCats = [];
+        catCheckboxes.forEach(function (c) {
+          if (c.checked && c.value !== 'all') selectedCats.push(c.value);
+        });
+
+        var selectedGenres = [];
+        genreCheckboxes.forEach(function (c) {
+          if (c.checked) selectedGenres.push(c.value);
+        });
+
+        var selectedYear = yearSelect ? yearSelect.value : 'all';
+        var selectedRating = ratingSelect ? parseFloat(ratingSelect.value) : 0;
+
+        var selectedFormat = 'all';
+        formatRadios.forEach(function (r) {
+          if (r.checked) selectedFormat = r.value;
+        });
+
+        var query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+        var visibleCount = 0;
+
+        cards.forEach(function (card) {
+          var cat = card.getAttribute('data-category') || '';
+          var genre = card.getAttribute('data-genre') || '';
+          var year = card.getAttribute('data-year') || '';
+          var type = card.getAttribute('data-type') || '';
+          var rating = parseFloat(card.getAttribute('data-rating') || '0');
+          var title = (card.getAttribute('data-title') || '').toLowerCase();
+
+          // Category match
+          var catMatch = (selectedCats.length === 0) || selectedCats.includes(cat);
+
+          // Genre match
+          var genreMatch = (selectedGenres.length === 0) || selectedGenres.some(function (g) {
+            return genre.includes(g);
+          });
+
+          // Year match
+          var yearMatch = (selectedYear === 'all') || (year === selectedYear);
+
+          // Rating match
+          var ratingMatch = rating >= selectedRating;
+
+          // Format match
+          var formatMatch = (selectedFormat === 'all') || (type === selectedFormat);
+
+          // Search match
+          var searchMatch = !query || title.includes(query) || cat.includes(query) || genre.includes(query);
+
+          if (catMatch && genreMatch && yearMatch && ratingMatch && formatMatch && searchMatch) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Update active filter chips
+        updateActiveChips(selectedCats, selectedGenres, selectedYear, selectedFormat, selectedRating, query);
+
+        // Update count & empty state
+        if (countText) {
+          countText.textContent = 'Showing ' + visibleCount + ' of ' + cards.length + ' items across all fandoms';
+        }
+
+        if (visibleCount === 0) {
+          emptyState.style.display = 'flex';
+          grid.style.display = 'none';
+        } else {
+          emptyState.style.display = 'none';
+          grid.style.display = 'grid';
+        }
+
+        applySorting();
+      }
+
+      function updateActiveChips(cats, genres, year, format, rating, query) {
+        if (!chipsContainer) return;
+        chipsContainer.innerHTML = '';
+
+        cats.forEach(function (c) {
+          // Find full name for category chip if possible, otherwise use value
+          var label = c.toUpperCase();
+          var cb = document.querySelector('#categoryFilterGroup .cat-cb[value="' + c + '"]');
+          if (cb && cb.nextElementSibling && cb.nextElementSibling.tagName === 'SPAN') {
+            label = cb.nextElementSibling.textContent;
+          }
+
+          addChip(label, function () {
+            if (cb) cb.checked = false;
+            applyFilters();
+          });
+        });
+
+        genres.forEach(function (g) {
+          // For dynamically loaded genre chips
+          var label = g;
+          var cb = document.querySelector('#genreFilterGroup .genre-cb[value="' + g + '"]');
+          if(cb) {
+              label = cb.parentElement.textContent.trim();
+          }
+
+          addChip(label, function () {
+            if (cb) cb.checked = false;
+            applyFilters();
+          });
+        });
+
+        if (year !== 'all') {
+          addChip(year, function () {
+            yearSelect.value = 'all';
+            applyFilters();
+          });
+        }
+
+        if (format !== 'all') {
+          addChip(format, function () {
+            var rAll = document.querySelector('#formatFilterGroup input[value="all"]');
+            if (rAll) rAll.checked = true;
+            applyFilters();
+          });
+        }
+
+        if (rating > 0) {
+          addChip(rating + '+ Rating', function () {
+            ratingSelect.value = '0';
+            applyFilters();
+          });
+        }
+
+        if (query) {
+          addChip('"' + query + '"', function () {
+            searchInput.value = '';
+            applyFilters();
+          });
+        }
+
+        var activeBar = document.getElementById('activeFilterBar');
+        if (activeBar) {
+          activeBar.style.display = (chipsContainer.children.length > 0) ? 'flex' : 'none';
+        }
+      }
+
+      function addChip(label, onRemove) {
+        var span = document.createElement('span');
+        span.className = 'filter-chip';
+        span.innerHTML = label + ' <button type="button" class="filter-chip-remove" aria-label="Remove filter"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>';
+        span.querySelector('button').addEventListener('click', onRemove);
+        chipsContainer.appendChild(span);
+      }
+
+      function applySorting() {
+        var sortVal = sortSelect ? sortSelect.value : 'popular';
+        var visibleCards = cards.filter(function (c) { return c.style.display !== 'none'; });
+
+        visibleCards.sort(function (a, b) {
+          if (sortVal === 'rating') {
+            return parseFloat(b.getAttribute('data-rating')) - parseFloat(a.getAttribute('data-rating'));
+          } else if (sortVal === 'latest') {
+            var yA = a.getAttribute('data-year') === 'classic' ? 2000 : parseInt(a.getAttribute('data-year'));
+            var yB = b.getAttribute('data-year') === 'classic' ? 2000 : parseInt(b.getAttribute('data-year'));
+            return yB - yA;
+          } else if (sortVal === 'alpha') {
+            return (a.getAttribute('data-title') || '').localeCompare(b.getAttribute('data-title') || '');
+          } else {
+            // popular
+            return parseInt(b.getAttribute('data-popularity') || 0) - parseInt(a.getAttribute('data-popularity') || 0);
+          }
+        });
+
+        visibleCards.forEach(function (c) { grid.appendChild(c); });
+      }
+
+      function resetAllFilters() {
+        catCheckboxes.forEach(function (c) { c.checked = (c.value === 'all'); });
+        genreCheckboxes.forEach(function (c) { c.checked = false; });
+        var rAll = document.querySelector('#formatFilterGroup input[value="all"]');
+        if (rAll) rAll.checked = true;
+        if (yearSelect) yearSelect.value = 'all';
+        if (ratingSelect) ratingSelect.value = '0';
+        if (searchInput) searchInput.value = '';
+        if (sortSelect) sortSelect.value = 'popular';
+        emptyState.style.display = 'none';
+        grid.style.display = 'grid';
+        applyFilters();
+        window.showToast('Catalog filters reset to all titles.');
+      }
+
+      if (clearAllBtn) clearAllBtn.addEventListener('click', resetAllFilters);
+      if (resetSideBtn) resetSideBtn.addEventListener('click', resetAllFilters);
+      if (resetEmptyBtn) resetEmptyBtn.addEventListener('click', resetAllFilters);
+
+      // View mode toggling (Grid vs List)
+      var viewGridBtn = document.getElementById('viewGridBtn');
+      var viewListBtn = document.getElementById('viewListBtn');
+      if (viewGridBtn && viewListBtn) {
+        viewGridBtn.addEventListener('click', function () {
+          grid.classList.remove('cards-list-view');
+          viewGridBtn.style.background = 'var(--bg-card)';
+          viewGridBtn.style.color = 'var(--accent-red)';
+          viewListBtn.style.background = 'transparent';
+          viewListBtn.style.color = 'var(--text-muted)';
+        });
+        viewListBtn.addEventListener('click', function () {
+          grid.classList.add('cards-list-view');
+          viewListBtn.style.background = 'var(--bg-card)';
+          viewListBtn.style.color = 'var(--accent-red)';
+          viewGridBtn.style.background = 'transparent';
+          viewGridBtn.style.color = 'var(--text-muted)';
+        });
+      }
+
+      // Initial filter run
+      applyFilters();
+    });
+  </script>
+</body>
+</html>

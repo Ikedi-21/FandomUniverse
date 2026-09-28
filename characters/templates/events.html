@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fandom Conventions &amp; World Events | FAN HUB+</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+
+  <script src="../js/auth-context.js" defer></script>
+  <script src="../js/cart.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/chatbot-data.js" defer></script>
+  <script src="../js/chatbot.js" defer></script>
+
+  <style>
+    .map-container-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      position: sticky;
+      top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      box-shadow: var(--shadow-md);
+    }
+    .svg-map-wrapper {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      background: #090b10;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .map-pin {
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    .map-pin:hover, .map-pin.active-pin {
+      transform: scale(1.35);
+      filter: drop-shadow(0 0 8px var(--accent-red));
+    }
+    .event-card-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      transition: all var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .event-card-item:hover, .event-card-item.highlighted-event {
+      border-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .guest-chip {
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="../index.html" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="../index.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a></li>
+            <li><a href="explore.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="character-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
+            <li><a href="merch-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg><span>Merch &amp; Store</span></a></li>
+            <li><a href="events.html" class="sidebar-nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="submit-content.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="feedback.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
+            <li><a href="sitemap.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="dashboard.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
+            <li><a href="profile.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Management</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="admin-overview.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><span>Admin Portal</span></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="../index.html" class="header-nav-tab">Home</a>
+            <a href="explore.html" class="header-nav-tab">Explore</a>
+            <a href="character-list.html" class="header-nav-tab">Characters</a>
+            <a href="merch-list.html" class="header-nav-tab">Merch</a>
+            <a href="events.html" class="header-nav-tab active">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-center">
+          <div class="search-bar-wrapper">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
+            <span class="search-bar-hotkey">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="login.html" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="register.html" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SHARED BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item active" aria-current="page">Events &amp; Conventions</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; Global Tour 2026</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT -->
+      <main class="page-content">
+        <div style="display:flex; flex-direction:column; gap:var(--space-6);">
+
+          <!-- TOP BAR & FILTERS -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-subtle); padding-bottom:var(--space-4);">
+            <div>
+              <h1 style="margin:0; font-size:var(--font-xxl); font-weight:var(--fw-black);">Fandom Conventions &amp; World Events</h1>
+              <p style="margin:4px 0 0; font-size:var(--font-sm); color:var(--text-muted);">
+                Reserve official passes, view stage schedules, and explore venue transit for premier anime expos and gaming summits.
+              </p>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label for="cityFilterSelect" style="font-size:var(--font-xs); color:var(--text-muted); font-weight:bold;">City:</label>
+                <select id="cityFilterSelect" class="form-select" style="width:160px; height:34px; font-size:var(--font-xs);">
+                  <option value="all">All Global Cities</option>
+                  <option value="los-angeles">Los Angeles, CA</option>
+                  <option value="cologne">Cologne, Germany</option>
+                  <option value="tokyo">Tokyo, Japan</option>
+                  <option value="london">London, UK</option>
+                  <option value="seoul">Seoul, S. Korea</option>
+                  <option value="new-york">New York, USA</option>
+                </select>
+              </div>
+
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label for="categoryEventSelect" style="font-size:var(--font-xs); color:var(--text-muted); font-weight:bold;">Category:</label>
+                <select id="categoryEventSelect" class="form-select" style="width:140px; height:34px; font-size:var(--font-xs);">
+                  <option value="all">All Categories</option>
+                  <option value="anime">Anime Cons</option>
+                  <option value="gaming">Gaming Expos</option>
+                  <option value="comics">Comic Cons</option>
+                </select>
+              </div>
+
+              <button type="button" class="btn btn-secondary btn-sm" id="btnResetEventsFilter" style="height:34px;">Reset</button>
+            </div>
+          </div>
+
+          <!-- SIDE BY SIDE: EVENT CARDS LIST & INTERACTIVE MAP -->
+          <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:var(--space-6); align-items:start;">
+
+            <!-- LEFT: CONVENTION CARDS -->
+            <!-- LOOP: convention items -->
+            <div style="display:flex; flex-direction:column; gap:16px;" id="eventsListContainer">
+
+              <!-- Event 1: Anime Expo -->
+              <article class="event-card-item" data-id="ax" data-city="los-angeles" data-category="anime" data-title="Anime Expo 2026">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div>
+                    <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">JUL 04 &ndash; 07, 2026</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">Anime Expo 2026</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">Los Angeles Convention Center &bull; Los Angeles, USA</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color:var(--accent-red);">$125.00</span>
+                </div>
+                <p style="color:var(--text-muted); font-size:var(--font-sm); line-height:1.5; margin:4px 0;">
+                  North America's largest celebration of anime and Japanese pop culture featuring premiere film screenings, industry creator panels, and massive Exhibit Hall dealer rooms.
+                </p>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  <span class="guest-chip">Guest: Eiichiro Oda (Studio Message)</span>
+                  <span class="guest-chip">Live: LiSA Mainstage</span>
+                  <span class="guest-chip">Panel: Studio Trigger</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; pt:8px; border-top:1px solid var(--border-subtle); margin-top:4px;">
+                  <span style="font-size:var(--font-xs); color: var(--color-green); font-weight:bold;">✓ 4-Day Badges Available</span>
+                  <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="highlightPin('ax')">View on Map</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openTicketModal('Anime Expo 2026', '$125.00', 'Los Angeles Convention Center', 'JUL 04 - 07, 2026')">Get Tickets</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Event 2: Gamescom -->
+              <article class="event-card-item" data-id="gamescom" data-city="cologne" data-category="gaming" data-title="Gamescom 2026">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div>
+                    <span class="badge" style="background:rgba(59,130,246,0.15); color: var(--color-blue); font-weight:bold;">AUG 20 &ndash; 24, 2026</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">Gamescom 2026</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">Koelnmesse Exhibition Center &bull; Cologne, Germany</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color: var(--color-blue);">&euro;45.00</span>
+                </div>
+                <p style="color:var(--text-muted); font-size:var(--font-sm); line-height:1.5; margin:4px 0;">
+                  The world's biggest gaming event featuring Opening Night Live with Geoff Keighley, public hands-on demo arenas, cosplay contest village, and developer keynote stages.
+                </p>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  <span class="guest-chip">Host: Geoff Keighley</span>
+                  <span class="guest-chip">Keynote: Hideo Kojima</span>
+                  <span class="guest-chip">Esports: LEC Finals Stage</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; pt:8px; border-top:1px solid var(--border-subtle); margin-top:4px;">
+                  <span style="font-size:var(--font-xs); color: var(--color-green); font-weight:bold;">✓ Public Day Tickets Available</span>
+                  <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="highlightPin('gamescom')">View on Map</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openTicketModal('Gamescom 2026', '€45.00', 'Koelnmesse Exhibition Center', 'AUG 20 - 24, 2026')">Get Tickets</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Event 3: Tokyo Game Show -->
+              <article class="event-card-item" data-id="tgs" data-city="tokyo" data-category="gaming" data-title="Tokyo Game Show 2026">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div>
+                    <span class="badge" style="background:rgba(139,92,246,0.15); color: var(--color-purple); font-weight:bold;">SEP 26 &ndash; 29, 2026</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">Tokyo Game Show 2026 (TGS)</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">Makuhari Messe &bull; Chiba &bull; Tokyo, Japan</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color: var(--color-purple);">&yen;3,000</span>
+                </div>
+                <p style="color:var(--text-muted); font-size:var(--font-sm); line-height:1.5; margin:4px 0;">
+                  Asia's primary video game expo. JRPG world reveals, next-generation VR hardware exhibits, international indie game pavilion, and legendary Japanese studio showcase booths.
+                </p>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  <span class="guest-chip">Studio: Square Enix</span>
+                  <span class="guest-chip">Reveal: Capcom Special</span>
+                  <span class="guest-chip">Stage: Bandai Namco</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; pt:8px; border-top:1px solid var(--border-subtle); margin-top:4px;">
+                  <span style="font-size:var(--font-xs); color: var(--color-green); font-weight:bold;">✓ General Admission Available</span>
+                  <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="highlightPin('tgs')">View on Map</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openTicketModal('Tokyo Game Show 2026', '¥3,000', 'Makuhari Messe, Tokyo', 'SEP 26 - 29, 2026')">Get Tickets</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Event 4: MCM London Comic Con -->
+              <article class="event-card-item" data-id="london" data-city="london" data-category="comics" data-title="MCM London Comic Con 2026">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div>
+                    <span class="badge" style="background:rgba(16,185,129,0.15); color: var(--color-green); font-weight:bold;">OCT 23 &ndash; 25, 2026</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">MCM London Comic Con</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">ExCeL London &bull; Royal Docks, London, UK</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color: var(--color-green);">&pound;38.50</span>
+                </div>
+                <p style="color:var(--text-muted); font-size:var(--font-sm); line-height:1.5; margin:4px 0;">
+                  The UK's flagship pop-culture weekend celebrating comics, film stars, cosplay championships, artist alley, and gaming tournaments on London's historic Royal Docks.
+                </p>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  <span class="guest-chip">Guests: Marvel Cast</span>
+                  <span class="guest-chip">Championship: Euro Cosplay Finals</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; pt:8px; border-top:1px solid var(--border-subtle); margin-top:4px;">
+                  <span style="font-size:var(--font-xs); color: var(--color-green); font-weight:bold;">✓ Weekend Passes Available</span>
+                  <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="highlightPin('london')">View on Map</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openTicketModal('MCM London Comic Con', '£38.50', 'ExCeL London, UK', 'OCT 23 - 25, 2026')">Get Tickets</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Event 5: Comic-Con Seoul -->
+              <article class="event-card-item" data-id="seoul" data-city="seoul" data-category="anime" data-title="Comic-Con Seoul 2026">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div>
+                    <span class="badge" style="background:rgba(245,158,11,0.15); color: var(--color-amber); font-weight:bold;">AUG 07 &ndash; 09, 2026</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">Comic-Con Seoul 2026</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">COEX Convention Center &bull; Gangnam, Seoul, S. Korea</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color: var(--color-amber);">&#8361;35,000</span>
+                </div>
+                <p style="color:var(--text-muted); font-size:var(--font-sm); line-height:1.5; margin:4px 0;">
+                  South Korea's major pop culture summit bringing together Webtoon creators, K-Drama production showcases, cosplay grand prix, and international pop artists.
+                </p>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  <span class="guest-chip">Webtoon: Solo Leveling Studio</span>
+                  <span class="guest-chip">Special: K-Pop Idol Panel</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; pt:8px; border-top:1px solid var(--border-subtle); margin-top:4px;">
+                  <span style="font-size:var(--font-xs); color: var(--color-green); font-weight:bold;">✓ Fast-Pass Available</span>
+                  <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="highlightPin('seoul')">View on Map</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openTicketModal('Comic-Con Seoul 2026', '₩35,000', 'COEX Gangnam, Seoul', 'AUG 07 - 09, 2026')">Get Tickets</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Event 6: New York Comic Con -->
+              <article class="event-card-item" data-id="nycc" data-city="new-york" data-category="comics" data-title="New York Comic Con 2026">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <div>
+                    <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">OCT 08 &ndash; 11, 2026</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">New York Comic Con (NYCC)</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted);">Javits Center &bull; Manhattan, New York, USA</p>
+                  </div>
+                  <span style="font-size:var(--font-lg); font-weight:var(--fw-black); color:var(--accent-red);">$130.00</span>
+                </div>
+                <p style="color:var(--text-muted); font-size:var(--font-sm); line-height:1.5; margin:4px 0;">
+                  East Coast's biggest pop culture festival. Hollywood exclusive trailer premieres, mega anime brand activations, and legendary voice actor autograph lounges.
+                </p>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  <span class="guest-chip">Panels: DC Comics Mainstage</span>
+                  <span class="guest-chip">Shueisha World Tour</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; pt:8px; border-top:1px solid var(--border-subtle); margin-top:4px;">
+                  <span style="font-size:var(--font-xs); color: var(--color-amber); font-weight:bold;">Limited Single Day Passes</span>
+                  <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="highlightPin('nycc')">View on Map</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openTicketModal('New York Comic Con 2026', '$130.00', 'Javits Center, NYC', 'OCT 08 - 11, 2026')">Get Tickets</button>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+            <!-- ENDLOOP: convention items -->
+
+            <!-- RIGHT: INTERACTIVE MAP & VENUE COMPASS -->
+            <div class="map-container-box" style="position:sticky; top:100px; display:flex; flex-direction:column; gap:var(--space-4);">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; font-size:var(--font-md); font-weight:var(--fw-bold); display:flex; align-items:center; gap:8px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  Interactive Convention Map
+                </h3>
+                <span id="mapCityIndicator" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">All Locations</span>
+              </div>
+
+              <!-- Stylized Dark World/City SVG Map -->
+              <div class="svg-map-wrapper" style="position:relative; overflow:hidden;">
+                <iframe
+                  width="100%" height="100%"
+                  style="border:0; display:block; min-height:320px; filter:saturate(0.7) brightness(0.55) contrast(1.1);"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-130%2C-10%2C155%2C65&amp;layer=mapnik"
+                  loading="lazy"
+                  title="Interactive Convention Map"
+                  aria-hidden="true"
+                ></iframe>
+                <!-- City Pin Overlay (positioned over the iframe) -->
+                <svg viewBox="0 0 800 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute; top:0; left:0; pointer-events:none;">
+                  <!-- Pin: Los Angeles (AX) -->
+                  <g class="map-pin active-pin" id="pin-ax" onclick="selectMapPin('ax')" transform="translate(170, 215)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="12" fill="rgba(239, 35, 60, 0.25)" />
+                    <circle r="6" fill="var(--accent-red)" />
+                    <text x="0" y="24" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Los Angeles</text>
+                  </g>
+
+                  <!-- Pin: New York (NYCC) -->
+                  <g class="map-pin" id="pin-nycc" onclick="selectMapPin('nycc')" transform="translate(248, 185)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="10" fill="rgba(239, 35, 60, 0.2)" />
+                    <circle r="5" fill="var(--accent-red)" />
+                    <text x="0" y="22" fill="#ffffff" font-size="10" text-anchor="middle">New York</text>
+                  </g>
+
+                  <!-- Pin: London (MCM) -->
+                  <g class="map-pin" id="pin-london" onclick="selectMapPin('london')" transform="translate(418, 145)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="10" fill="rgba(16, 185, 129, 0.2)" />
+                    <circle r="5" fill="#10b981" />
+                    <text x="0" y="22" fill="#ffffff" font-size="10" text-anchor="middle">London</text>
+                  </g>
+
+                  <!-- Pin: Cologne (Gamescom) -->
+                  <g class="map-pin" id="pin-gamescom" onclick="selectMapPin('gamescom')" transform="translate(435, 155)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="12" fill="rgba(59, 130, 246, 0.25)" />
+                    <circle r="6" fill="#3b82f6" />
+                    <text x="0" y="24" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Cologne</text>
+                  </g>
+
+                  <!-- Pin: Tokyo (TGS) -->
+                  <g class="map-pin" id="pin-tgs" onclick="selectMapPin('tgs')" transform="translate(680, 190)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="12" fill="rgba(139, 92, 246, 0.25)" />
+                    <circle r="6" fill="#8b5cf6" />
+                    <text x="0" y="24" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Tokyo</text>
+                  </g>
+
+                  <!-- Pin: Seoul (Comic-Con) -->
+                  <g class="map-pin" id="pin-seoul" onclick="selectMapPin('seoul')" transform="translate(650, 185)" style="pointer-events:auto; cursor:pointer;">
+                    <circle r="10" fill="rgba(245, 158, 11, 0.2)" />
+                    <circle r="5" fill="#f59e0b" />
+                    <text x="0" y="22" fill="#ffffff" font-size="10" text-anchor="middle">Seoul</text>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Venue Details & Travel Info Panel -->
+              <div style="background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:14px;" id="venueInfoCard">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+                  <div>
+                    <h4 style="margin:0; font-size:var(--font-sm); font-weight:bold; color:var(--text-main);" id="venueTitle">
+                      Los Angeles Convention Center (LACC)
+                    </h4>
+                    <span style="font-size:11px; color:var(--text-dim);" id="venueAddress">1201 S Figueroa St, Los Angeles, CA 90015</span>
+                  </div>
+                  <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-size:11px;" id="venueBadge">Host: Anime Expo</span>
+                </div>
+                <div style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.5; margin-top:8px;" id="venueDesc">
+                  <strong>Transit:</strong> Metro A &amp; E Lines (Pico Station &bull; 2 min walk).<br>
+                  <strong>Airport:</strong> 17 miles from Los Angeles International (LAX).<br>
+                  <strong>Official Hotels:</strong> JW Marriott at L.A. LIVE, Hotel Indigo Downtown.
+                </div>
+              </div>
+
+              <!-- Fast Filter Pills -->
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                <button type="button" class="badge" style="cursor:pointer; border:1px solid var(--border-medium); background:var(--bg-card); color:var(--text-muted);" onclick="selectMapPin('ax')">📍 LAX (AX)</button>
+                <button type="button" class="badge" style="cursor:pointer; border:1px solid var(--border-medium); background:var(--bg-card); color:var(--text-muted);" onclick="selectMapPin('gamescom')">📍 Cologne</button>
+                <button type="button" class="badge" style="cursor:pointer; border:1px solid var(--border-medium); background:var(--bg-card); color:var(--text-muted);" onclick="selectMapPin('tgs')">📍 Tokyo</button>
+                <button type="button" class="badge" style="cursor:pointer; border:1px solid var(--border-medium); background:var(--bg-card); color:var(--text-muted);" onclick="selectMapPin('london')">📍 London</button>
+                <button type="button" class="badge" style="cursor:pointer; border:1px solid var(--border-medium); background:var(--bg-card); color:var(--text-muted);" onclick="selectMapPin('seoul')">📍 Seoul</button>
+                <button type="button" class="badge" style="cursor:pointer; border:1px solid var(--border-medium); background:var(--bg-card); color:var(--text-muted);" onclick="selectMapPin('nycc')">📍 NYC</button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
+              <div class="footer-social-links">
+                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="explore.html">Catalog &amp; Media</a></li>
+                <li><a href="character-list.html">Characters</a></li>
+                <li><a href="merch-list.html">Merchandise</a></li>
+                <li><a href="events.html">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Community</h4>
+              <ul>
+                <li><a href="submit-content.html">Submit Content</a></li>
+                <li><a href="feedback.html">Feedback &amp; Bugs</a></li>
+                <li><a href="sitemap.html">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile Settings</a></li>
+                <li><a href="login.html">Sign In</a></li>
+                <li><a href="register.html">Register</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Management</h4>
+              <ul>
+                <li><a href="admin-overview.html">Admin Overview</a></li>
+                <li><a href="admin-content-form.html">Content Manager</a></li>
+                <li><a href="admin-submissions-queue.html">Submissions Queue</a></li>
+                <li><a href="admin-chatbot-faq.html">Bot Knowledge Base</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
+            <div class="footer-meta-links">
+              <a href="sitemap.html">Sitemap</a>
+              <a href="feedback.html">Support</a>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- TICKET BOOKING MODAL -->
+  <div class="modal-overlay" id="ticketModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); max-width:500px; width:100%; padding:var(--space-6); box-shadow:var(--shadow-xl); position:relative;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">OFFICIAL CONVENTION BADGE</span>
+          <h3 style="margin:4px 0 0; font-size:var(--font-xl); font-weight:var(--fw-bold);" id="modalConTitle">Anime Expo 2026</h3>
+          <span style="font-size:var(--font-xs); color:var(--text-muted);" id="modalConVenue">Los Angeles Convention Center</span>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeTicketModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <label style="font-size:var(--font-xs); font-weight:bold; color:var(--text-dim); text-transform:uppercase;">Select Pass Tier</label>
+        
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="Single-Day Pass" checked />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">1-Day Exhibition Pass</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--text-main);" id="tierPrice1">$65.00</span>
+        </label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="4-Day Full Pass" />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">4-Day Weekend Full Access</strong>
+          </div>
+          <span style="font-weight:bold; color:var(--accent-red);" id="tierPrice2">$125.00</span>
+        </label>
+
+        <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-medium); border-radius:6px; cursor:pointer;">
+          <div>
+            <input type="radio" name="passTier" value="VIP Fast-Pass" />
+            <strong style="margin-left:6px; font-size:var(--font-sm);">VIP Fast-Pass &amp; Lounge</strong>
+          </div>
+          <span style="font-weight:bold; color: var(--color-amber);">$250.00</span>
+        </label>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--border-subtle);">
+        <div>
+          <span style="font-size:var(--font-xs); color:var(--text-dim); display:block;">Total Estimated</span>
+          <span style="font-size:var(--font-lg); font-weight:bold; color:var(--accent-red);" id="modalTotalCost">$65.00</span>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="confirmTicketOrder()">
+          Confirm &amp; Issue E-Badge
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER OVERLAY -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
+      <div class="cart-drawer-header">
+        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+          Shopping Bag
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cartDrawerItems"></div>
+      <div class="cart-drawer-footer">
+        <div class="cart-subtotal-row">
+          <span>Estimated Subtotal</span>
+          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CHATBOT WIDGET -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
+  </button>
+
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, movies, orders..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- INTERACTIVE MAP & FILTER SCRIPT -->
+  <script>
+    var venuesData = {
+      'ax': {
+        title: 'Los Angeles Convention Center (LACC)',
+        address: '1201 S Figueroa St, Los Angeles, CA 90015',
+        badge: 'Host: Anime Expo 2026',
+        desc: '<strong>Transit:</strong> Metro A & E Lines (Pico Station &bull; 2 min walk).<br><strong>Airport:</strong> 17 miles from LAX International.<br><strong>Hotels:</strong> JW Marriott at L.A. LIVE, Hotel Indigo DTLA.'
+      },
+      'gamescom': {
+        title: 'Koelnmesse Exhibition Center',
+        address: 'Messepl. 1, 50679 Cologne, Germany',
+        badge: 'Host: Gamescom 2026',
+        desc: '<strong>Transit:</strong> Köln Messe/Deutz station (direct ICE & S-Bahn connection).<br><strong>Airport:</strong> 15 mins to Cologne Bonn Airport (CGN).<br><strong>Hotels:</strong> Hyatt Regency Cologne, Radisson Blu.'
+      },
+      'tgs': {
+        title: 'Makuhari Messe International Convention Complex',
+        address: '2-1 Nakase, Mihama Ward, Chiba, 261-8550, Japan',
+        badge: 'Host: Tokyo Game Show 2026',
+        desc: '<strong>Transit:</strong> JR Keiyo Line (Kaihin-Makuhari Station &bull; 5 min walk).<br><strong>Airport:</strong> Direct limousine bus from Narita & Haneda airports.<br><strong>Hotels:</strong> Hotel New Otani Makuhari, APA Hotel.'
+      },
+      'london': {
+        title: 'ExCeL London International Exhibition Centre',
+        address: 'Royal Victoria Dock, 1 Western Gateway, London E16 1XL',
+        badge: 'Host: MCM London Comic Con',
+        desc: '<strong>Transit:</strong> Elizabeth Line (Custom House Station &bull; direct from Central London).<br><strong>Airport:</strong> 5 mins to London City Airport (LCY).<br><strong>Hotels:</strong> Aloft London Excel, Novotel London ExCeL.'
+      },
+      'seoul': {
+        title: 'COEX Convention & Exhibition Center',
+        address: '513 Yeongdong-daero, Gangnam-gu, Seoul, S. Korea',
+        badge: 'Host: Comic-Con Seoul 2026',
+        desc: '<strong>Transit:</strong> Seoul Subway Line 2 (Samseong Station) & Line 9 (Bongeunsa Station).<br><strong>Airport:</strong> City Airport Terminal directly inside COEX complex.<br><strong>Hotels:</strong> Grand InterContinental Seoul Parnas.'
+      },
+      'nycc': {
+        title: 'Jacob K. Javits Convention Center',
+        address: '429 11th Ave, New York, NY 10001',
+        badge: 'Host: New York Comic Con',
+        desc: '<strong>Transit:</strong> Subway Line 7 (34th St - Hudson Yards &bull; direct connection).<br><strong>Airport:</strong> 14 miles to JFK and LaGuardia airports.<br><strong>Hotels:</strong> Equinox Hotel Hudson Yards, YOTEL New York.'
+      }
+    };
+
+    function selectMapPin(id) {
+      document.querySelectorAll('.map-pin').forEach(function (p) { p.classList.remove('active-pin'); });
+      var pin = document.getElementById('pin-' + id);
+      if (pin) pin.classList.add('active-pin');
+
+      var data = venuesData[id];
+      if (data) {
+        document.getElementById('venueTitle').textContent = data.title;
+        document.getElementById('venueAddress').textContent = data.address;
+        document.getElementById('venueBadge').textContent = data.badge;
+        document.getElementById('venueDesc').innerHTML = data.desc;
+        document.getElementById('mapCityIndicator').textContent = data.badge.replace('Host: ', '');
+      }
+
+      // Highlight corresponding event card
+      document.querySelectorAll('.event-card-item').forEach(function (card) {
+        if (card.getAttribute('data-id') === id) {
+          card.classList.add('highlighted-event');
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          card.classList.remove('highlighted-event');
+        }
+      });
+    }
+
+    function highlightPin(id) {
+      selectMapPin(id);
+    }
+
+    // Ticket Modal Controls
+    var activeModalCon = '';
+    function openTicketModal(title, price, venue, dates) {
+      activeModalCon = title;
+      document.getElementById('modalConTitle').textContent = title;
+      document.getElementById('modalConVenue').textContent = venue + ' • ' + dates;
+      document.getElementById('ticketModal').style.display = 'flex';
+    }
+
+    function closeTicketModal() {
+      document.getElementById('ticketModal').style.display = 'none';
+    }
+
+    function confirmTicketOrder() {
+      closeTicketModal();
+      window.showToast('Convention e-Badge reserved for ' + activeModalCon + '! Confirmation sent to your profile.');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var citySelect = document.getElementById('cityFilterSelect');
+      var catSelect = document.getElementById('categoryEventSelect');
+      var resetBtn = document.getElementById('btnResetEventsFilter');
+      var cards = document.querySelectorAll('.event-card-item');
+
+      function filterEvents() {
+        var selectedCity = citySelect ? citySelect.value : 'all';
+        var selectedCat = catSelect ? catSelect.value : 'all';
+
+        cards.forEach(function (card) {
+          var cCity = card.getAttribute('data-city');
+          var cCat = card.getAttribute('data-category');
+
+          var cityMatch = (selectedCity === 'all') || (cCity === selectedCity);
+          var catMatch = (selectedCat === 'all') || (cCat === selectedCat);
+
+          card.style.display = (cityMatch && catMatch) ? 'flex' : 'none';
+        });
+
+        if (selectedCity !== 'all') {
+          // Highlight first matching pin
+          var firstCard = Array.from(cards).find(function (c) { return c.style.display !== 'none'; });
+          if (firstCard) {
+            selectMapPin(firstCard.getAttribute('data-id'));
+          }
+        }
+      }
+
+      if (citySelect) citySelect.addEventListener('change', filterEvents);
+      if (catSelect) catSelect.addEventListener('change', filterEvents);
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function () {
+          if (citySelect) citySelect.value = 'all';
+          if (catSelect) catSelect.value = 'all';
+          filterEvents();
+          window.showToast('Reset events filter to all global conventions.');
+        });
+      }
+
+      // Ticket modal tier selection price update
+      var tierRadios = document.querySelectorAll('input[name="passTier"]');
+      tierRadios.forEach(function (r) {
+        r.addEventListener('change', function () {
+          var cost = '$65.00';
+          if (r.value.includes('4-Day')) cost = '$125.00';
+          if (r.value.includes('VIP')) cost = '$250.00';
+          document.getElementById('modalTotalCost').textContent = cost;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

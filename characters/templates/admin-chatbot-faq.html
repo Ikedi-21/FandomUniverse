@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot FAQ Knowledge Base | FAN HUB+ Admin</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+  <script src="../js/auth-context.js" defer></script>
+  <script src="../js/cart.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/chatbot-data.js" defer></script>
+  <script src="../js/chatbot.js" defer></script>
+</head>
+<body>
+  <div class="admin-page-container">
+
+    <!-- ADMIN TOP BAR -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <a href="../index.html" class="admin-topbar-brand">
+          <div class="admin-topbar-badge">F</div>
+          <span class="admin-topbar-title">FAN HUB<span>+</span></span>
+        </a>
+        <span class="admin-portal-pill">ADMIN PORTAL</span>
+        <nav class="admin-module-tabs" aria-label="Admin Modules">
+          <a href="admin-overview.html" class="admin-module-tab ">Overview</a>
+          <a href="admin-content-form.html" class="admin-module-tab ">Content</a>
+          <a href="admin-submissions-queue.html" class="admin-module-tab ">Submissions</a>
+          <a href="admin-chatbot-faq.html" class="admin-module-tab ">Chatbot FAQ</a>
+          <a href="explore.html" class="admin-module-tab">Categories</a>
+          <a href="character-list.html" class="admin-module-tab">Characters</a>
+          <a href="merch-list.html" class="admin-module-tab">Merch</a>
+          <a href="events.html" class="admin-module-tab">Events</a>
+        </nav>
+      </div>
+      <div class="admin-topbar-right">
+        <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Theme">
+          <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <a href="../index.html" class="btn btn-ghost btn-sm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          Back to Site
+        </a>
+        <div id="headerAuthSlot"></div>
+      </div>
+    </header>
+
+    <!-- BREADCRUMB BAR -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <div class="breadcrumb-container">
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+          <li class="breadcrumb-separator">/</li>
+          <li class="breadcrumb-item"><a href="admin-overview.html">Admin Portal</a></li>
+          <li class="breadcrumb-separator">/</li>
+          <li class="breadcrumb-item active" aria-current="page">Chatbot FAQ</li>
+        </ol>
+        <div class="breadcrumb-actions">
+          <span style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">STAFF PORTAL</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN PAGE CONTENT -->
+      <main class="admin-main-content">
+        <div class="admin-shell">
+          <!-- MAIN FAQ MANAGEMENT CONTENT -->
+          <div class="admin-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <h1 style="margin:0; font-size:var(--font-xl); font-weight:var(--fw-bold);">Chatbot Assistant FAQ Knowledge Base</h1>
+                <p style="margin:4px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Manage rule-based keyword triggers, automated guidance responses, and suggestion chips.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('faqAddFormCard').scrollIntoView({behavior:'smooth'});">+ New FAQ Rule</button>
+            </div>
+
+            <!-- TABLE OF ACTIVE RULES -->
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Rule Question</th>
+                    <th>Keywords</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- LOOP: faq rules -->
+                  <tr>
+                    <td style="font-weight:bold;">How does membership work?</td>
+                    <td><code>membership, tier, vip, gold, silver</code></td>
+                    <td>Account</td>
+                    <td><span class="admin-badge status-approved">Active</span></td>
+                    <td><button type="button" class="btn btn-ghost btn-sm" onclick="window.showToast('Rule loaded into editor below.')">Edit</button></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:bold;">Where are my downloads &amp; offline episodes?</td>
+                    <td><code>download, offline, episodes, storage</code></td>
+                    <td>Media</td>
+                    <td><span class="admin-badge status-approved">Active</span></td>
+                    <td><button type="button" class="btn btn-ghost btn-sm" onclick="window.showToast('Rule loaded into editor below.')">Edit</button></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:bold;">How do I submit fan content to creator studio?</td>
+                    <td><code>submit, creator, upload, art, edit</code></td>
+                    <td>Studio</td>
+                    <td><span class="admin-badge status-approved">Active</span></td>
+                    <td><button type="button" class="btn btn-ghost btn-sm" onclick="window.showToast('Rule loaded into editor below.')">Edit</button></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:bold;">When do limited merchandise drops happen?</td>
+                    <td><code>merch, drop, figure, store, statue</code></td>
+                    <td>Store</td>
+                    <td><span class="admin-badge status-approved">Active</span></td>
+                    <td><button type="button" class="btn btn-ghost btn-sm" onclick="window.showToast('Rule loaded into editor below.')">Edit</button></td>
+                  </tr>
+                  <!-- ENDLOOP: faq rules -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- ADD / EDIT FAQ RULE FORM -->
+            <div class="widget-card" id="faqAddFormCard" style="display:flex; flex-direction:column; gap:var(--space-4);">
+              <h2 style="margin:0; font-size:var(--font-lg); font-weight:var(--fw-bold);">Add / Edit FAQ Rule</h2>
+
+              <form id="faqRuleForm" style="display:flex; flex-direction:column; gap:var(--space-4);">
+                <div class="form-group">
+                  <label class="form-label" for="faqQuestion">Rule Question / Intent Summary</label>
+                  <input type="text" id="faqQuestion" class="form-input" placeholder="e.g. How do I change my streaming video quality?" required />
+                </div>
+
+                <div style="display:grid; grid-template-columns:2fr 1fr; gap:var(--space-4);">
+                  <div class="form-group">
+                    <label class="form-label" for="faqKeywords">Trigger Keywords (Comma-separated)</label>
+                    <input type="text" id="faqKeywords" class="form-input" placeholder="quality, 4k, 1080p, buffer, stream" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="faqCategory">Category</label>
+                    <select id="faqCategory" class="form-select">
+                      <option value="Media">Media &amp; Streaming</option>
+                      <option value="Account">Account &amp; VIP</option>
+                      <option value="Store">Store &amp; Merch</option>
+                      <option value="Events">Conventions &amp; Events</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="faqAnswer">Bot Automated Response</label>
+                  <textarea id="faqAnswer" class="form-input form-textarea" rows="3" placeholder="Enter the exact answer the FanBot will provide to users..." required></textarea>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <input type="checkbox" id="faqActiveToggle" class="form-checkbox" checked />
+                  <label for="faqActiveToggle" style="font-size:var(--font-sm); cursor:pointer;">
+                    <strong>Active Rule</strong> &bull; Enable immediately in chatbot keyword engine
+                  </label>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:var(--space-3); pt:8px;">
+                  <button type="reset" class="btn btn-secondary btn-md">Clear</button>
+                  <button type="submit" class="btn btn-primary btn-md">Save Knowledge Base Rule</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-bottom" style="border:none; padding:0;">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
+            <div class="footer-meta-links">
+              <a href="sitemap.html">Sitemap</a>
+              <a href="feedback.html">Support</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- CHATBOT WIDGET -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  </button>
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything..." autocomplete="off" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('faqRuleForm');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const q = document.getElementById('faqQuestion').value.trim();
+        window.showToast('FAQ Rule "' + q + '" saved to chatbot knowledge base!');
+        form.reset();
+      });
+    }
+  });
+  </script>
+</body>
+</html>
+

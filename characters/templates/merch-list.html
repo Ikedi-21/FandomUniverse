@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merch & Official Goodies Store | FAN HUB+</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+
+  <script src="../js/auth-context.js" defer></script>
+  <script src="../js/cart.js" defer></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/chatbot-data.js" defer></script>
+  <script src="../js/chatbot.js" defer></script>
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left" id="sidebarLeft">
+      <div class="sidebar-brand">
+        <div class="brand-badge">F</div>
+        <a href="../index.html" class="brand-title">FAN HUB<span>+</span></a>
+      </div>
+
+      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
+        <div>
+          <div class="sidebar-section-title">Explore</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="../index.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a></li>
+            <li><a href="explore.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg><span>Explore Catalog</span></a></li>
+            <li><a href="character-list.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Characters</span></a></li>
+            <li><a href="merch-list.html" class="sidebar-nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg><span>Merch &amp; Store</span></a></li>
+            <li><a href="events.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg><span>Events &amp; Cons</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Community</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="submit-content.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>Submit Content</span></a></li>
+            <li><a href="feedback.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback &amp; Help</span></a></li>
+            <li><a href="sitemap.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg><span>Site Directory</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">My Account</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="dashboard.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Dashboard</span></a></li>
+            <li><a href="profile.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Profile &amp; Settings</span></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="sidebar-section-title">Management</div>
+          <ul class="sidebar-nav-list">
+            <li><a href="admin-overview.html" class="sidebar-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg><span>Admin Portal</span></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
+        <a href="submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="cta-text">Submit Content</span>
+        </a>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header" id="topHeader">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <nav class="header-nav-tabs" aria-label="Primary Navigation">
+            <a href="../index.html" class="header-nav-tab">Home</a>
+            <a href="explore.html" class="header-nav-tab">Explore</a>
+            <a href="character-list.html" class="header-nav-tab">Characters</a>
+            <a href="merch-list.html" class="header-nav-tab active">Merch</a>
+            <a href="events.html" class="header-nav-tab">Events</a>
+          </nav>
+        </div>
+
+        <div class="header-center">
+          <div class="search-bar-wrapper">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
+            <span class="search-bar-hotkey">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
+            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
+          </button>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="login.html" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="register.html" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SHARED BREADCRUMB BAR -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-item active" aria-current="page">Merch &amp; Collectibles</li>
+          </ol>
+          <div class="breadcrumb-actions">
+            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; Official Store</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- MAIN PAGE CONTENT -->
+      <main class="page-content">
+        <div style="display:flex; flex-direction:column; gap:var(--space-8);">
+
+          <!-- STOREFRONT HERO BANNER -->
+          <div style="background: linear-gradient(135deg, #0e121a 0%, #1a1e2b 60%, rgba(239,35,60,0.2) 100%); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:var(--space-8); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; box-shadow:var(--shadow-lg);">
+            <div style="max-width:560px;">
+              <span class="badge" style="background:rgba(239,35,60,0.2); color:var(--accent-red); font-weight:bold; letter-spacing:0.5px; margin-bottom:8px; display:inline-block;">OFFICIAL LICENSED GEAR</span>
+              <h1 style="font-size:var(--font-3xl); font-weight:var(--fw-black); margin:4px 0 8px; line-height:1.2;">Fandom Vault &amp; Merch Store</h1>
+              <p style="color:var(--text-muted); font-size:var(--font-base); margin:0; line-height:1.5;">
+                Direct from Tokyo, Seoul, and Los Angeles studios. High-end polyresin statues, premium heavyweight streetwear, steel sword replicas, and numbered convention exclusives.
+              </p>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; gap:8px;">
+                <button type="button" class="btn btn-secondary btn-sm filter-tab-btn active" data-filter="all">All Items</button>
+                <button type="button" class="btn btn-secondary btn-sm filter-tab-btn" data-filter="figures">Statues &amp; Figures</button>
+                <button type="button" class="btn btn-secondary btn-sm filter-tab-btn" data-filter="apparel">Streetwear</button>
+                <button type="button" class="btn btn-secondary btn-sm filter-tab-btn" data-filter="props">Prop Replicas</button>
+              </div>
+              <a href="#upcomingDrops" class="btn btn-primary btn-sm" style="text-align:center;">View Live Limited Drops &darr;</a>
+            </div>
+          </div>
+
+          <!-- CONTROLS & SEARCH BAR -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span id="merchCountText" style="font-size:var(--font-sm); color:var(--text-muted); font-weight:bold;">Showing 8 authentic store items</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <input type="text" id="merchFilterInput" class="form-input" placeholder="Filter store items (e.g. jacket, statue, katana)..." style="width:260px; height:34px; font-size:var(--font-xs);" />
+              <select id="merchSortSelect" class="form-select" style="width:170px; height:34px; font-size:var(--font-xs);">
+                <option value="featured">Featured First</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="alpha">Name: A to Z</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- GROUP 1: FIGURES & COLLECTIBLES -->
+          <section id="figuresGroup" aria-label="Figures and Statues">
+            <div class="section-header">
+              <h2 class="section-title">Scale Figures &amp; Masterpiece Statues</h2>
+              <span style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">Authentic Serial Numbered</span>
+            </div>
+            <div class="cards-grid" id="merchCardsGrid">
+
+              <!-- Product 1 -->
+              <article class="content-card merch-product-card" data-category="figures" data-price="249.99" data-name="Sung Jinwoo Monarch of Shadows Statue">
+                <div class="content-card-poster">
+                  <img src="../images/posters/solo_leveling.jpg" alt="Sung Jinwoo Statue" loading="lazy" />
+                  <span class="card-badge badge-merch">Limited Edition</span>
+                  <span class="card-rating">$249.99</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">Solo Leveling &bull; 1/7 Scale</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Sung Jinwoo: Monarch of Shadows Statue</a></h3>
+                  <p class="content-card-desc">Hand-painted resin masterpiece with illuminated USB-C shadow throne base and dual daggers.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock (14 left)</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'fig-1', name:'Sung Jinwoo: Monarch Statue', price:249.99, image:'images/posters/solo_leveling.jpg'})">
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 2 -->
+              <article class="content-card merch-product-card" data-category="figures" data-price="89.99" data-name="Tanjiro Kamado Water Breathing Dragon Figure">
+                <div class="content-card-poster">
+                  <img src="../images/posters/demon_slayer_thumb.jpg" alt="Tanjiro Figure" loading="lazy" />
+                  <span class="card-badge badge-merch">Collectible</span>
+                  <span class="card-rating">$89.99</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">Demon Slayer &bull; Aniplex+</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Tanjiro Kamado: Constant Flux Dragon Figure</a></h3>
+                  <p class="content-card-desc">Translucent swirling blue water dragon vortex sculpt depicting Tenth Form Constant Flux.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'fig-2', name:'Tanjiro Constant Flux Figure', price:89.99, image:'images/posters/demon_slayer_thumb.jpg'})">
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 3 -->
+              <article class="content-card merch-product-card" data-category="figures" data-price="119.99" data-name="Thousand Sunny Egghead Future Edition">
+                <div class="content-card-poster">
+                  <img src="../images/posters/one_piece_thumb.jpg" alt="Thousand Sunny" loading="lazy" />
+                  <span class="card-badge badge-merch">Pre-Order</span>
+                  <span class="card-rating">$119.99</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">One Piece &bull; Grand Ship Collection</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Thousand Sunny: Egghead Future Edition</a></h3>
+                  <p class="content-card-desc">Detailed flagship vessel replica featuring Dr. Vegapunk futuristic decals and display cradle.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-amber); font-weight:bold; font-size:var(--font-xs);">Ships Dec 2026</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'fig-3', name:'Thousand Sunny Future Model', price:119.99, image:'images/posters/one_piece_thumb.jpg'})">
+                      Pre-Order
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 4 -->
+              <article class="content-card merch-product-card" data-category="apparel" data-price="135.00" data-name="David Martinez Cyberpunk EMT Bomber Jacket">
+                <div class="content-card-poster">
+                  <img src="../images/fandoms/gaming.jpg" alt="Cyberpunk Bomber Jacket" loading="lazy" />
+                  <span class="card-badge badge-merch">Limited Run</span>
+                  <span class="card-rating">$135.00</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">Cyberpunk 2077 &bull; Streetwear</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">David Martinez EMT High-Vis Bomber Jacket</a></h3>
+                  <p class="content-card-desc">Heavyweight reflective streetwear jacket with stand collar and embroidered Edgerunners trauma patch.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock (S, M, L, XL)</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'app-1', name:'David Martinez EMT Bomber', price:135.00, image:'images/fandoms/gaming.jpg'})">
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 5 -->
+              <article class="content-card merch-product-card" data-category="apparel" data-price="68.00" data-name="Akatsuki Red Cloud Oversized Hoodie">
+                <div class="content-card-poster">
+                  <img src="../images/posters/naruto_thumb.jpg" alt="Akatsuki Hoodie" loading="lazy" />
+                  <span class="card-badge badge-merch">Bestseller</span>
+                  <span class="card-rating">$68.00</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">Naruto Shippuden &bull; Apparel</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Akatsuki Red Cloud 480GSM French Terry Hoodie</a></h3>
+                  <p class="content-card-desc">Ultra-soft heavyweight washed black fleece with high-density stitched red clouds and steel aglets.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'app-2', name:'Akatsuki Red Cloud Hoodie', price:68.00, image:'images/posters/naruto_thumb.jpg'})">
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 6 -->
+              <article class="content-card merch-product-card" data-category="props" data-price="195.00" data-name="Kyojuro Rengoku Flame Nichirin Sword Replica">
+                <div class="content-card-poster">
+                  <img src="../images/hero_section/demon_slayer_hero.jpg" alt="Rengoku Katana" loading="lazy" />
+                  <span class="card-badge badge-merch">Steel Replica</span>
+                  <span class="card-rating">$195.00</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">Demon Slayer &bull; Display Replica</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Kyojuro Rengoku Flame Nichirin Katana</a></h3>
+                  <p class="content-card-desc">Hand-forged carbon steel with flame-patterned hamon, wooden display stand, and engraved kanji.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock (8 units)</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'prop-1', name:'Rengoku Flame Katana Replica', price:195.00, image:'images/hero_section/demon_slayer_hero.jpg'})">
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 7 -->
+              <article class="content-card merch-product-card" data-category="props" data-price="160.00" data-name="Ranni Dark Moon Ring 925 Sterling Silver">
+                <div class="content-card-poster">
+                  <img src="../images/fandoms/tv_shows.jpg" alt="Dark Moon Ring" loading="lazy" />
+                  <span class="card-badge badge-merch">Fine Jewelry</span>
+                  <span class="card-rating">$160.00</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">Elden Ring &bull; Official Replica</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Dark Moon Ring of Ranni (925 Silver &amp; Sapphire)</a></h3>
+                  <p class="content-card-desc">Officially crafted silver ring with celestial blue sapphire and engraved Carian lunar script.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-amber); font-weight:bold; font-size:var(--font-xs);">Pre-Order</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'prop-2', name:'Dark Moon Ring Replica', price:160.00, image:'images/fandoms/tv_shows.jpg'})">
+                      Pre-Order
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 8 -->
+              <article class="content-card merch-product-card" data-category="apparel" data-price="180.00" data-name="GTA VI Vice City Neon Varsity Jacket">
+                <div class="content-card-poster">
+                  <img src="../images/posters/gta_sunset.jpg" alt="GTA VI Varsity Jacket" loading="lazy" />
+                  <span class="card-badge badge-merch">Rockstar Collab</span>
+                  <span class="card-rating">$180.00</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">GTA VI &bull; Outerwear</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Vice City Neon Sunset Wool &amp; Leather Varsity</a></h3>
+                  <p class="content-card-desc">Genuine full-grain leather sleeves with embroidered Vice City palm tree back patch.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'app-3', name:'GTA VI Varsity Jacket', price:180.00, image:'images/posters/gta_sunset.jpg'})">
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 9 -->
+              <article class="content-card merch-product-card" data-category="figures" data-price="349.99" data-name="Gojo Satoru Hollow Purple 1/4 Scale Bust">
+                <div class="content-card-poster">
+                  <img src="../images/fandoms/manga.jpg" alt="Gojo Satoru Bust" loading="lazy" />
+                  <span class="card-badge badge-merch">Pre-Order</span>
+                  <span class="card-rating">$349.99</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">Jujutsu Kaisen &bull; 1/4 Masterpiece</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Gojo Satoru: Hollow Purple 1/4 Scale Bust</a></h3>
+                  <p class="content-card-desc">Illuminated translucent resin orbs depicting Red and Blue convergence with magnetic blindfold.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-amber); font-weight:bold; font-size:var(--font-xs);">Pre-Order (Numbered 500)</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'fig-4', name:'Gojo 1/4 Scale Bust', price:349.99, image:'images/fandoms/manga.jpg'})">
+                      Pre-Order
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Product 10 -->
+              <article class="content-card merch-product-card" data-category="props" data-price="215.00" data-name="Trafalgar Law Kikoku Cursed Blade 1:1 Replica">
+                <div class="content-card-poster">
+                  <img src="../images/fandoms/anime.jpg" alt="Law Kikoku Katana" loading="lazy" />
+                  <span class="card-badge badge-merch">Master Replica</span>
+                  <span class="card-rating">$215.00</span>
+                </div>
+                <div class="content-card-body">
+                  <span class="content-card-category">One Piece &bull; Full Scale Nodachi</span>
+                  <h3 class="content-card-title"><a href="merch-detail.html">Trafalgar Law: Kikoku Nodachi Sword (53-Inch)</a></h3>
+                  <p class="content-card-desc">Authentic steel blade with furry cross-guard, red sheath knots, and decorative sheath crosses.</p>
+                  <div class="content-card-meta">
+                    <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock (5 units)</span>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'prop-3', name:'Law Kikoku Nodachi Replica', price:215.00, image:'images/fandoms/anime.jpg'})">
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </section>
+
+          <!-- OFFICIAL STORE TRUST STRIP -->
+          <section style="padding:22px 28px; background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div>
+                <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">100% Studio Authentic</strong>
+                <span style="font-size:11px; color:var(--text-muted);">Direct Tokyo &amp; Seoul import licenses</span>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+              <div>
+                <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">Insured Global Courier</strong>
+                <span style="font-size:11px; color:var(--text-muted);">Reinforced packaging for fragile statues</span>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <div>
+                <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">Pre-Order Price Guarantee</strong>
+                <span style="font-size:11px; color:var(--text-muted);">Lowest price locked on date of reservation</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- UPCOMING DROPS & LIVE COUNTDOWN -->
+          <section id="upcomingDrops" aria-label="Upcoming Limited Drops">
+            <div class="section-header">
+              <h2 class="section-title">Upcoming Limited Batch Drops</h2>
+              <span style="font-size:var(--font-xs); color:var(--text-muted);">Real-time release countdown</span>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <!-- Drop 1 -->
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; padding:20px; background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg);">
+                <div style="display:flex; align-items:center; gap:20px;">
+                  <div style="padding:12px 18px; background:var(--bg-surface); border-radius:8px; text-align:center; border:1px solid var(--border-subtle); min-width:90px;">
+                    <div style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">DROP DATE</div>
+                    <div style="font-size:var(--font-lg); font-weight:bold; color:var(--text-main);">OCT 25</div>
+                  </div>
+                  <div>
+                    <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">Numbered Run: 500 Pieces Worldwide</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">Gojo Satoru: Hollow Purple 1/4 Scale Illuminated Bust</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted); line-height:1.4;">
+                      Features light-diffusing translucent resin orbs depicting convergence of Red and Blue with magnetic blindfold accessory.
+                    </p>
+                  </div>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div style="text-align:right;">
+                    <span style="font-size:11px; color:var(--text-dim); display:block; text-transform:uppercase;">Drops In:</span>
+                    <span id="countdownDrop1" style="font-family:monospace; font-size:var(--font-base); font-weight:bold; color:var(--accent-red);">04d 18h 32m 14s</span>
+                  </div>
+                  <button type="button" class="btn btn-outline btn-sm notify-drop-btn" onclick="toggleNotify(this, 'Gojo Satoru 1/4 Scale Bust')">
+                    Notify Me
+                  </button>
+                </div>
+              </div>
+
+              <!-- Drop 2 -->
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; padding:20px; background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg);">
+                <div style="display:flex; align-items:center; gap:20px;">
+                  <div style="padding:12px 18px; background:var(--bg-surface); border-radius:8px; text-align:center; border:1px solid var(--border-subtle); min-width:90px;">
+                    <div style="font-size:var(--font-xs); color: var(--color-blue); font-weight:bold;">DROP DATE</div>
+                    <div style="font-size:var(--font-lg); font-weight:bold; color:var(--text-main);">NOV 14</div>
+                  </div>
+                  <div>
+                    <span class="badge" style="background:rgba(59,130,246,0.15); color: var(--color-blue); font-weight:bold;">VIP Early Access</span>
+                    <h3 style="margin:6px 0 2px; font-size:var(--font-lg); font-weight:var(--fw-bold);">Cyberpunk 2077: Malorian Arms 3516 Johnny Silverhand Prop</h3>
+                    <p style="margin:0; font-size:var(--font-xs); color:var(--text-muted); line-height:1.4;">
+                      Full diecast metal body with realistic reload action, custom branded display plinth, and UV reactive markings.
+                    </p>
+                  </div>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <div style="text-align:right;">
+                    <span style="font-size:11px; color:var(--text-dim); display:block; text-transform:uppercase;">Drops In:</span>
+                    <span id="countdownDrop2" style="font-family:monospace; font-size:var(--font-base); font-weight:bold; color: var(--color-blue);">18d 06h 44m 02s</span>
+                  </div>
+                  <button type="button" class="btn btn-outline btn-sm notify-drop-btn" onclick="toggleNotify(this, 'Malorian Arms 3516 Replica')">
+                    Notify Me
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+
+      <!-- SHARED FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <div class="footer-logo">
+                <span class="brand-badge">F</span>
+                <span class="brand-title">FAN HUB<span>+</span></span>
+              </div>
+              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
+              <div class="footer-social-links">
+                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="explore.html">Catalog &amp; Media</a></li>
+                <li><a href="character-list.html">Characters</a></li>
+                <li><a href="merch-list.html">Merchandise</a></li>
+                <li><a href="events.html">Events &amp; Cons</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Community</h4>
+              <ul>
+                <li><a href="submit-content.html">Submit Content</a></li>
+                <li><a href="feedback.html">Feedback &amp; Bugs</a></li>
+                <li><a href="sitemap.html">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile Settings</a></li>
+                <li><a href="login.html">Sign In</a></li>
+                <li><a href="register.html">Register</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Management</h4>
+              <ul>
+                <li><a href="admin-overview.html">Admin Overview</a></li>
+                <li><a href="admin-content-form.html">Content Manager</a></li>
+                <li><a href="admin-submissions-queue.html">Submissions Queue</a></li>
+                <li><a href="admin-chatbot-faq.html">Bot Knowledge Base</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
+            <div class="footer-meta-links">
+              <a href="sitemap.html">Sitemap</a>
+              <a href="feedback.html">Support</a>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- CART DRAWER OVERLAY -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
+      <div class="cart-drawer-header">
+        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+          Shopping Bag
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cartDrawerItems"></div>
+      <div class="cart-drawer-footer">
+        <div class="cart-subtotal-row">
+          <span>Estimated Subtotal</span>
+          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CHATBOT WIDGET -->
+  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
+  </button>
+
+  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+        </div>
+        <div>
+          <div class="chatbot-title">FanBot Assistant</div>
+          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>
+        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+    <form class="chatbot-input-row" id="chatbotForm">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, movies, orders..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- MERCH INTERACTIVE FILTERING & COUNTDOWN LOGIC -->
+  <script>
+    function toggleNotify(btn, itemTitle) {
+      if (btn.classList.contains('active-notified')) {
+        btn.classList.remove('active-notified');
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-outline');
+        btn.textContent = 'Notify Me';
+        window.showToast('Unsubscribed from ' + itemTitle + ' drop alert.');
+      } else {
+        btn.classList.add('active-notified');
+        btn.classList.remove('btn-outline');
+        btn.classList.add('btn-primary');
+        btn.textContent = 'Subscribed ✓';
+        window.showToast('You will receive a notification 15m before ' + itemTitle + ' drops!');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var grid = document.getElementById('merchCardsGrid');
+      var cards = Array.from(grid.querySelectorAll('.merch-product-card'));
+      var countText = document.getElementById('merchCountText');
+      var filterBtns = document.querySelectorAll('.filter-tab-btn');
+      var filterInput = document.getElementById('merchFilterInput');
+      var sortSelect = document.getElementById('merchSortSelect');
+
+      var currentCat = 'all';
+
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          filterBtns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          currentCat = btn.getAttribute('data-filter') || 'all';
+          applyStoreFilters();
+        });
+      });
+
+      if (filterInput) filterInput.addEventListener('input', applyStoreFilters);
+      if (sortSelect) sortSelect.addEventListener('change', applyStoreSorting);
+
+      function applyStoreFilters() {
+        var q = filterInput ? filterInput.value.toLowerCase().trim() : '';
+        var visible = 0;
+
+        cards.forEach(function (card) {
+          var cat = card.getAttribute('data-category') || '';
+          var name = (card.getAttribute('data-name') || '').toLowerCase();
+
+          var catMatch = (currentCat === 'all') || (cat === currentCat);
+          var searchMatch = !q || name.includes(q) || cat.includes(q);
+
+          if (catMatch && searchMatch) {
+            card.style.display = 'flex';
+            visible++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (countText) {
+          countText.textContent = 'Showing ' + visible + ' authentic store items';
+        }
+
+        applyStoreSorting();
+      }
+
+      function applyStoreSorting() {
+        var val = sortSelect ? sortSelect.value : 'featured';
+        var visibleCards = cards.filter(function (c) { return c.style.display !== 'none'; });
+
+        visibleCards.sort(function (a, b) {
+          var pA = parseFloat(a.getAttribute('data-price') || 0);
+          var pB = parseFloat(b.getAttribute('data-price') || 0);
+          var nA = a.getAttribute('data-name') || '';
+          var nB = b.getAttribute('data-name') || '';
+
+          if (val === 'price-low') return pA - pB;
+          if (val === 'price-high') return pB - pA;
+          if (val === 'alpha') return nA.localeCompare(nB);
+          return 0; // featured default
+        });
+
+        visibleCards.forEach(function (c) { grid.appendChild(c); });
+      }
+
+      // Live Countdown Ticker
+      var sec1 = 4 * 86400 + 18 * 3600 + 32 * 60 + 14;
+      var sec2 = 18 * 86400 + 6 * 3600 + 44 * 60 + 2;
+
+      var cd1 = document.getElementById('countdownDrop1');
+      var cd2 = document.getElementById('countdownDrop2');
+
+      function formatCountdown(s) {
+        var d = Math.floor(s / 86400);
+        var rem = s % 86400;
+        var h = Math.floor(rem / 3600);
+        rem %= 3600;
+        var m = Math.floor(rem / 60);
+        var sec = rem % 60;
+        return (d < 10 ? '0' + d : d) + 'd ' +
+               (h < 10 ? '0' + h : h) + 'h ' +
+               (m < 10 ? '0' + m : m) + 'm ' +
+               (sec < 10 ? '0' + sec : sec) + 's';
+      }
+
+      setInterval(function () {
+        if (sec1 > 0) sec1--;
+        if (sec2 > 0) sec2--;
+        if (cd1) cd1.textContent = formatCountdown(sec1);
+        if (cd2) cd2.textContent = formatCountdown(sec2);
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

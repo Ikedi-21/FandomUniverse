@@ -15,7 +15,6 @@ class CustomUserAdmin(UserAdmin):
         "role",
         "email_verified",
         "is_active",
-        "created_at",
     )
 
     # Filters available in the sidebar
@@ -31,8 +30,7 @@ class CustomUserAdmin(UserAdmin):
         "email",
     )
 
-    # Show newest users first
-    ordering = ("-created_at",)
+
 
     # Additional fields when viewing/editing a user
     fieldsets = UserAdmin.fieldsets + (

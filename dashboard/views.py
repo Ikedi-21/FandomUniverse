@@ -29,3 +29,8 @@ def admin_content_form_view(request):
   return render(request, "admin-content-form.html")
 
 
+def user_dashboard_view(request):
+  if not request.user.is_authenticated:
+    return redirect("home")
+
+  return render(request, "dashboard.html")

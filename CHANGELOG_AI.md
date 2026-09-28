@@ -322,3 +322,7 @@ Assumptions and verification
 - Moderation approval/rejection queue and full registration/reset/bookmark/rating workflow edge-case coverage.
 - Branded 404/500 pages and review of all prototype JavaScript files. cart.js was neutralized to prevent fake purchase/order behavior.
 - collectstatic --dry-run --noinput passed after cleanup: 166 static files copied in dry-run with no duplicate skips.
+
+## Mission phase 1
+- scripts/audit_templates.py - Added the requested template audit table and URL reverse checks; baseline found 224 static-path and raw-link issues.
+- scripts/crawl.py - Added the standard-library crawler for role-based pages and referenced browser assets; baseline found 95 problems across 3 roles and revealed the login prototype has no usable POST form.

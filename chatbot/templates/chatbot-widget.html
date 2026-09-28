@@ -1,8 +1,10 @@
-{% load static %}
-{# Chatbot widget. Include once in base.html, just before </body>: {% include "chatbot/_widget.html" %} #}
-{# Requires core/css/tokens.css and core/css/base.css to be loaded by base.html first. #}
-
-<link rel="stylesheet" href="{% static 'chatbot/css/chatbot.css' %}">
+<!-- ====================================================================
+     FAN HUB+ STANDALONE CHATBOT WIDGET SNIPPET
+     Can be dropped directly into any Django template or static HTML page.
+     Requires:
+       - css/tokens.css, css/base.css, css/chatbot.css
+       - js/chatbot-data.js, js/chatbot.js (with defer)
+     ==================================================================== -->
 
 <!-- 1. CHATBOT LAUNCHER BUTTON -->
 <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
@@ -12,8 +14,7 @@
 </button>
 
 <!-- 2. EXPANDABLE CHATBOT ASIDE PANEL -->
-<aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant"
-       data-ask-url="{% url 'chatbot:ask' %}">
+<aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
   <div class="chatbot-header">
     <div class="chatbot-header-info">
       <div class="chatbot-avatar">
@@ -21,7 +22,7 @@
       </div>
       <div>
         <div class="chatbot-title">FanBot Assistant</div>
-        <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online</div>
+        <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
       </div>
     </div>
     <div class="chatbot-header-actions">
@@ -35,20 +36,20 @@
   </div>
 
   <!-- Message history container (populated dynamically by chatbot.js) -->
-  <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
+  <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite">
+    <!-- LOOP: initial messages or persisted fanhub_chat_history -->
+  </div>
 
-  <!-- Quick suggestion chips (populated dynamically by chatbot.js) -->
-  <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
+  <!-- Quick suggestion chips (populated dynamically by chatbot.js based on current page/category) -->
+  <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions">
+    <!-- LOOP: quick chips -->
+  </div>
 
   <!-- Chatbot input form -->
   <form class="chatbot-input-row" id="chatbotForm">
-    {% csrf_token %}
-    <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask about categories, events, bookmarks..." autocomplete="off" maxlength="255" aria-label="Type your message" />
+    <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, movies, orders..." autocomplete="off" aria-label="Type your message" />
     <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
     </button>
   </form>
 </aside>
-
-<script src="{% static 'chatbot/js/chatbot-data.js' %}" defer></script>
-<script src="{% static 'chatbot/js/chatbot.js' %}" defer></script>

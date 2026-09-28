@@ -152,7 +152,7 @@
 
               <div style="padding:14px; background:var(--bg-surface); border-radius:var(--radius-md); border:1px solid var(--border-medium); font-size:var(--font-xs);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:8px; flex-wrap:wrap;">
-                  <strong style="color:{% if product.is_upcoming %}var(--color-amber){% elif product.stock > 0 %}var(--color-green){% else %}var(--accent-red){% endif %};">● {{ product.stock_label }}{% if product.release_date %} &bull; {{ product.release_date|date:"M d, Y" }}{% endif %}</strong>
+                  <strong style="color:{% if product.is_upcoming %}var(--color-amber){% elif not product.is_upcoming %}var(--color-green){% else %}var(--accent-red){% endif %};">● {{ product.stock_label }}{% if product.release_date %} &bull; {{ product.release_date|date:"M d, Y" }}{% endif %}</strong>
                   <span style="color:var(--text-dim);">{% if product.franchise %}{{ product.franchise }}{% else %}Tokyo Studio Warehouse{% endif %}</span>
                 </div>
                 <span style="color:var(--text-muted);">Includes laser-engraved serial number plate and certificate of authenticity signed by production sculptors.</span>
@@ -205,7 +205,7 @@
                   <tr><td style="color:var(--text-muted); font-weight:bold;">Category</td><td>{{ product.category_label }}{% if product.sub_label %} — {{ product.sub_label }}{% endif %}</td></tr>
                   <tr><td style="color:var(--text-muted); font-weight:bold;">Price</td><td>${{ product.price }}</td></tr>
                   <tr><td style="color:var(--text-muted); font-weight:bold;">Availability</td><td>{{ product.stock_label }}{% if product.release_date %} ({{ product.release_date|date:"M d, Y" }}){% endif %}</td></tr>
-                  {% if product.tags %}<tr><td style="color:var(--text-muted); font-weight:bold;">Tags</td><td>{{ product.tags }}</td></tr>{% endif %}
+                  {% if product.tags.all %}<tr><td style="color:var(--text-muted); font-weight:bold;">Tags</td><td>{% for tag in product.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>{% endif %}
                 </tbody>
               </table>
             </div>

@@ -1,0 +1,7 @@
+{% if status == 'success' %}
+  <!-- success section: "Email verified" + Log in button -->
+{% elif status == 'already' %}
+  <!-- "Already verified" + Log in button -->
+{% else %}
+  <!-- failure section: "Link invalid or expired" + link to accounts:resend_verification -->
+{% endif %}

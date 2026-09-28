@@ -203,7 +203,7 @@
                   <h3 class="content-card-title"><a href="{% url 'merch-detail' product.pk %}">{{ product.name }}</a></h3>
                   <p class="content-card-desc">{{ product.description|truncatewords:18 }}</p>
                   <div class="content-card-meta">
-                    <span style="color:{% if product.is_upcoming %}var(--color-amber){% elif product.stock > 0 %}var(--color-green){% else %}var(--accent-red){% endif %}; font-weight:bold; font-size:var(--font-xs);">{{ product.stock_label }}</span>
+                    <span style="color:{% if product.is_upcoming %}var(--color-amber){% elif not product.is_upcoming %}var(--color-green){% else %}var(--accent-red){% endif %}; font-weight:bold; font-size:var(--font-xs);">{{ product.stock_label }}</span>
                     <button type="button" class="btn btn-primary btn-sm" data-add-to-bag data-id="merch-{{ product.pk }}" data-name="{{ product.name|escapejs }}" data-price="{{ product.price }}" data-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/posters/solo_leveling.jpg' %} {% endif %}">
                       {% if product.is_upcoming %}Pre-Order{% else %}Add to Bag{% endif %}
                     </button>

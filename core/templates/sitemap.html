@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -6,16 +7,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Site Directory & Sitemap | FAN HUB+</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../css/tokens.css">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/chatbot.css">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
 
-  <script src="../js/auth-context.js" defer></script>
-  <script src="../js/cart.js" defer></script>
-  <script src="../js/main.js" defer></script>
-  <script src="../js/chatbot-data.js" defer></script>
-  <script src="../js/chatbot.js" defer></script>
+  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  <script src="{% static 'js/cart.js' %}" defer></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  <script src="{% static 'js/chatbot.js' %}" defer></script>
 
 </head>
 <body>
@@ -25,7 +26,7 @@
     <aside class="sidebar-left" id="sidebarLeft">
       <div class="sidebar-brand">
         <div class="brand-badge">F</div>
-        <a href="../index.html" class="brand-title">FAN HUB<span>+</span></a>
+        <a href="{% url 'home' %}" class="brand-title">FAN HUB<span>+</span></a>
       </div>
 
       <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
@@ -34,31 +35,31 @@
           <ul class="sidebar-nav-list">
             
               <li>
-                <a href="../index.html" class="sidebar-nav-link">
+                <a href="{% url 'home' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                   <span>Home</span>
                 </a>
               </li>
               <li>
-                <a href="explore.html" class="sidebar-nav-link">
+                <a href="{% url 'explore' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
                   <span>Explore Catalog</span>
                 </a>
               </li>
               <li>
-                <a href="character-list.html" class="sidebar-nav-link">
+                <a href="{% url 'character-list' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                   <span>Characters</span>
                 </a>
               </li>
               <li>
-                <a href="merch-list.html" class="sidebar-nav-link">
+                <a href="{% url 'merch-list' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                   <span>Merch & Store</span>
                 </a>
               </li>
               <li>
-                <a href="events.html" class="sidebar-nav-link">
+                <a href="{% url 'events' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                   <span>Events & Cons</span>
                 </a>
@@ -71,19 +72,19 @@
           <ul class="sidebar-nav-list">
             
               <li>
-                <a href="submit-content.html" class="sidebar-nav-link">
+                <a href="{% url 'submit-content' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                   <span>Submit Content</span>
                 </a>
               </li>
               <li>
-                <a href="feedback.html" class="sidebar-nav-link">
+                <a href="{% url 'feedback' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                   <span>Feedback & Support</span>
                 </a>
               </li>
               <li>
-                <a href="sitemap.html" class="sidebar-nav-link active">
+                <a href="{% url 'sitemap' %}" class="sidebar-nav-link active">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                   <span>Site Directory</span>
                 </a>
@@ -96,13 +97,13 @@
           <ul class="sidebar-nav-list">
             
               <li>
-                <a href="dashboard.html" class="sidebar-nav-link">
+                <a href="{% url 'user_dashboard' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                   <span>Dashboard</span>
                 </a>
               </li>
               <li>
-                <a href="profile.html" class="sidebar-nav-link">
+                <a href="{% url 'profile' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                   <span>Profile & Settings</span>
                 </a>
@@ -115,7 +116,7 @@
           <ul class="sidebar-nav-list">
             
               <li>
-                <a href="admin-overview.html" class="sidebar-nav-link">
+                <a href="{% url 'admin_overview' %}" class="sidebar-nav-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                   <span>Admin Portal</span>
                 </a>
@@ -126,7 +127,7 @@
 
       <!-- Sidebar User / CTA Slot -->
       <div class="sidebar-footer-actions" id="sidebarFooterSlot">
-        <a href="submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+        <a href="{% url 'submit-content' %}" class="sidebar-cta-btn" id="sidebarSubmitBtn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           <span class="cta-text">Submit Content</span>
         </a>
@@ -143,11 +144,11 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
         <nav class="header-nav-tabs" aria-label="Primary Navigation">
-          <a href="../index.html" class="header-nav-tab active">Home</a>
-<a href="explore.html" class="header-nav-tab">Explore</a>
-<a href="character-list.html" class="header-nav-tab">Characters</a>
-<a href="merch-list.html" class="header-nav-tab">Merch</a>
-<a href="events.html" class="header-nav-tab">Events</a>
+          <a href="{% url 'home' %}" class="header-nav-tab active">Home</a>
+<a href="{% url 'explore' %}" class="header-nav-tab">Explore</a>
+<a href="{% url 'character-list' %}" class="header-nav-tab">Characters</a>
+<a href="{% url 'merch-list' %}" class="header-nav-tab">Merch</a>
+<a href="{% url 'events' %}" class="header-nav-tab">Events</a>
 
         </nav>
       </div>
@@ -180,35 +181,35 @@
           </button>
           <div class="dropdown-popover" id="appsDropdownMenu">
             <div class="apps-grid">
-              <a href="../index.html" class="apps-item">
+              <a href="{% url 'home' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
                 <span>Home</span>
               </a>
-              <a href="explore.html" class="apps-item">
+              <a href="{% url 'explore' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
                 <span>Explore</span>
               </a>
-              <a href="character-list.html" class="apps-item">
+              <a href="{% url 'character-list' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 <span>Characters</span>
               </a>
-              <a href="merch-list.html" class="apps-item">
+              <a href="{% url 'merch-list' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
                 <span>Merch</span>
               </a>
-              <a href="events.html" class="apps-item">
+              <a href="{% url 'events' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
                 <span>Events</span>
               </a>
-              <a href="submit-content.html" class="apps-item">
+              <a href="{% url 'submit-content' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                 <span>Submit</span>
               </a>
-              <a href="sitemap.html" class="apps-item">
+              <a href="{% url 'sitemap' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line></svg>
                 <span>Sitemap</span>
               </a>
-              <a href="admin-overview.html" class="apps-item">
+              <a href="{% url 'admin_overview' %}" class="apps-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                 <span>Admin</span>
               </a>
@@ -220,8 +221,8 @@
         <!-- IF: user logged in -> user badge, ELSE -> sign in/register buttons -->
         <div id="headerAuthSlot">
           <div style="display:flex; align-items:center; gap:8px;">
-            <a href="login.html" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
-            <a href="register.html" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            <a href="{% url 'accounts:login' %}" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
           </div>
         </div>
       </div>
@@ -233,7 +234,7 @@
       <div class="breadcrumb-container">
         <!-- LOOP: breadcrumb items -->
         <ol class="breadcrumb-list">
-          <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
 <li class="breadcrumb-separator">/</li>
 <li class="breadcrumb-item active" aria-current="page">Sitemap</li>
 
@@ -263,17 +264,17 @@
       </div>
       <!-- LOOP: public links -->
       <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-        <li><a href="../index.html" class="sidebar-nav-link"><span>index.html &bull; Home &amp; Discovery Hub</span></a></li>
-        <li><a href="sitemap.html" class="sidebar-nav-link active"><span>sitemap.html &bull; Full Link Tree</span></a></li>
-        <li><a href="explore.html" class="sidebar-nav-link"><span>explore.html &bull; Filter &amp; Search Catalog</span></a></li>
-        <li><a href="content-detail.html?title=demon-slayer" class="sidebar-nav-link"><span>content-detail.html &bull; Video &amp; Details</span></a></li>
-        <li><a href="character-list.html" class="sidebar-nav-link"><span>character-list.html &bull; Character Grid</span></a></li>
-        <li><a href="character-detail.html?char=tanjiro" class="sidebar-nav-link"><span>character-detail.html &bull; Full Bio &amp; Stats</span></a></li>
-        <li><a href="merch-list.html" class="sidebar-nav-link"><span>merch-list.html &bull; Merch Store Gallery</span></a></li>
+        <li><a href="{% url 'home' %}" class="sidebar-nav-link"><span>index.html &bull; Home &amp; Discovery Hub</span></a></li>
+        <li><a href="{% url 'sitemap' %}" class="sidebar-nav-link active"><span>sitemap.html &bull; Full Link Tree</span></a></li>
+        <li><a href="{% url 'explore' %}" class="sidebar-nav-link"><span>explore.html &bull; Filter &amp; Search Catalog</span></a></li>
+        <li><a href="{% url 'explore' %}" class="sidebar-nav-link"><span>content-detail.html &bull; Video &amp; Details</span></a></li>
+        <li><a href="{% url 'character-list' %}" class="sidebar-nav-link"><span>character-list.html &bull; Character Grid</span></a></li>
+        <li><a href="{% url 'character-list' %}" class="sidebar-nav-link"><span>character-detail.html &bull; Full Bio &amp; Stats</span></a></li>
+        <li><a href="{% url 'merch-list' %}" class="sidebar-nav-link"><span>merch-list.html &bull; Merch Store Gallery</span></a></li>
         <li><a href="merch-detail.html" class="sidebar-nav-link"><span>merch-detail.html &bull; Product Detail &amp; Cart</span></a></li>
-        <li><a href="events.html" class="sidebar-nav-link"><span>events.html &bull; Conventions &amp; Tickets</span></a></li>
-        <li><a href="feedback.html" class="sidebar-nav-link"><span>feedback.html &bull; Support &amp; Bug Report</span></a></li>
-        <li><a href="submit-content.html" class="sidebar-nav-link"><span>submit-content.html &bull; Fan Submissions</span></a></li>
+        <li><a href="{% url 'events' %}" class="sidebar-nav-link"><span>events.html &bull; Conventions &amp; Tickets</span></a></li>
+        <li><a href="{% url 'feedback' %}" class="sidebar-nav-link"><span>feedback.html &bull; Support &amp; Bug Report</span></a></li>
+        <li><a href="{% url 'submit-content' %}" class="sidebar-nav-link"><span>submit-content.html &bull; Fan Submissions</span></a></li>
       </ul>
       <!-- ENDLOOP: public links -->
     </div>
@@ -286,8 +287,8 @@
       </div>
       <!-- LOOP: auth links -->
       <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-        <li><a href="login.html" class="sidebar-nav-link"><span>login.html &bull; Sign In Portal</span></a></li>
-        <li><a href="register.html" class="sidebar-nav-link"><span>register.html &bull; Account Registration</span></a></li>
+        <li><a href="{% url 'accounts:login' %}" class="sidebar-nav-link"><span>login.html &bull; Sign In Portal</span></a></li>
+        <li><a href="{% url 'accounts:register' %}" class="sidebar-nav-link"><span>register.html &bull; Account Registration</span></a></li>
         <li><a href="password-reset.html" class="sidebar-nav-link"><span>password-reset.html &bull; Password Recovery</span></a></li>
         <li><a href="verify-email.html" class="sidebar-nav-link"><span>verify-email.html &bull; Email Verification</span></a></li>
       </ul>
@@ -299,8 +300,8 @@
       </div>
       <!-- LOOP: user links -->
       <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-        <li><a href="dashboard.html" class="sidebar-nav-link"><span>dashboard.html &bull; Personal Dashboard</span></a></li>
-        <li><a href="profile.html" class="sidebar-nav-link"><span>profile.html &bull; Profile &amp; Preferences</span></a></li>
+        <li><a href="{% url 'user_dashboard' %}" class="sidebar-nav-link"><span>dashboard.html &bull; Personal Dashboard</span></a></li>
+        <li><a href="{% url 'profile' %}" class="sidebar-nav-link"><span>profile.html &bull; Profile &amp; Preferences</span></a></li>
       </ul>
       <!-- ENDLOOP: user links -->
     </div>
@@ -313,10 +314,10 @@
       </div>
       <!-- LOOP: admin links -->
       <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-        <li><a href="admin-overview.html" class="sidebar-nav-link"><span>admin-overview.html &bull; Management Overview</span></a></li>
-        <li><a href="admin-content-form.html" class="sidebar-nav-link"><span>admin-content-form.html &bull; Add / Edit Content</span></a></li>
-        <li><a href="admin-submissions-queue.html" class="sidebar-nav-link"><span>admin-submissions-queue.html &bull; Submissions Queue</span></a></li>
-        <li><a href="admin-chatbot-faq.html" class="sidebar-nav-link"><span>admin-chatbot-faq.html &bull; Chatbot FAQ Rules</span></a></li>
+        <li><a href="{% url 'admin_overview' %}" class="sidebar-nav-link"><span>admin-overview.html &bull; Management Overview</span></a></li>
+        <li><a href="{% url 'admin_content_form' %}" class="sidebar-nav-link"><span>admin-content-form.html &bull; Add / Edit Content</span></a></li>
+        <li><a href="{% url 'admin_submissions' %}" class="sidebar-nav-link"><span>admin-submissions-queue.html &bull; Submissions Queue</span></a></li>
+        <li><a href="{% url 'admin_chatbot_faq' %}" class="sidebar-nav-link"><span>admin-chatbot-faq.html &bull; Chatbot FAQ Rules</span></a></li>
       </ul>
       <!-- ENDLOOP: admin links -->
 
@@ -352,44 +353,44 @@
           <div class="footer-col">
             <h4>Explore</h4>
             <ul>
-              <li><a href="explore.html">Catalog & Media</a></li>
-              <li><a href="character-list.html">Characters</a></li>
-              <li><a href="merch-list.html">Merchandise</a></li>
-              <li><a href="events.html">Events & Cons</a></li>
+              <li><a href="{% url 'explore' %}">Catalog & Media</a></li>
+              <li><a href="{% url 'character-list' %}">Characters</a></li>
+              <li><a href="{% url 'merch-list' %}">Merchandise</a></li>
+              <li><a href="{% url 'events' %}">Events & Cons</a></li>
             </ul>
           </div>
           <div class="footer-col">
             <h4>Community</h4>
             <ul>
-              <li><a href="submit-content.html">Submit Content</a></li>
-              <li><a href="feedback.html">Feedback & Bugs</a></li>
-              <li><a href="sitemap.html">Sitemap</a></li>
+              <li><a href="{% url 'submit-content' %}">Submit Content</a></li>
+              <li><a href="{% url 'feedback' %}">Feedback & Bugs</a></li>
+              <li><a href="{% url 'sitemap' %}">Sitemap</a></li>
             </ul>
           </div>
           <div class="footer-col">
             <h4>Account</h4>
             <ul>
-              <li><a href="dashboard.html">Dashboard</a></li>
-              <li><a href="profile.html">Profile Settings</a></li>
-              <li><a href="login.html">Sign In</a></li>
-              <li><a href="register.html">Register</a></li>
+              <li><a href="{% url 'user_dashboard' %}">Dashboard</a></li>
+              <li><a href="{% url 'profile' %}">Profile Settings</a></li>
+              <li><a href="{% url 'accounts:login' %}">Sign In</a></li>
+              <li><a href="{% url 'accounts:register' %}">Register</a></li>
             </ul>
           </div>
           <div class="footer-col">
             <h4>Management</h4>
             <ul>
-              <li><a href="admin-overview.html">Admin Overview</a></li>
-              <li><a href="admin-content-form.html">Content Manager</a></li>
-              <li><a href="admin-submissions-queue.html">Submissions Queue</a></li>
-              <li><a href="admin-chatbot-faq.html">Bot Knowledge Base</a></li>
+              <li><a href="{% url 'admin_overview' %}">Admin Overview</a></li>
+              <li><a href="{% url 'admin_content_form' %}">Content Manager</a></li>
+              <li><a href="{% url 'admin_submissions' %}">Submissions Queue</a></li>
+              <li><a href="{% url 'admin_chatbot_faq' %}">Bot Knowledge Base</a></li>
             </ul>
           </div>
         </div>
         <div class="footer-bottom">
           <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
           <div class="footer-meta-links">
-            <a href="sitemap.html">Sitemap</a>
-            <a href="feedback.html">Support</a>
+            <a href="{% url 'sitemap' %}">Sitemap</a>
+            <a href="{% url 'feedback' %}">Support</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
           </div>

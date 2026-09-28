@@ -15,44 +15,26 @@
 - MySQL - Django's default database for development is db.sqlite and it's not recommendedd for production, and accourding to the SRS, we have an option to use MySQL for database, so we are going with MySQL for our database, our MySQL database provider is AIVEN (https://aiven.io), they have a 1 GB storage, 1 GB RAM, single node with backups included, free hosted MySQL so we didn't have to install locally (https://aiven.io/mysql), 
 
 
-# Major Steps
--- Create a virtual environment (We use this store project requiremenst specifically for this project, so we only have packages required foe this project installed)
+# Local setup
 
--- step --
-py -m venv .venv 
+Run these commands in PowerShell from the project root:
 
--- Activate virtual environment (This activates our virtual environment for the current project)
+    py -m venv venv
+    .\venv\Scripts\Activate.ps1
+    python -m pip install -r requirements.txt
+    Copy-Item .env.example .env
 
--- step --
-- powershell
-.venv/Scripts/activate
+The supplied .env.example uses SQLite for local setup. For MySQL, create a fanhubplus database with utf8mb4, install PyMySQL, set DB_ENGINE=mysql, and set DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, and DB_PORT in .env. The development machine has no MySQL server listening on 127.0.0.1:3306, so SQLite is the verified configuration.
 
-- command prompt
-.venv\Scripts\activate
+After setting .env, initialize and run the project:
 
-- git bash
-source .venv/Scripts/activate
+    python manage.py migrate
+    python manage.py seed_demo
+    python manage.py runserver
+    python manage.py test
+    python scripts/smoke.py
 
--- Install Django (We need the open source django framework to work on this project)
-
--- step --
-py -m pip install django
-
--- Create Django Project --
-- We created a django project named FandomUniverse, since we are using django for our project
-
--- step --
-project-name = FandomUniverse
-django-admin startproject ${project-name} .
-
--- Create Django Applications -- 
-- We use applications to seperate core features of our project and grouping them neatly
-
--- step --
-python manage.py startapp ${app-name}
-
--- register app in settings.py --
--- create urls in the app and then include it in the project urls
+The seed command prints the demo account passwords. Email verification and password-reset messages use Django's console email backend unless SMTP credentials are configured in .env.
 
 # Core Applications
 ---

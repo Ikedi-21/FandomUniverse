@@ -222,7 +222,7 @@
           <section aria-label="Related events">
             <div class="section-header">
               <h2 class="section-title">More {{ event.category_label }}</h2>
-              <a href="{% url 'events' %}?category={{ event.category }}" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">View all &rarr;</a>
+              <a href="{% url 'events' %}?category={{ event.category.slug }}" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">View all &rarr;</a>
             </div>
             <div style="display:flex; flex-direction:column; gap:16px;">
               {% for item in related_events %}

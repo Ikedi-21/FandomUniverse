@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.text import slugify
+from catalog.models import Category
 
 
 class Merch(models.Model):
@@ -21,8 +23,9 @@ class Merch(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     franchise = models.CharField(max_length=200, blank=True)
+    fandom = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="merch_items")
     sub_label = models.CharField(max_length=200, blank=True)
-    tags = models.CharField(max_length=200, blank=True)
+    tags = models.ManyToManyField("MerchTag", blank=True, related_name="products")
     category = models.CharField(
         max_length=20, choices=CATEGORY_CHOICES, default="figures"
     )
@@ -32,7 +35,6 @@ class Merch(models.Model):
     # Pricing and availability. stock=0 means pre-order / sold out
     # (see stock_label below).
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    stock = models.PositiveIntegerField(default=0)
 
     # Visibility: published items appear in the store; upcoming items also
     # feed the "Limited Batch Drops" countdown section via release_date.
@@ -54,15 +56,22 @@ class Merch(models.Model):
     # Human-readable availability badge used by both merch templates.
     @property
     def stock_label(self):
-        if self.is_upcoming:
-            return "Pre-Order"
-        if self.stock <= 0:
-            return "Sold Out"
-        if self.stock <= 5:
-            return f"In Stock ({self.stock} left)"
-        return "In Stock"
+        return "Pre-Order" if self.is_upcoming else "Available"
 
     # Display name for the stored category key ("figures" -> label).
     @property
     def category_label(self):
         return dict(self.CATEGORY_CHOICES).get(self.category, self.category)
+
+
+class MerchTag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name

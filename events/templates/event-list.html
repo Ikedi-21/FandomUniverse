@@ -238,7 +238,7 @@
               <article class="event-card-item"
                   data-id="{{ event.map_code|default:event.pk }}"
                   data-city="{{ event.city_slug }}"
-                  data-category="{{ event.category }}"
+                  data-category="{{ event.category.slug }}"
                   data-title="{{ event.title|lower }}"
                   data-venue-title="{{ event.venue|escape }}"
                   data-venue-address="{{ event.venue_address|default:event.venue|escape }}"

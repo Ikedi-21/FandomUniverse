@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, UserCreationForm
 from django.core.exceptions import ValidationError
 
 User = get_user_model()
@@ -28,3 +28,12 @@ class VerifiedAuthenticationForm(AuthenticationForm):
                 "Please verify your email before logging in. Check your inbox, or request a new link.",
                 code='email_not_verified',
             )
+
+
+class StyledPasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-input', 'placeholder': 'you@example.com',
+            'autocomplete': 'email',
+        })

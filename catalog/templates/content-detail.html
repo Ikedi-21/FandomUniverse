@@ -561,7 +561,7 @@
       bookmarkBtn.addEventListener('click', function () {
         {% if not user.is_authenticated %}
           window.showToast('Please sign in to bookmark.');
-          window.location.href = "{% url 'login' %}?next=" + encodeURIComponent(window.location.pathname);
+          window.location.href = "{% url 'accounts:login' %}?next=" + encodeURIComponent(window.location.pathname);
           return;
         {% endif %}
 

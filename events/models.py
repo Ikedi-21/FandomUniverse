@@ -1,4 +1,5 @@
 from django.db import models
+from catalog.models import Category
 
 
 class Event(models.Model):
@@ -9,20 +10,13 @@ class Event(models.Model):
     """
 
     # Store categories matching the prototype filter pills.
-    CATEGORY_CHOICES = [
-        ("anime", "Anime Cons"),
-        ("gaming", "Gaming Expos"),
-        ("comics", "Comic Cons"),
-    ]
 
     # Identity: title, blurb, type (convention/expo/summit...), and the
     # category driving the anime / gaming / comics filter.
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     event_type = models.CharField(max_length=200, blank=True)
-    category = models.CharField(
-        max_length=20, choices=CATEGORY_CHOICES, default="anime"
-    )
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="events")
     # Short key bridging a DB row to its static map pin / venue entry
     # (e.g. "ax", "gamescom", "tgs"). Must be unique when set.
     map_code = models.SlugField(max_length=50, unique=True, blank=True, null=True)
@@ -86,4 +80,4 @@ class Event(models.Model):
     # Display name for the stored category key.
     @property
     def category_label(self):
-        return dict(self.CATEGORY_CHOICES).get(self.category, self.category)
+        return self.category.name if self.category else "Event"

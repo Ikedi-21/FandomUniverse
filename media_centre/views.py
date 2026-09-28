@@ -1,12 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 
 from catalog.models import Content
 
 from .models import Rating
+
+def media_list(request):
+    items = Content.objects.filter(is_published=True, content_type__in=['video', 'audio']).prefetch_related('tags').order_by('-popularity_score')
+    return render(request, 'media-list.html', {'items': items})
 
 
 @login_required
@@ -61,15 +65,14 @@ def submit_rating(request):
     aggregate = Rating.objects.filter(media=content).aggregate(
         avg=Avg("rating")
     )
-    content.average_rating = round(aggregate["avg"] or 0.0, 1)
-    content.save(update_fields=["average_rating"])
+    average_rating = round(aggregate["avg"] or 0.0, 1)
     count = Rating.objects.filter(media=content).count()
 
     return JsonResponse(
         {
             "ok": True,
             "rating": score,
-            "average_rating": content.average_rating,
+            "average_rating": average_rating,
             "rating_count": count,
             "created": created,
         }

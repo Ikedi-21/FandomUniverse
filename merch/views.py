@@ -33,7 +33,7 @@ def merch_list(request):
             Q(name__icontains=query)
             | Q(description__icontains=query)
             | Q(franchise__icontains=query)
-            | Q(tags__icontains=query)
+            | Q(tags__name__icontains=query)
         )
 
     # 4. Sort options from the store controls; "featured" = most viewed.

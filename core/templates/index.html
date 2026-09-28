@@ -1,0 +1,365 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FAN HUB+ | Explore, Connect, Beyond - Anime &amp; Fandom Entertainment{% endblock %}
+
+{% block nav_home %}active{% endblock %}
+{% block tab_home %}active{% endblock %}
+
+{% block extra_head %}
+  <script src="{% static 'js/carousel.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<main class="page-content">
+  <div class="two-column-layout">
+
+    <!-- FEED COLUMN (2/3) -->
+    <div class="feed-column">
+
+      <!-- HERO CAROUSEL -->
+      <section class="hero-carousel-container" id="heroBanner" aria-label="Featured Fandom Carousel">
+        {% for content in contents %}
+        <div class="hero-slide {% if forloop.first %}active{% endif %}" style="background-image: url('{% if content.thumbnail %}{{ content.thumbnail.url }}{% else %}{% static 'images/hero_section/demon_slayer_hero.jpg' %}{% endif %}');">
+          <div class="hero-slide-overlay">
+            <span class="hero-badge-tag">{{ content.category.name }}</span>
+            <h1 class="hero-title">{{ content.title }}</h1>
+            <p class="hero-desc">{{ content.description }}</p>
+            <div class="hero-actions">
+              {% if content.video_url %}
+              <button type="button" class="btn btn-hero-primary" onclick="openTrailerModal('{{ content.title|escapejs }}', '{{ content.video_url|escapejs }}')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Watch Stream
+              </button>
+              {% endif %}
+              <a href="{% url 'explore' %}?category={{ content.category.slug }}" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="hero-slide active" style="background-image: url('{% static 'images/hero_section/demon_slayer_hero.jpg' %}');">
+          <div class="hero-slide-overlay">
+            <span class="hero-badge-tag">Featured Universe</span>
+            <h1 class="hero-title">Your Fandoms, All in One Universe</h1>
+            <p class="hero-desc">Explore the ultimate hub for anime, games, lore dossiers, and collectibles.</p>
+            <div class="hero-actions">
+              <a href="{% url 'explore' %}" class="btn btn-hero-primary">Explore Catalog</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="carousel-nav-dots" id="heroCarouselDots">
+          <button type="button" class="carousel-dot active" data-slide="0" aria-label="Go to slide 1"></button>
+          <button type="button" class="carousel-dot" data-slide="1" aria-label="Go to slide 2"></button>
+          <button type="button" class="carousel-dot" data-slide="2" aria-label="Go to slide 3"></button>
+        </div>
+
+        <div class="carousel-arrows">
+          <button type="button" class="carousel-arrow" id="heroPrevBtn" aria-label="Previous Slide">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="carousel-arrow" id="heroNextBtn" aria-label="Next Slide">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- 8-CATEGORY STRIP -->
+      <section class="category-strip" aria-label="Fandom Categories">
+        <div class="section-header">
+          <h2 class="section-title">Explore Fandom Universes</h2>
+          <a href="{% url 'explore' %}" class="section-view-all">All Universes &rarr;</a>
+        </div>
+        <div class="category-strip-grid">
+          {% for category in categories %}
+          <a href="{% url 'explore' %}?category={{ category.slug }}" class="category-strip-card">
+            <div class="category-strip-icon">
+              {% if category.cover_image %}
+                <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" style="width:24px; height:24px; object-fit:cover; border-radius:4px;">
+              {% else %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+              {% endif %}
+            </div>
+            <span class="category-strip-name">{{ category.name }}</span>
+          </a>
+          {% empty %}
+          <p style="color:var(--text-muted);">No fandom categories available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- TRENDING BROADCASTS ROW -->
+      <section style="margin-top:var(--space-6);" aria-label="Trending Content">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Trending Simulcasts &amp; Broadcasts</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Stream current season episodes in 4K HDR with dual audio tracks</p>
+          </div>
+          <a href="{% url 'explore' %}" class="section-view-all">Full Catalog &rarr;</a>
+        </div>
+        <div class="cards-grid">
+          {% for contentTwo in contentsTwo %}
+          <article class="content-card">
+            <div class="content-card-poster">
+              {% if contentTwo.thumbnail %}
+                <img src="{{ contentTwo.thumbnail.url }}" alt="{{ contentTwo.title }}" loading="lazy" />
+              {% else %}
+                <img src="{% static 'images/posters/demon_slayer_thumb.jpg' %}" alt="{{ contentTwo.title }}" loading="lazy" />
+              {% endif %}
+              <span class="card-badge badge-stream">{{ contentTwo.content_type }}</span>
+              <span class="card-rating">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                {{ contentTwo.popularity_score }}
+              </span>
+            </div>
+            <div class="content-card-body">
+              <span class="content-card-category">{{ contentTwo.category.name }}</span>
+              <h3 class="content-card-title"><a href="{% url 'content-detail' contentTwo.slug %}">{{ contentTwo.title }}</a></h3>
+              <p class="content-card-desc">{{ contentTwo.description }}</p>
+              <div class="content-card-meta">
+                <span>{{ contentTwo.tags }}</span>
+                <a href="{% url 'content-detail' contentTwo.slug %}" class="btn btn-outline btn-sm">Watch Now</a>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+          <p style="color:var(--text-muted);">No broadcasts available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- FEATURED CHARACTERS ROW -->
+      <section style="margin-top:var(--space-8);" aria-label="Featured Characters">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Hall of Heroes &bull; Character Dossiers</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Combat ratings, signature techniques, voice actors, and deep lore profiles</p>
+          </div>
+          <a href="{% url 'character-list' %}" class="section-view-all">All Characters &rarr;</a>
+        </div>
+        <div class="cards-grid">
+          {% for character in characters %}
+          <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
+            <div style="position:relative; height:120px; background:#111; overflow:hidden;">
+              {% if character.avatar %}
+                <img src="{{ character.avatar.url }}" alt="{{ character.name }}" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.75);" />
+              {% else %}
+                <img src="{% static 'images/hero_section/demon_slayer_hero.jpg' %}" alt="{{ character.name }}" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
+              {% endif %}
+              <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(239,35,60,0.85); color:#fff; font-weight:bold;">{{ character.category.name }}</span>
+              <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">Grade S</span>
+            </div>
+            <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <h3 style="font-size:var(--font-md); font-weight:var(--fw-bold); margin:0 0 4px;">
+                  <a href="{% url 'character-detail' character.pk %}" style="color:var(--text-main); text-decoration:none;">{{ character.name }}</a>
+                </h3>
+                <div style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold; margin-bottom:6px;">{{ character.category.name }}</div>
+                <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.4; margin:0 0 12px;">{{ character.description|truncatewords:20 }}</p>
+                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:4px;">
+                  <span>Combat Power</span>
+                  <strong style="color:var(--accent-red);">{{ character.power_level|default:'94' }} / 100</strong>
+                </div>
+                <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden; margin-bottom:12px;">
+                  <div style="width:{{ character.power_level|default:'94' }}%; height:100%; background:var(--accent-red); border-radius:2px;"></div>
+                </div>
+              </div>
+              <a href="{% url 'character-detail' character.pk %}" class="btn btn-secondary btn-sm" style="width:100%; text-align:center;">Open Combat Dossier</a>
+            </div>
+          </article>
+          {% empty %}
+          <p style="color:var(--text-muted);">No characters available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- OFFICIAL MERCH VAULT PREVIEW -->
+      <section style="margin-top:var(--space-8);" aria-label="Merchandise Vault">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Official Fandom Merch Vault</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Direct Tokyo &amp; Seoul studio collectibles &bull; 100% authentic serialized goods</p>
+          </div>
+          <a href="{% url 'merch-list' %}" class="section-view-all">All Merch Store &rarr;</a>
+        </div>
+        <div class="cards-grid">
+          {% for merch in merchs %}
+          <article class="content-card">
+            <div class="content-card-poster">
+              {% if merch.image %}
+                <img src="{{ merch.image.url }}" alt="{{ merch.name }}" loading="lazy" />
+              {% else %}
+                <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="{{ merch.name }}" loading="lazy" />
+              {% endif %}
+              <span class="card-badge badge-merch">${{ merch.price }}</span>
+            </div>
+            <div class="content-card-body">
+              <span class="content-card-category">{{ merch.category.name }}</span>
+              <h3 class="content-card-title"><a href="{% url 'merch-detail' merch.pk %}">{{ merch.name }}</a></h3>
+              <p class="content-card-desc">{{ merch.description }}</p>
+              <div class="content-card-meta">
+                <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">${{ merch.price }}</span>
+                <a href="{% url 'merch-detail' merch.pk %}" class="btn btn-primary btn-sm">View Item</a>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+          <p style="color:var(--text-muted);">No merch available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- COMMUNITY PULSE & DISCUSSIONS -->
+      <section style="margin-top:var(--space-8);" aria-label="Community Discussions">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Community Pulse &amp; Fan Submissions</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Join trending community articles, theorycrafting, and episode breakdowns</p>
+          </div>
+          <a href="{% url 'submit-content' %}" class="section-view-all">Submit Fan Work &rarr;</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          {% for article in articles %}
+          <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px; height:42px; border-radius:50%; background:#1e293b; display:flex; align-items:center; justify-content:center; border:2px solid var(--accent-red); flex-shrink:0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              </div>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red);">{{ article.category.name }}</span>
+                  <span style="font-size:11px; color:var(--text-muted);">By {{ article.author_name|default:'Fan Creator' }}</span>
+                </div>
+                <h4 style="margin:0; font-size:var(--font-base); font-weight:var(--fw-bold); color:var(--text-main);">
+                  {{ article.title }}
+                </h4>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px;">
+              <a href="{% url 'feedback' %}" class="btn btn-outline btn-sm">Community Feedback</a>
+            </div>
+          </div>
+          {% empty %}
+          <p style="color:var(--text-muted);">No fan submissions yet.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- VIP FAN HUB+ PLATFORM GUARANTEE -->
+      <section style="margin-top:var(--space-8); padding:24px; background:linear-gradient(135deg, rgba(239,35,60,0.12) 0%, rgba(20,24,33,0.9) 100%); border:1px solid var(--border-medium); border-radius:var(--radius-lg); display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <div>
+            <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">4K Ultra-HD Streams</strong>
+            <span style="font-size:var(--font-xs); color:var(--text-muted);">Zero-lag streaming with dual audio</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <div>
+            <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">100% Studio Licensed</strong>
+            <span style="font-size:var(--font-xs); color:var(--text-muted);">Authentic collectibles and merchandise</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <div>
+            <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">VIP Convention Access</strong>
+            <span style="font-size:var(--font-xs); color:var(--text-muted);">Exclusive passes and panel highlights</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SIDEBAR RIGHT (1/3) -->
+    <aside class="sidebar-right" aria-label="Community Hub Sidebar">
+      <!-- Top This Week Leaderboard -->
+      <div class="widget-card">
+        <div class="widget-title">
+          <span>Top Broadcasts</span>
+          <a href="{% url 'explore' %}" style="font-size:var(--font-xs); color:var(--accent-red);">See All</a>
+        </div>
+        <div class="ranked-list">
+          {% for contentLdb in contentsLdb %}
+          <div class="ranked-item">
+            <span class="ranked-num">{{ forloop.counter|stringformat:"02d" }}</span>
+            {% if contentLdb.thumbnail %}
+              <img src="{{ contentLdb.thumbnail.url }}" alt="{{ contentLdb.title }}" class="ranked-thumb" />
+            {% else %}
+              <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="{{ contentLdb.title }}" class="ranked-thumb" />
+            {% endif %}
+            <div class="ranked-details">
+              <div class="ranked-title">{{ contentLdb.title }}</div>
+              <div class="ranked-sub">{{ contentLdb.view_count }} views</div>
+            </div>
+          </div>
+          {% empty %}
+          <p style="color:var(--text-muted); font-size:var(--font-xs);">No items yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Live Community Poll -->
+      <div class="widget-card">
+        <div class="widget-title">
+          <span>Community Poll</span>
+          <span style="font-size:11px; color: var(--color-green); font-weight:bold;">LIVE</span>
+        </div>
+        <p style="font-size:var(--font-xs); color:var(--text-main); font-weight:bold; margin:6px 0 10px;">
+          Which upcoming adaptation are you most hyped for?
+        </p>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+              <span>Demon Slayer Infinity Castle</span>
+              <strong style="color:var(--accent-red);">58%</strong>
+            </div>
+            <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+              <div style="width:58%; height:100%; background:var(--accent-red);"></div>
+            </div>
+          </div>
+          <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+              <span>Solo Leveling: Season 2</span>
+              <strong style="color: var(--color-purple);">28%</strong>
+            </div>
+            <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+              <div style="width:28%; height:100%; background:#8b5cf6;"></div>
+            </div>
+          </div>
+          <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+              <span>GTA VI Story Mode</span>
+              <strong style="color: var(--color-blue);">14%</strong>
+            </div>
+            <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+              <div style="width:14%; height:100%; background:#3b82f6;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Convention Spotlight -->
+      <div class="widget-card">
+        <div class="widget-title">
+          <span>Upcoming Cons</span>
+          <a href="{% url 'events' %}" style="font-size:var(--font-xs); color:var(--accent-red);">View All</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+          {% for event in events %}
+          <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border-left:3px solid var(--accent-red);">
+            <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">{{ event.title }}</strong>
+            <span style="font-size:11px; color:var(--text-muted);">{{ event.event_date|date:"M d, Y" }}</span>
+          </div>
+          {% empty %}
+          <p style="color:var(--text-muted); font-size:var(--font-xs);">No upcoming events listed.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</main>
+{% endblock %}

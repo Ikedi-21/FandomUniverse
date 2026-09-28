@@ -53,6 +53,7 @@ class Content(models.Model):
     popularity_score = models.FloatField(default=0.0)
     view_count = models.PositiveIntegerField(default=0)
     
+    # Ensure these allow blanks so form submissions don't fail if left empty
     thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
     source_type = models.CharField(max_length=20, choices=SOURCE_TYPES, default='upload')
     video_url = models.URLField(blank=True, null=True)
@@ -62,3 +63,7 @@ class Content(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='created_contents')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    average_rating = models.FloatField(default=0.0)
+    meta_label = models.CharField(max_length=50, blank=True, help_text="e.g., 'Ep 11 • TV-MA'")
+    action_button_text = models.CharField(max_length=20, default="Stream")

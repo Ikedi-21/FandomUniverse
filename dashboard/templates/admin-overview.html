@@ -18,14 +18,14 @@
   <script src="{% static "js/chatbot.js" %}" defer></script>
 </head>
 <body>
-  <script>
+  {% comment %} <script>
     !function(){
       var s = localStorage.getItem('fanhub_auth_session');
       var isAdmin = false;
       try { if (s) { var u = JSON.parse(s); if (u && u.role === 'admin') isAdmin = true; } } catch(e){}
       if (!isAdmin) window.location.href = 'dashboard.html';
     }();
-  </script>
+  </script> {% endcomment %}
   <div class="admin-page-container">
 
     <!-- ADMIN TOP BAR (replaces left sidebar) -->

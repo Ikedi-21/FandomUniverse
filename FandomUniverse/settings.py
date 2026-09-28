@@ -133,9 +133,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
-AUTH_USER_MODEL = "accounts.User"
+# ---- STATIC FILES (CSS, JS, site images) ----
+STATIC_URL = '/static/'
 
+# Project-level static folder. Create the folder FandomUniverse/static/ and
+# put site-wide assets there. Django still finds app-level static folders
+# automatically via AppDirectoriesFinder.
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Where `collectstatic` dumps files for production. Only used when
+# DEBUG=False on a real server. Leave as-is for dev.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# ---- MEDIA FILES (user uploads: thumbnails, avatars, etc.) ----
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# ---- AUTH ----
+AUTH_USER_MODEL = 'accounts.User'
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

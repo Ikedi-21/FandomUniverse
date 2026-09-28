@@ -27,7 +27,7 @@ class EventHighlight(models.Model):
     event_date = models.DateField()
 
     # This "eventImages/" folder will be where the images from this model will be stored
-    image = models.ImageField(upload_to="eventImages/")
+    image = models.ImageField(upload_to="eventImages/", blank=True, null=True)
     
     display_order = models.PositiveIntegerField(default=0)
 
@@ -45,17 +45,17 @@ class FanSubmission(models.Model):
     body = models.TextField()
 
     # This "fanPostImages/" folder will be where the images from this model will be stored
-    image = models.ImageField(upload_to="fanPostImages/")
+    image = models.ImageField(upload_to="fanPostImages/", blank=True, null=True)
 
     # The enumeration class is used here
     status = models.CharField(max_length=10, choices=ApprovalStatus.choices, default=ApprovalStatus.PENDING)
 
     # This will be used by the admin, I left it null with the knowledge that it might take a while before it gets reviewed by an admin
     review_note = models.TextField(blank=True, null=True)
-    reviewed_at = models.DateField(blank=True, null=True)
-    reviewed_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="reviewed_submissions")
+    reviewed_at = models.DateTimeField(blank=True, null=True)
+    reviewed_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="reviewed_submissions")
 
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user}'s {self.title}"

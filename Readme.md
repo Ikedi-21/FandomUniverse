@@ -121,3 +121,33 @@ Application 10
 Application 11
 ---
 - name: catalog
+
+---
+
+## Development Progress & Audit Log
+
+### Phase 1: Templates Audit & Fix
+- [x] Create unified master `templates/base.html` with clean layout blocks, responsive sidebar, top navbar, theme initialization, global chatbot drawer, trailer stream modal, and Django message alerts
+- [x] Configure `TEMPLATES['DIRS'] = [BASE_DIR / 'templates']` in `FandomUniverse/settings.py`
+- [x] Add logout view & URL route (`logout`) to `core` app
+- [x] Add route aliases (`dashboard`, `admin-overview`, `admin-submissions-queue`, etc.) in `dashboard/urls.py` and `bookmark-list` in `engagements/urls.py`
+- [x] Audit and refactor `core/templates/index.html` to extend `base.html`:
+  - Replaced hardcoded `/static/...` assets with `{% static %}` tags
+  - Replaced broken URLs (`articles` -> `content-detail`, `characters-list` -> `character-detail`, `merch-details` -> `merch-detail`)
+  - Validated clean closure for all loops (`{% for %}` ... `{% empty %}` ... `{% endfor %}`)
+- [x] Refactor Catalog app templates (`explore.html`, `content-detail.html`, `submit-content.html`):
+  - Extracted shared frame into master `base.html`
+  - Replaced hardcoded routes (`/characters/`, `href="/"`, etc.) with `{% url %}` tags
+  - Fixed unclosed script in `content-detail.html` and integrated dynamic star rating & bookmark handlers
+  - Configured sticky filter sidebar in `explore.html` with clean responsive layout
+- [ ] Refactor Characters app templates (`character-list.html`, `character-detail.html`) and clean up prototype collisions
+- [ ] Refactor Merch app templates (`merch-list.html`, `merch-detail.html`)
+- [ ] Refactor Events app templates (`event-list.html`, `event-detail.html`)
+- [ ] Refactor Dashboard app templates (`dashboard.html`, `admin-overview.html`, etc.)
+- [ ] Refactor Engagements app templates (`feedback.html`, `bookmark-list.html`)
+- [ ] Refactor Accounts & Core Auth templates (`login.html`, `register.html`, email verification)
+- [ ] Refactor Article app templates
+
+**Status**: In Progress - Next inspecting & refactoring Characters app templates.
+
+

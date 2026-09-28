@@ -1,0 +1,15 @@
+<article class="content-card">
+  <a href="{% url 'article:article_detail' article.slug %}" class="content-card-poster" aria-label="{{ article.title }}">
+    {% if article.thumbnail %}
+      <img src="{{ article.thumbnail.url }}" alt="" loading="lazy">
+    {% else %}
+      <div class="article-thumb-placeholder" aria-hidden="true"></div>
+    {% endif %}
+  </a>
+  <div class="content-card-body">
+    <span class="content-card-category">{{ article.category.name }}</span>
+    <h3 class="content-card-title"><a href="{% url 'article:article_detail' article.slug %}">{{ article.title }}</a></h3>
+    <p class="content-card-desc">{{ article.description|default:""|truncatechars:110 }}</p>
+    <div class="content-card-meta"><span>{{ article.created_at|date:"M j, Y" }}</span><span>{{ article.view_count }} views</span></div>
+  </div>
+</article>

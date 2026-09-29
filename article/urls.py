@@ -8,7 +8,6 @@ urlpatterns = [
     path('highlights/', views.highlight_list, name='highlight_list'),
     path('submit/', views.submit_content, name='submit_content'),
     path('submit/mine/', views.my_submissions, name='my_submissions'),
-
     path('manage/submissions/', views.submissions_queue, name='submissions_queue'),
     path('manage/submissions/<int:pk>/approve/', views.approve_submission, name='approve_submission'),
     path('manage/submissions/<int:pk>/reject/', views.reject_submission, name='reject_submission'),

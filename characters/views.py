@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.contenttypes.models import ContentType
+from engagements.models import Bookmark
 from django.core.paginator import Paginator
 # NOTE: Category must come from .models (local). Importing catalog's
 # Category here used to break the ?category=<slug> filter with a FieldError.
@@ -58,5 +60,7 @@ def character_detail(request, pk):
     context = {
         "character": character,
         "related_characters": related_characters,
+        "bookmark_content_type_id": ContentType.objects.get_for_model(CharacterProfile).pk,
+        "is_bookmarked": request.user.is_authenticated and Bookmark.objects.filter(user=request.user, content_type=ContentType.objects.get_for_model(CharacterProfile), object_id=character.pk).exists(),
     }
     return render(request, "character-detail.html", context)

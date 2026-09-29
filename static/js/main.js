@@ -57,68 +57,72 @@
   // THEME & DISPLAY SCALE (With prefers-color-scheme detection)
   // ====================================================================
   const THEME_KEY = 'fanhub_theme';
-  const FONTSIZE_KEY = 'fanhub_fontsize';
+  const FONTSIZE_KEY = 'fanhub_font_size';
 
-  function isSubpage() {
-    return window.location.pathname.includes('/pages/');
+  function csrfToken() {
+    const match = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : '';
   }
 
-  function applyTheme(themeName) {
-    if (!themeName) themeName = 'light';
+  function savePreference(value) {
+    if (document.documentElement.dataset.authenticated !== 'true') return;
+    fetch('/accounts/preferences/', {
+      method: 'POST', credentials: 'same-origin',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrfToken()},
+      body: JSON.stringify(value)
+    }).catch(function () { /* Local preference remains available if the network is offline. */ });
+  }
+
+  function applyTheme(themeName, persist) {
+    if (!['light', 'dark'].includes(themeName)) themeName = 'light';
     document.documentElement.setAttribute('data-theme', themeName);
-    localStorage.setItem(THEME_KEY, themeName);
-
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
-    if (sunIcon && moonIcon) {
-      if (themeName === 'light') {
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'block';
-      } else {
-        sunIcon.style.display = 'block';
-        moonIcon.style.display = 'none';
-      }
-    }
+    try { localStorage.setItem(THEME_KEY, themeName); } catch (error) { /* Attribute still updates for this page. */ }
+    if (persist) savePreference({theme: themeName});
   }
 
-  function applyFontSize(sizeName) {
-    if (!sizeName) sizeName = 'standard';
-    let px = '15px';
-    if (sizeName === 'compact') px = '13.5px';
-    if (sizeName === 'comfortable') px = '16.5px';
-    document.documentElement.style.fontSize = px;
-    localStorage.setItem(FONTSIZE_KEY, sizeName);
+  function applyFontSize(sizeName, persist) {
+    if (!['small', 'medium', 'large'].includes(sizeName)) sizeName = 'medium';
+    document.documentElement.setAttribute('data-font-size', sizeName);
+    try { localStorage.setItem(FONTSIZE_KEY, sizeName); } catch (error) { /* Attribute still updates for this page. */ }
+    if (persist) savePreference({font_size: sizeName});
   }
 
   function initThemeAndFont() {
-    let savedTheme = localStorage.getItem(THEME_KEY);
-    // Section C: prefers-color-scheme detection as default on first visit
-    if (!savedTheme) {
-      savedTheme = 'light';
+    let themeBtn = document.getElementById('themeToggleBtn');
+    let fontControl = document.getElementById('fontSizeControl');
+    if (!themeBtn || !fontControl) {
+      const controls = document.createElement('div');
+      controls.className = 'fanhub-display-controls';
+      if (!themeBtn) {
+        themeBtn = document.createElement('button');
+        themeBtn.id = 'themeToggleBtn'; themeBtn.type = 'button';
+        themeBtn.className = 'btn btn-secondary btn-sm';
+        themeBtn.setAttribute('aria-label', 'Toggle color theme');
+        themeBtn.textContent = 'Toggle theme'; controls.appendChild(themeBtn);
+      }
+      if (!fontControl) {
+        fontControl = document.createElement('select');
+        fontControl.id = 'fontSizeControl'; fontControl.className = 'form-select';
+        fontControl.setAttribute('aria-label', 'Text size');
+        [['small','Small text'],['medium','Medium text'],['large','Large text']].forEach(function (option) {
+          const node = document.createElement('option'); node.value = option[0]; node.textContent = option[1]; fontControl.appendChild(node);
+        });
+        controls.appendChild(fontControl);
+      }
+      if (!document.getElementById('themeToggleBtn')) document.body.appendChild(controls);
+      else if (!document.getElementById('fontSizeControl')) document.getElementById('themeToggleBtn').after(fontControl);
     }
-    applyTheme(savedTheme);
-
-    const savedFont = localStorage.getItem(FONTSIZE_KEY) || 'standard';
-    applyFontSize(savedFont);
-
-    // Theme toggle button in header
-    const themeBtn = document.getElementById('themeToggleBtn');
-    if (themeBtn) {
-      themeBtn.addEventListener('click', function () {
-        const current = document.documentElement.getAttribute('data-theme') || 'light';
-        const nextTheme = current === 'light' ? 'dark' : 'light';
-        applyTheme(nextTheme);
-        window.showToast(`Switched to ${nextTheme} theme`);
-      });
-    }
-
-    const authThemeBtn = document.getElementById('authThemeBtn');
-    if (authThemeBtn) {
-      authThemeBtn.addEventListener('click', function () {
-        const current = document.documentElement.getAttribute('data-theme') || 'dark';
-        const nextTheme = current === 'dark' ? 'light' : 'dark';
-        applyTheme(nextTheme);
-      });
+    const root = document.documentElement;
+    applyTheme(root.getAttribute('data-theme') || 'light', false);
+    applyFontSize(root.getAttribute('data-font-size') || 'medium', false);
+    themeBtn = document.getElementById('themeToggleBtn');
+    fontControl = document.getElementById('fontSizeControl');
+    if (themeBtn) themeBtn.addEventListener('click', function () {
+      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+    });
+    if (fontControl) {
+      fontControl.value = root.getAttribute('data-font-size') || 'medium';
+      fontControl.addEventListener('change', function () { applyFontSize(fontControl.value, true); });
     }
   }
 
@@ -126,62 +130,12 @@
   // GLOBAL SEARCH & HOTKEYS
   // ====================================================================
   function initGlobalSearchAndHotkeys() {
+    // Let real Django GET forms handle search; this only provides the slash shortcut.
     const searchInput = document.getElementById('globalSearchInput');
-
-    if (searchInput) {
-      searchInput.addEventListener('input', function (e) {
-        const term = e.target.value.toLowerCase().trim();
-        const searchableSelectors = [
-          '.trending-card',
-          '.series-card',
-          '.event-full-card',
-          '.fandom-cat-card',
-          '.product-card',
-          '.forum-card'
-        ];
-
-        const cards = document.querySelectorAll(searchableSelectors.join(', '));
-        if (cards.length > 0) {
-          cards.forEach(function (card) {
-            const text = card.textContent.toLowerCase();
-            if (term === '' || text.includes(term)) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-      });
-
-      searchInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const term = searchInput.value.trim();
-          if (term) {
-            const sub = isSubpage();
-            const discoveryUrl = sub
-              ? 'explore.html?q=' + encodeURIComponent(term)
-              : 'pages/explore.html?q=' + encodeURIComponent(term);
-            window.location.href = discoveryUrl;
-          }
-        }
-      });
-    }
-
-    // Keyboard Hotkeys: '/' focuses search, 'Escape' closes all popovers/modals
-    window.addEventListener('keydown', function (e) {
-      if (e.key === '/' && document.activeElement !== searchInput) {
-        const tag = document.activeElement ? document.activeElement.tagName : '';
-        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
-          e.preventDefault();
-          if (searchInput) {
-            searchInput.focus();
-            searchInput.select();
-          }
-        }
-      } else if (e.key === 'Escape') {
-        closeAllModalsAndDrawers();
-      }
+    window.addEventListener('keydown', function (event) {
+      if (event.key === '/' && searchInput && document.activeElement !== searchInput && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        event.preventDefault(); searchInput.focus();
+      } else if (event.key === 'Escape') closeAllModalsAndDrawers();
     });
   }
 
@@ -211,15 +165,39 @@
   // SECTION E: DEDICATED WATCH PAGE ROUTING (Off YouTube Modals)
   // ====================================================================
   function initWatchTriggers() {
-    document.addEventListener('click', function (e) {
-      const trigger = e.target.closest('[data-video-target], .movie-card-play');
-      if (trigger) {
-        e.preventDefault();
-        const key = trigger.getAttribute('data-video-target') || 'demon-slayer';
-        const sub = isSubpage();
-        const watchUrl = sub ? `watch.html?title=${encodeURIComponent(key)}` : `pages/watch.html?title=${encodeURIComponent(key)}`;
-        window.location.href = watchUrl;
-      }
+    // Watch navigation is provided by the real content detail route.
+  }
+
+  function initBookmarksAndSharing() {
+    document.querySelectorAll('[data-bookmark-toggle]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (document.documentElement.dataset.authenticated !== 'true') {
+          window.location.href = button.dataset.loginUrl + '?next=' + encodeURIComponent(window.location.pathname);
+          return;
+        }
+        const body = new URLSearchParams({
+          content_type_id: button.dataset.contentTypeId,
+          object_id: button.dataset.objectId
+        });
+        fetch(button.dataset.bookmarkUrl, {
+          method: 'POST', credentials: 'same-origin',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrfToken()},
+          body: body.toString()
+        }).then(function (response) { return response.json(); }).then(function (result) {
+          if (!result.ok) throw new Error(result.error || 'Could not update bookmark.');
+          button.dataset.bookmarked = result.bookmarked ? 'true' : 'false';
+          button.setAttribute('aria-pressed', result.bookmarked ? 'true' : 'false');
+          const label = button.querySelector('[data-bookmark-label]');
+          if (label) label.textContent = result.bookmarked ? 'Bookmarked' : 'Bookmark';
+        }).catch(function (error) { window.showToast(error.message, true); });
+      });
+    });
+    document.querySelectorAll('[data-copy-link]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        navigator.clipboard.writeText(button.dataset.copyLink || window.location.href)
+          .then(function () { window.showToast('Link copied.'); })
+          .catch(function () { window.showToast('Could not copy the link.', true); });
+      });
     });
   }
 
@@ -227,167 +205,20 @@
   // MODALS, POPOVERS & HEADER MENUS
   // ====================================================================
   function initModalsAndPopovers() {
-    document.querySelectorAll('.modal-close-btn, [data-modal-close]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        closeAllModalsAndDrawers();
-      });
+    document.querySelectorAll('.modal-close-btn, [data-modal-close]').forEach(function (button) {
+      button.addEventListener('click', closeAllModalsAndDrawers);
     });
-
     document.querySelectorAll('.modal-overlay').forEach(function (modal) {
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
-          closeAllModalsAndDrawers();
-        }
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) closeAllModalsAndDrawers();
       });
     });
-
-    // Apps dropdown launcher
-    const appsBtn = document.getElementById('appsMenuBtn');
-    const appsMenu = document.getElementById('appsDropdownMenu');
-    if (appsBtn && appsMenu) {
-      appsBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        const isOpen = appsMenu.classList.contains('open');
-        // Close all header popovers first (C4)
-        document.querySelectorAll('.dropdown-popover').forEach(function (pop) {
-          pop.classList.remove('open');
-        });
-        document.querySelectorAll('[aria-expanded="true"]').forEach(function (el) {
-          el.setAttribute('aria-expanded', 'false');
-        });
-
-        if (!isOpen) {
-          appsMenu.classList.add('open');
-          appsBtn.setAttribute('aria-expanded', 'true');
-        }
-      });
-    }
-
-    // Notifications popover
-    const notifBtn = document.getElementById('notificationsBtn');
-    const notifMenu = document.getElementById('notificationsDropdownMenu');
-    if (notifBtn && notifMenu) {
-      notifBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        const isOpen = notifMenu.classList.contains('open');
-        // Close all header popovers first (C4)
-        document.querySelectorAll('.dropdown-popover').forEach(function (pop) {
-          pop.classList.remove('open');
-        });
-        document.querySelectorAll('[aria-expanded="true"]').forEach(function (el) {
-          el.setAttribute('aria-expanded', 'false');
-        });
-
-        if (!isOpen) {
-          notifMenu.classList.add('open');
-          notifBtn.setAttribute('aria-expanded', 'true');
-        }
-      });
-    }
-
-    const markReadBtn = document.getElementById('btnMarkAllRead');
-    if (markReadBtn) {
-      markReadBtn.addEventListener('click', function () {
-        const notifBadge = document.querySelector('#notificationsBtn .notification-badge');
-        if (notifBadge) notifBadge.style.display = 'none';
-        window.showToast('All notifications marked as read');
-      });
-    }
-
-    // Dismiss popovers on click outside (C3)
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest('.dropdown-popover') && !e.target.closest('.icon-btn') && !e.target.closest('#userProfileBadge')) {
-        document.querySelectorAll('.dropdown-popover').forEach(function (pop) {
-          pop.classList.remove('open');
-        });
-        document.querySelectorAll('[aria-expanded="true"]').forEach(function (el) {
-          el.setAttribute('aria-expanded', 'false');
-        });
-      }
-    });
-
-    // Dismiss popovers on Escape key and return focus cleanly (C3 & C5)
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' || e.key === 'Esc') {
-        const userMenu = document.getElementById('userDropdownMenu');
-        const badgeBtn = document.getElementById('userProfileBadge');
-        const wasUserMenuOpen = userMenu && userMenu.classList.contains('open');
-
-        const appsMenu = document.getElementById('appsDropdownMenu');
-        const appsBtn = document.getElementById('appsMenuBtn');
-        const wasAppsOpen = appsMenu && appsMenu.classList.contains('open');
-
-        const notifMenu = document.getElementById('notificationsDropdownMenu');
-        const notifBtn = document.getElementById('notificationsBtn');
-        const wasNotifOpen = notifMenu && notifMenu.classList.contains('open');
-
-        document.querySelectorAll('.dropdown-popover').forEach(function (pop) {
-          pop.classList.remove('open');
-        });
-        document.querySelectorAll('[aria-expanded="true"]').forEach(function (el) {
-          el.setAttribute('aria-expanded', 'false');
-        });
-
-        if (wasUserMenuOpen && badgeBtn) {
-          badgeBtn.focus();
-        } else if (wasAppsOpen && appsBtn) {
-          appsBtn.focus();
-        } else if (wasNotifOpen && notifBtn) {
-          notifBtn.focus();
-        }
-      }
-    });
-
-    // Mobile sidebar drawer
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebarLeft');
     const backdrop = document.getElementById('sidebarBackdrop');
-
     if (mobileMenuBtn && sidebar && backdrop) {
-      mobileMenuBtn.addEventListener('click', function () {
-        sidebar.classList.add('open');
-        backdrop.classList.add('active');
-      });
-
-      backdrop.addEventListener('click', function () {
-        sidebar.classList.remove('open');
-        backdrop.classList.remove('active');
-      });
-    }
-
-    // Card heart like toggles
-    document.addEventListener('click', function (e) {
-      const likeBtn = e.target.closest('.card-like-btn');
-      if (likeBtn) {
-        e.preventDefault();
-        e.stopPropagation();
-        likeBtn.classList.toggle('liked');
-        if (likeBtn.classList.contains('liked')) {
-          window.showToast('Saved to your favorites!');
-        }
-      }
-    });
-
-    // Submit Content Modal (Sidebar trigger)
-    const sidebarSubmitBtn = document.getElementById('sidebarSubmitBtn');
-    const submitModal = document.getElementById('submitModal');
-    if (sidebarSubmitBtn && submitModal) {
-      sidebarSubmitBtn.addEventListener('click', function (e) {
-        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
-          e.preventDefault();
-          submitModal.classList.add('active');
-        }
-      });
-    }
-
-    const fandomSubmitForm = document.getElementById('fandomSubmitForm');
-    if (fandomSubmitForm) {
-      fandomSubmitForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        window.showToast('Content submitted to community queue!');
-        fandomSubmitForm.reset();
-        closeAllModalsAndDrawers();
-      });
+      mobileMenuBtn.addEventListener('click', function () { sidebar.classList.add('open'); backdrop.classList.add('active'); });
+      backdrop.addEventListener('click', closeAllModalsAndDrawers);
     }
   }
 
@@ -419,8 +250,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     initThemeAndFont();
     initGlobalSearchAndHotkeys();
-    initWatchTriggers();
     initModalsAndPopovers();
+    initBookmarksAndSharing();
     initSidebarTooltips();
   });
 })();

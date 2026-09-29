@@ -4,22 +4,22 @@
 {# selected_category, query, total_count. Cards keep data-* attributes so #}
 {# the map/filter JS works unchanged; venuesData is built from the DOM. #}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 <head>
-  <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script src="{% static 'js/theme-init.js' %}"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fandom Conventions &amp; World Events | FAN HUB+</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
-  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+  
+  
+  
+  
 
-  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  
   <script src="{% static 'js/cart.js' %}" defer></script>
-  <script src="{% static 'js/main.js' %}" defer></script>
-  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  
   <script src="{% static 'js/chatbot.js' %}" defer></script>
 
   <style>
@@ -76,8 +76,9 @@
       color: var(--text-muted);
     }
   </style>
+{% include "_head_assets.html" %}
 </head>
-<body>
+<body>{% include "_session_controls.html" %}
   <div class="app-container">
 
     <!-- SIDEBAR LEFT -->
@@ -294,7 +295,6 @@
                 <iframe
                   width="100%" height="100%"
                   style="border:0; display:block; min-height:320px; filter:saturate(0.7) brightness(0.55) contrast(1.1);"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=-130%2C-10%2C155%2C65&amp;layer=mapnik"
                   loading="lazy"
                   title="Interactive Convention Map"
                   aria-hidden="true"

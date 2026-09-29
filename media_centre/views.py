@@ -1,17 +1,20 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 
-from catalog.models import Content
+from catalog.models import Content, Tag
 
 from .models import Rating
 from dashboard.models import ActivityLog, Actions
 
 def media_list(request):
-    items = Content.objects.filter(is_published=True, content_type__in=['video', 'audio']).prefetch_related('tags').order_by('-popularity_score')
-    return render(request, 'media-list.html', {'items': items})
+    items = Content.objects.filter(is_published=True, content_type__in=['video', 'audio']).select_related('category').prefetch_related('tags').annotate(avg_rating=Avg('ratings__rating'), rating_count=Count('ratings', distinct=True)).order_by('-popularity_score')
+    selected_tag = (request.GET.get('tag') or '').strip()
+    if selected_tag:
+        items = items.filter(tags__slug=selected_tag)
+    return render(request, 'media-list.html', {'items': items, 'tags': Tag.objects.order_by('name'), 'selected_tag': selected_tag})
 
 
 @login_required

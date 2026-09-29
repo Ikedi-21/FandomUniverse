@@ -6,6 +6,10 @@ from django.views.decorators.http import require_POST
 from django.contrib.contenttypes.models import ContentType
 from .models import Feedback, Bookmark
 from dashboard.models import ActivityLog, Actions
+from catalog.models import Content
+from characters.models import CharacterProfile
+from merch.models import Merch
+from events.models import Event
 
 
 @login_required
@@ -96,4 +100,16 @@ def bookmark_toggle(request):
 def bookmark_list(request):
     """Page listing all the user's bookmarks."""
     bookmarks = Bookmark.objects.filter(user=request.user).select_related('content_type')
+    for bookmark in bookmarks:
+        target = bookmark.target
+        if isinstance(target, Content):
+            bookmark.target_url = f'/catalog/content/{target.slug}/'
+        elif isinstance(target, CharacterProfile):
+            bookmark.target_url = f'/characters/{target.pk}/'
+        elif isinstance(target, Merch):
+            bookmark.target_url = f'/merch/{target.pk}/'
+        elif isinstance(target, Event):
+            bookmark.target_url = f'/events/{target.pk}/'
+        else:
+            bookmark.target_url = ''
     return render(request, 'bookmark-list.html', {'bookmarks': bookmarks})

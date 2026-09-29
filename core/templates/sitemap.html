@@ -1,25 +1,27 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 <head>
-  <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script src="{% static 'js/theme-init.js' %}"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Site Directory & Sitemap | FAN HUB+</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
-  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+  
+  
+  
+  
 
-  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  
   <script src="{% static 'js/cart.js' %}" defer></script>
-  <script src="{% static 'js/main.js' %}" defer></script>
-  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  
   <script src="{% static 'js/chatbot.js' %}" defer></script>
 
+{% include "_head_assets.html" %}
+{% include "_head_assets.html" %}
 </head>
-<body>
+<body>{% include "_session_controls.html" %}{% include "_session_controls.html" %}
   <div class="app-container">
 
     <!-- SIDEBAR LEFT -->
@@ -271,7 +273,7 @@
         <li><a href="{% url 'character-list' %}" class="sidebar-nav-link"><span>character-list.html &bull; Character Grid</span></a></li>
         <li><a href="{% url 'character-list' %}" class="sidebar-nav-link"><span>character-detail.html &bull; Full Bio &amp; Stats</span></a></li>
         <li><a href="{% url 'merch-list' %}" class="sidebar-nav-link"><span>merch-list.html &bull; Merch Store Gallery</span></a></li>
-        <li><a href="merch-detail.html" class="sidebar-nav-link"><span>merch-detail.html &bull; Product Detail &amp; Cart</span></a></li>
+        <li><a href="{% url 'merch-list' %}" class="sidebar-nav-link"><span>merch-detail.html &bull; Product Detail &amp; Cart</span></a></li>
         <li><a href="{% url 'events' %}" class="sidebar-nav-link"><span>events.html &bull; Conventions &amp; Tickets</span></a></li>
         <li><a href="{% url 'feedback' %}" class="sidebar-nav-link"><span>feedback.html &bull; Support &amp; Bug Report</span></a></li>
         <li><a href="{% url 'submit-content' %}" class="sidebar-nav-link"><span>submit-content.html &bull; Fan Submissions</span></a></li>
@@ -289,8 +291,8 @@
       <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
         <li><a href="{% url 'accounts:login' %}" class="sidebar-nav-link"><span>login.html &bull; Sign In Portal</span></a></li>
         <li><a href="{% url 'accounts:register' %}" class="sidebar-nav-link"><span>register.html &bull; Account Registration</span></a></li>
-        <li><a href="password-reset.html" class="sidebar-nav-link"><span>password-reset.html &bull; Password Recovery</span></a></li>
-        <li><a href="verify-email.html" class="sidebar-nav-link"><span>verify-email.html &bull; Email Verification</span></a></li>
+        <li><a href="{% url 'accounts:password_reset' %}" class="sidebar-nav-link"><span>password-reset.html &bull; Password Recovery</span></a></li>
+        <li><a href="{% url 'accounts:verify_sent' %}" class="sidebar-nav-link"><span>verify-email.html &bull; Email Verification</span></a></li>
       </ul>
       <!-- ENDLOOP: auth links -->
 
@@ -326,7 +328,7 @@
         <span>Components &amp; Widgets</span>
       </div>
       <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-        <li><a href="chatbot-widget.html" class="sidebar-nav-link"><span>chatbot-widget.html &bull; Standalone Snippet</span></a></li>
+        <li><a href="{% url 'home' %}" class="sidebar-nav-link"><span>chatbot-widget.html &bull; Standalone Snippet</span></a></li>
       </ul>
     </div>
   </div>

@@ -1,42 +1,43 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 <head>
-  <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script src="{% static 'js/theme-init.js' %}"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Submissions Queue | FAN HUB+ Admin</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static "css/tokens.css" %} ">
-  <link rel="stylesheet" href="{% static "css/base.css" %}">
-  <link rel="stylesheet" href="{% static "css/components.css" %}">
-  <link rel="stylesheet" href="{% static "css/chatbot.css" %}">
-  <script src="{% static "js/auth-context.js" %}" defer></script>
-  <script src="{% static "js/cart.js" %}" defer></script>
-  <script src="{% static "js/main.js" %}" defer></script>
-  <script src="{% static "js/chatbot-data.js" %}" defer></script>
-  <script src="{% static "js/chatbot.js" %}" defer></script>
+  
+  
+  
+  
+  
+  <script src="{% static 'js/cart.js' %}" defer></script>
+  
+  <script src="{% static 'js/chatbot.js' %}" defer></script>
+{% include "_head_assets.html" %}
 </head>
-<body>
+<body>{% include "_session_controls.html" %}
   <div class="admin-page-container">
 
     <!-- ADMIN TOP BAR -->
     <header class="admin-topbar">
       <div class="admin-topbar-left">
-        <a href="../index.html" class="admin-topbar-brand">
+        <a href="{% url 'home' %}" class="admin-topbar-brand">
           <div class="admin-topbar-badge">F</div>
           <span class="admin-topbar-title">FAN HUB<span>+</span></span>
         </a>
-        <span class="admin-portal-pill">ADMIN PORTAL</span>
+        {% if user.is_staff %}<span class="admin-portal-pill">ADMIN PORTAL</span>{% endif %}
         <nav class="admin-module-tabs" aria-label="Admin Modules">
-          <a href="admin-overview.html" class="admin-module-tab ">Overview</a>
-          <a href="admin-content-form.html" class="admin-module-tab ">Content</a>
-          <a href="admin-submissions-queue.html" class="admin-module-tab ">Submissions</a>
-          <a href="admin-chatbot-faq.html" class="admin-module-tab ">Chatbot FAQ</a>
-          <a href="explore.html" class="admin-module-tab">Categories</a>
-          <a href="character-list.html" class="admin-module-tab">Characters</a>
-          <a href="merch-list.html" class="admin-module-tab">Merch</a>
-          <a href="events.html" class="admin-module-tab">Events</a>
+          <a href="{% url 'admin_overview' %}" class="admin-module-tab ">Overview</a>
+          <a href="{% url 'admin_content_form' %}" class="admin-module-tab ">Content</a>
+          <a href="{% url 'admin_submissions' %}" class="admin-module-tab ">Submissions</a>
+          <a href="{% url 'admin_chatbot_faq' %}" class="admin-module-tab ">Chatbot FAQ</a>
+          <a href="{% url 'explore' %}" class="admin-module-tab">Categories</a>
+          <a href="{% url 'character-list' %}" class="admin-module-tab">Characters</a>
+          <a href="{% url 'merch-list' %}" class="admin-module-tab">Merch</a>
+          <a href="{% url 'events' %}" class="admin-module-tab">Events</a>
         </nav>
       </div>
       <div class="admin-topbar-right">
@@ -44,7 +45,7 @@
           <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
           <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
-        <a href="../index.html" class="btn btn-ghost btn-sm">
+        <a href="{% url 'home' %}" class="btn btn-ghost btn-sm">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
           Back to Site
         </a>
@@ -56,9 +57,9 @@
     <nav class="breadcrumb-nav" aria-label="Breadcrumb">
       <div class="breadcrumb-container">
         <ol class="breadcrumb-list">
-          <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
           <li class="breadcrumb-separator">/</li>
-          <li class="breadcrumb-item"><a href="admin-overview.html">Admin Portal</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'admin_overview' %}">Admin Portal</a></li>
           <li class="breadcrumb-separator">/</li>
           <li class="breadcrumb-item active" aria-current="page">Submissions Queue</li>
         </ol>
@@ -79,7 +80,7 @@
                 <p style="margin:4px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Review community fan edits, AMVs, theory articles, and illustrations before publishing.</p>
               </div>
               <div style="display:flex; gap:6px;">
-                <button type="button" class="btn btn-primary btn-sm">Pending (27)</button>
+                <button type="button" class="btn btn-primary btn-sm">Pending ({{ pending_count }})</button>
                 <button type="button" class="btn btn-secondary btn-sm">Approved</button>
                 <button type="button" class="btn btn-secondary btn-sm">Rejected</button>
               </div>
@@ -100,68 +101,31 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- LOOP: submissions queue -->
-                    <tr style="cursor:pointer;" onclick="selectSubmission(1, 'Flame Hashira Tribute 4K AMV', 'RengokuFan99', 'Anime Universe', 'AMV', 'Demon Slayer tribute edit celebrating Rengoku. High bitrate cuts synchronized to original anime score.', 'https://youtube.com/watch?v=...')">
-                      <td><strong>#1042</strong></td>
-                      <td>Flame Hashira Tribute 4K AMV</td>
-                      <td>@RengokuFan99</td>
-                      <td>Anime</td>
-                      <td>AMV</td>
-                      <td><span class="admin-badge status-pending">Pending</span></td>
+                    {% for submission in submissions %}
+                    <tr>
+                      <td><strong>#{{ submission.pk }}</strong></td>
+                      <td>{{ submission.title }}</td>
+                      <td>@{{ submission.user.username }}</td>
+                      <td>{{ submission.category.name }}</td>
+                      <td>Fan submission</td>
+                      <td><span class="admin-badge status-{{ submission.status|lower }}">{{ submission.get_status_display }}</span>
+                        {% if submission.status == 'PENDING' %}
+                        <form method="post" action="{% url 'admin_submissions' %}" style="display:grid; gap:6px; margin-top:8px;">{% csrf_token %}
+                          <input type="hidden" name="submission_id" value="{{ submission.pk }}">
+                          <input name="review_note" aria-label="Review note" placeholder="Review note (optional)">
+                          <div style="display:flex; gap:6px;"><button class="btn btn-primary btn-sm" name="action" value="approve">Approve</button><button class="btn btn-secondary btn-sm" name="action" value="reject">Reject</button></div>
+                        </form>
+                        {% endif %}
+                      </td>
                     </tr>
-                    <tr style="cursor:pointer;" onclick="selectSubmission(2, 'Shadow Monarch 4K Digital Art', 'HunterArt', 'Gaming & Webtoon', 'Art', 'Original digital artwork of Sung Jinwoo wielding the daggers of Kamish in shadow form.', 'https://artstation.com/...')">
-                      <td><strong>#1043</strong></td>
-                      <td>Shadow Monarch 4K Digital Art</td>
-                      <td>@HunterArt</td>
-                      <td>Webtoon</td>
-                      <td>Art</td>
-                      <td><span class="admin-badge status-pending">Pending</span></td>
-                    </tr>
-                    <tr style="cursor:pointer;" onclick="selectSubmission(3, 'One Piece: Ancient Void Century Theory', 'LoreMasterZ', 'Manga & Anime', 'Theory', '12-page breakdown cross-referencing Joy Boy murals from Skypeia to Egghead Island.', 'https://fanhub.com/doc/...')">
-                      <td><strong>#1044</strong></td>
-                      <td>One Piece: Ancient Void Century Theory</td>
-                      <td>@LoreMasterZ</td>
-                      <td>Manga</td>
-                      <td>Theory</td>
-                      <td><span class="admin-badge status-pending">Pending</span></td>
-                    </tr>
-                    <!-- ENDLOOP: submissions queue -->
+                  {% empty %}<tr><td colspan="6">No fan submissions have been filed.</td></tr>
+                  {% endfor %}
                   </tbody>
                 </table>
               </div>
 
               <!-- Right: Side Preview & Action Panel -->
-              <div class="review-preview-panel">
-                <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:8px;">
-                  <span id="previewId" style="font-size:var(--font-xs); color:var(--text-dim); font-weight:bold;">SUBMISSION #1042</span>
-                  <h3 id="previewTitle" style="margin:4px 0 0; font-size:var(--font-md); font-weight:var(--fw-bold);">Flame Hashira Tribute 4K AMV</h3>
-                  <div id="previewMeta" style="font-size:var(--font-xs); color:var(--text-muted); margin-top:2px;">By @RengokuFan99 &bull; Anime Universe</div>
-                </div>
-
-                <div>
-                  <label class="form-label" style="font-size:var(--font-xs);">Creator Note &amp; Description</label>
-                  <p id="previewDesc" style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.5; background:var(--bg-surface); padding:10px; border-radius:6px; border:1px solid var(--border-subtle); margin:0;">
-                    Demon Slayer tribute edit celebrating Rengoku. High bitrate cuts synchronized to original anime score.
-                  </p>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="reviewNotes">Review Notes for Creator</label>
-                  <textarea id="reviewNotes" class="form-input form-textarea" rows="3" placeholder="Add feedback or reasons for revision..."></textarea>
-                </div>
-
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                  <button type="button" class="btn btn-primary btn-md" onclick="window.showToast('Submission approved! Now published live on explore catalog.');">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;"><polyline points="20 6 9 17 4 12"></polyline></svg> Approve &amp; Publish
-                  </button>
-                  <button type="button" class="btn btn-secondary btn-md" onclick="window.showToast('Changes requested. Notes sent to creator.');">
-                    Request Revisions
-                  </button>
-                  <button type="button" class="btn btn-outline btn-md" style="color: var(--accent-red); border-color: var(--accent-red);" onclick="window.showToast('Submission rejected and archived.');">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Reject Submission
-                  </button>
-                </div>
-              </div>
+              <div class="review-preview-panel"><h2>Review a submission</h2><p>Select Approve or Reject from a pending submission row. Add an optional note in that row before submitting.</p></div>
 
             </div>
           </div>
@@ -174,8 +138,8 @@
           <div class="footer-bottom" style="border:none; padding:0;">
             <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
             <div class="footer-meta-links">
-              <a href="sitemap.html">Sitemap</a>
-              <a href="feedback.html">Support</a>
+              <a href="{% url 'sitemap' %}">Sitemap</a>
+              <a href="{% url 'feedback' %}">Support</a>
             </div>
           </div>
         </div>
@@ -184,35 +148,7 @@
   </div>
 
   <!-- CHATBOT WIDGET -->
-  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-  </button>
-  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
-    <div class="chatbot-header">
-      <div class="chatbot-header-info">
-        <div class="chatbot-avatar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
-        </div>
-        <div>
-          <div class="chatbot-title">FanBot Assistant</div>
-          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
-        </div>
-      </div>
-      <div class="chatbot-header-actions">
-        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-    </div>
-    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
-    <div class="chatbot-quick-chips" id="chatbotQuickChips"></div>
-    <form class="chatbot-input-row" id="chatbotForm">
-      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything..." autocomplete="off" />
-      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      </button>
-    </form>
-  </aside>
+  {% include "chatbot-widget.html" %}
   <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
 
   <script>

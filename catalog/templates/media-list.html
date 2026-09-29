@@ -1,1 +1,16 @@
-﻿{% load static %}<html><head><title>Media Centre</title><link rel="stylesheet" href="{% static 'css/base.css' %}"></head><body><main class="page-content"><h1>Media Centre</h1>{% for item in items %}<article><h2><a href="{% url 'content-detail' item.slug %}">{{ item.title }}</a></h2><p>{{ item.description }}</p>{% if item.video_url %}<a href="{{ item.video_url }}">Watch or listen</a>{% endif %}</article>{% empty %}<p>No published video or audio items yet.</p>{% endfor %}</main><footer><a href="{% url 'sitemap' %}">Sitemap</a></footer></body></html>
+﻿{% load static %}
+<!doctype html>
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
+<head>
+  <script src="{% static 'js/theme-init.js' %}"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Media Centre | Fan Hub Plus</title>{% include "_head_assets.html" %}</head>
+<body>{% include "_session_controls.html" %}<main class="page-content">
+  <header><p class="eyebrow">Fan Hub Plus</p><h1>Media Centre</h1><p>Browse published videos and audio, filtered by tag.</p></header>
+  <form method="get" class="filter-form"><label for="tagFilter">Tag</label><select id="tagFilter" name="tag"><option value="">All tags</option>{% for tag in tags %}<option value="{{ tag.slug }}" {% if selected_tag == tag.slug %}selected{% endif %}>{{ tag.name }}</option>{% endfor %}</select><button type="submit" class="btn btn-primary">Filter</button></form>
+  <section class="content-grid">{% for item in items %}<article class="content-card">
+    {% if item.thumbnail %}<img src="{{ item.thumbnail.url }}" alt="{{ item.title }}" loading="lazy">{% endif %}
+    <h2><a href="{% url 'content-detail' item.slug %}">{{ item.title }}</a></h2><p>{{ item.description }}</p>
+    <p>{{ item.get_content_type_display }} · {{ item.avg_rating|default:'Not rated'|floatformat:1 }} / 5 ({{ item.rating_count }} ratings)</p>
+    <div>{% for tag in item.tags.all %}<span class="badge">{{ tag.name }}</span>{% endfor %}</div>
+    {% if item.file and item.source_type == 'upload' %}{% if item.content_type == 'audio' %}<audio controls preload="none" style="width:100%"><source src="{{ item.file.url }}"></audio>{% else %}<video controls preload="none" style="width:100%" {% if item.thumbnail %}poster="{{ item.thumbnail.url }}"{% endif %}><source src="{{ item.file.url }}"></video>{% endif %}{% elif item.video_url %}<a class="btn btn-secondary" href="{{ item.video_url }}" target="_blank" rel="noopener noreferrer">Open original media</a>{% endif %}
+  </article>{% empty %}<p>No published video or audio items match this tag.</p>{% endfor %}</section>
+</main><footer class="site-footer"><a href="{% url 'sitemap' %}">Sitemap</a></footer>{% include "chatbot-widget.html" %}</body></html>

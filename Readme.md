@@ -24,7 +24,7 @@ Run these commands in PowerShell from the project root:
     python -m pip install -r requirements.txt
     Copy-Item .env.example .env
 
-The supplied .env.example uses SQLite for local setup. For MySQL, create a fanhubplus database with utf8mb4, install PyMySQL, set DB_ENGINE=mysql, and set DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, and DB_PORT in .env. The development machine has no MySQL server listening on 127.0.0.1:3306, so SQLite is the verified configuration.
+The supplied .env.example uses SQLite for local setup. For MySQL, install the dependencies from requirements.txt, set DB_ENGINE=mysql and the DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, and DB_SSL_CA variables in .env. DB_SSL_CA must point to the provider CA certificate file; keep both .env and the certificate private. The current Aiven connection could not be verified because the configured CA chain was rejected, so SQLite is the verified local configuration.
 
 After setting .env, initialize and run the project:
 

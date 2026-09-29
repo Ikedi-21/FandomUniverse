@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -7,17 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAN HUB+ | Explore, Connect, Beyond - Anime &amp; Fandom Entertainment</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
-  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/chatbot.css">
 
-  <script src="{% static 'js/auth-context.js' %}" defer></script>
-  <script src="{% static 'js/cart.js' %}" defer></script>
-  <script src="{% static 'js/main.js' %}" defer></script>
-  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
-  <script src="{% static 'js/chatbot.js' %}" defer></script>
-  <script src="{% static 'js/carousel.js' %}" defer></script>
+  <script src="js/auth-context.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/chatbot-data.js" defer></script>
+  <script src="js/chatbot.js" defer></script>
+  <script src="js/carousel.js" defer></script>
 </head>
 <body>
   <div class="app-container">
@@ -26,7 +25,7 @@
     <aside class="sidebar-left" id="sidebarLeft">
       <div class="sidebar-brand">
         <div class="brand-badge">F</div>
-        <a href="{% url 'home' %}" class="brand-title">FAN HUB<span>+</span></a>
+        <a href="index.html" class="brand-title">FAN HUB<span>+</span></a>
       </div>
 
       <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
@@ -34,31 +33,31 @@
           <div class="sidebar-section-title">Explore</div>
           <ul class="sidebar-nav-list">
             <li>
-              <a href="{% url 'home' %}" class="sidebar-nav-link active">
+              <a href="index.html" class="sidebar-nav-link active">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 <span>Home</span>
               </a>
             </li>
             <li>
-              <a href="{% url 'explore' %}" class="sidebar-nav-link">
+              <a href="pages/explore.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
                 <span>Explore Catalog</span>
               </a>
             </li>
             <li>
-              <a href="{% url 'character-list' %}" class="sidebar-nav-link">
+              <a href="pages/character-list.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 <span>Characters</span>
               </a>
             </li>
             <li>
-              <a href="{% url 'merch-list' %}" class="sidebar-nav-link">
+              <a href="pages/merch-list.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                 <span>Merch &amp; Store</span>
               </a>
             </li>
             <li>
-              <a href="{% url 'events' %}" class="sidebar-nav-link">
+              <a href="pages/events.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 <span>Events &amp; Cons</span>
               </a>
@@ -70,19 +69,19 @@
           <div class="sidebar-section-title">Community</div>
           <ul class="sidebar-nav-list">
             <li>
-              <a href="{% url 'submit-content' %}" class="sidebar-nav-link">
+              <a href="pages/submit-content.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                 <span>Submit Content</span>
               </a>
             </li>
             <li>
-              <a href="{% url 'feedback' %}" class="sidebar-nav-link">
+              <a href="pages/feedback.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 <span>Feedback &amp; Help</span>
               </a>
             </li>
             <li>
-              <a href="{% url 'sitemap' %}" class="sidebar-nav-link">
+              <a href="pages/sitemap.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                 <span>Site Directory</span>
               </a>
@@ -90,44 +89,40 @@
           </ul>
         </div>
 
-        {% if request.user.is_authenticated %}
-<div>
+        <div>
           <div class="sidebar-section-title">My Account</div>
           <ul class="sidebar-nav-list">
             <li>
-              <a href="{% url 'user_dashboard' %}" class="sidebar-nav-link">
+              <a href="pages/dashboard.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 <span>Dashboard</span>
               </a>
             </li>
             <li>
-              <a href="{% url 'profile' %}" class="sidebar-nav-link">
+              <a href="pages/profile.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 <span>Profile &amp; Settings</span>
               </a>
             </li>
           </ul>
         </div>
-{% endif %}
 
-        {% if request.user.is_staff %}
-<div>
+        <div>
           <div class="sidebar-section-title">Management</div>
           <ul class="sidebar-nav-list">
             <li>
-              <a href="{% url 'admin_overview' %}" class="sidebar-nav-link">
+              <a href="pages/admin-overview.html" class="sidebar-nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                 <span>Admin Portal</span>
               </a>
             </li>
           </ul>
         </div>
-{% endif %}
       </nav>
 
       <!-- Sidebar User / CTA Slot -->
       <div class="sidebar-footer-actions" id="sidebarFooterSlot">
-        <a href="{% url 'submit-content' %}" class="sidebar-cta-btn" id="sidebarSubmitBtn">
+        <a href="pages/submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           <span class="cta-text">Submit Content</span>
         </a>
@@ -143,11 +138,11 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
           <nav class="header-nav-tabs" aria-label="Primary Navigation">
-            <a href="{% url 'home' %}" class="header-nav-tab active">Home</a>
-            <a href="{% url 'explore' %}" class="header-nav-tab">Explore</a>
-            <a href="{% url 'character-list' %}" class="header-nav-tab">Characters</a>
-            <a href="{% url 'merch-list' %}" class="header-nav-tab">Merch</a>
-            <a href="{% url 'events' %}" class="header-nav-tab">Events</a>
+            <a href="index.html" class="header-nav-tab active">Home</a>
+            <a href="pages/explore.html" class="header-nav-tab">Explore</a>
+            <a href="pages/character-list.html" class="header-nav-tab">Characters</a>
+            <a href="pages/merch-list.html" class="header-nav-tab">Merch</a>
+            <a href="pages/events.html" class="header-nav-tab">Events</a>
           </nav>
         </div>
 
@@ -168,7 +163,13 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
             <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
           </button>
-          {% include "_session_controls.html" %}</div>
+          <div id="headerAuthSlot">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="pages/login.html" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
+              <a href="pages/register.html" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
+            </div>
+          </div>
+        </div>
       </header>
 
       <!-- SHARED BREADCRUMB BAR -->
@@ -193,7 +194,7 @@
             <!-- HERO CAROUSEL -->
             <section class="hero-carousel-container" id="heroBanner" aria-label="Featured Fandom Carousel">
               <!-- Slide 1: Demon Slayer -->
-              <div class="hero-slide active" style="background-image: url('{% static 'images/hero_section/demon_slayer_hero.jpg' %}');">
+              <div class="hero-slide active" style="background-image: url('images/hero_section/demon_slayer_hero.jpg');">
                 <div class="hero-slide-overlay">
                   <span class="hero-badge-tag">Season 4 Premiere Stream</span>
                   <h1 class="hero-title">Demon Slayer: Swordsmith Village Arc</h1>
@@ -205,13 +206,13 @@
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                       Watch Stream
                     </button>
-                    <a href="{% url 'explore' %}?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
+                    <a href="pages/explore.html?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
                   </div>
                 </div>
               </div>
 
               <!-- Slide 2: Naruto -->
-              <div class="hero-slide" style="background-image: url('{% static 'images/hero_section/naruto_hero.jpg' %}');">
+              <div class="hero-slide" style="background-image: url('images/hero_section/naruto_hero.jpg');">
                 <div class="hero-slide-overlay">
                   <span class="hero-badge-tag">Shinobi War Legacy</span>
                   <h1 class="hero-title">Naruto Shippuden: Great Ninja War Climax</h1>
@@ -223,13 +224,13 @@
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                       Watch Stream
                     </button>
-                    <a href="{% url 'explore' %}?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
+                    <a href="pages/explore.html?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
                   </div>
                 </div>
               </div>
 
               <!-- Slide 3: One Piece -->
-              <div class="hero-slide" style="background-image: url('{% static 'images/hero_section/one_piece_hero.png' %}');">
+              <div class="hero-slide" style="background-image: url('images/hero_section/one_piece_hero.png');">
                 <div class="hero-slide-overlay">
                   <span class="hero-badge-tag">Egghead Island Climax</span>
                   <h1 class="hero-title">One Piece: Egghead Island Future Realm</h1>
@@ -241,7 +242,7 @@
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                       Watch Stream
                     </button>
-                    <a href="{% url 'explore' %}?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
+                    <a href="pages/explore.html?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
                   </div>
                 </div>
               </div>
@@ -266,60 +267,60 @@
             <section class="category-strip" aria-label="Fandom Categories">
               <div class="section-header">
                 <h2 class="section-title">Explore Fandom Universes</h2>
-                <a href="{% url 'explore' %}" class="section-view-all">All Universes &rarr;</a>
+                <a href="pages/explore.html" class="section-view-all">All Universes &rarr;</a>
               </div>
               <div class="category-strip-grid">
                 <!-- Anime -->
-                <a href="{% url 'explore' %}?category=anime" class="category-strip-card">
+                <a href="pages/explore.html?category=anime" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"></path><path d="M13 19l6-6"></path><path d="M16 16l4 4"></path><path d="M19 21l2-2"></path></svg>
                   </div>
                   <span class="category-strip-name">Anime</span>
                 </a>
                 <!-- Gaming -->
-                <a href="{% url 'explore' %}?category=gaming" class="category-strip-card">
+                <a href="pages/explore.html?category=gaming" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="11" r="1"></circle><circle cx="17" cy="13" r="1"></circle></svg>
                   </div>
                   <span class="category-strip-name">Gaming</span>
                 </a>
                 <!-- Movies -->
-                <a href="{% url 'explore' %}?category=movies" class="category-strip-card">
+                <a href="pages/explore.html?category=movies" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
                   </div>
                   <span class="category-strip-name">Movies</span>
                 </a>
                 <!-- K-Pop -->
-                <a href="{% url 'explore' %}?category=kpop" class="category-strip-card">
+                <a href="pages/explore.html?category=kpop" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
                   </div>
                   <span class="category-strip-name">K-Pop</span>
                 </a>
                 <!-- Manga -->
-                <a href="{% url 'explore' %}?category=manga" class="category-strip-card">
+                <a href="pages/explore.html?category=manga" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                   </div>
                   <span class="category-strip-name">Manga</span>
                 </a>
                 <!-- Comics -->
-                <a href="{% url 'explore' %}?category=comics" class="category-strip-card">
+                <a href="pages/explore.html?category=comics" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                   </div>
                   <span class="category-strip-name">Comics</span>
                 </a>
                 <!-- Cosplay -->
-                <a href="{% url 'explore' %}?category=cosplay" class="category-strip-card">
+                <a href="pages/explore.html?category=cosplay" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                   </div>
                   <span class="category-strip-name">Cosplay</span>
                 </a>
                 <!-- Collectibles -->
-                <a href="{% url 'merch-list' %}" class="category-strip-card">
+                <a href="pages/merch-list.html" class="category-strip-card">
                   <div class="category-strip-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 2 18 2 22 8 12 22 2 8 6 2"></polygon><line x1="2" y1="8" x2="22" y2="8"></line></svg>
                   </div>
@@ -335,12 +336,12 @@
                   <h2 class="section-title">Trending Simulcasts &amp; Broadcasts</h2>
                   <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Stream current season episodes in 4K HDR with dual audio tracks</p>
                 </div>
-                <a href="{% url 'explore' %}" class="section-view-all">Full Catalog &rarr;</a>
+                <a href="pages/explore.html" class="section-view-all">Full Catalog &rarr;</a>
               </div>
               <div class="cards-grid">
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/demon_slayer_thumb.jpg' %}" alt="Demon Slayer" loading="lazy" />
+                    <img src="images/posters/demon_slayer_thumb.jpg" alt="Demon Slayer" loading="lazy" />
                     <span class="card-badge badge-stream">Simulcast</span>
                     <span class="card-rating">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -360,7 +361,7 @@
 
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="Solo Leveling" loading="lazy" />
+                    <img src="images/posters/solo_leveling.jpg" alt="Solo Leveling" loading="lazy" />
                     <span class="card-badge badge-stream">Hot Series</span>
                     <span class="card-rating">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -380,7 +381,7 @@
 
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/one_piece_thumb.jpg' %}" alt="One Piece" loading="lazy" />
+                    <img src="images/posters/one_piece_thumb.jpg" alt="One Piece" loading="lazy" />
                     <span class="card-badge badge-stream">Shonen</span>
                     <span class="card-rating">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -400,7 +401,7 @@
 
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/gta_sunset.jpg' %}" alt="GTA VI" loading="lazy" />
+                    <img src="images/posters/gta_sunset.jpg" alt="GTA VI" loading="lazy" />
                     <span class="card-badge badge-stream">Gaming</span>
                     <span class="card-rating">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -427,13 +428,13 @@
                   <h2 class="section-title">Hall of Heroes &bull; Character Dossiers</h2>
                   <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Combat ratings, signature techniques, voice actors, and deep lore profiles</p>
                 </div>
-                <a href="{% url 'character-list' %}" class="section-view-all">All Characters &rarr;</a>
+                <a href="pages/character-list.html" class="section-view-all">All Characters &rarr;</a>
               </div>
               <div class="cards-grid">
                 <!-- Tanjiro -->
                 <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
                   <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="{% static 'images/posters/demon_slayer_thumb.jpg' %}" alt="Tanjiro" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
+                    <img src="images/posters/demon_slayer_thumb.jpg" alt="Tanjiro" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
                     <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(239,35,60,0.85); color:#fff; font-weight:bold;">Demon Slayer</span>
                     <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">Grade S</span>
                   </div>
@@ -459,7 +460,7 @@
                 <!-- Sung Jinwoo -->
                 <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
                   <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="Sung Jinwoo" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
+                    <img src="images/posters/solo_leveling.jpg" alt="Sung Jinwoo" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
                     <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(139,92,246,0.85); color:#fff; font-weight:bold;">Solo Leveling</span>
                     <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color:#c084fc; padding:2px 8px; border-radius:12px; font-weight:bold;">Grade SSS</span>
                   </div>
@@ -485,7 +486,7 @@
                 <!-- Luffy -->
                 <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
                   <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="{% static 'images/posters/one_piece_thumb.jpg' %}" alt="Luffy" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
+                    <img src="images/posters/one_piece_thumb.jpg" alt="Luffy" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
                     <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(239,35,60,0.85); color:#fff; font-weight:bold;">One Piece</span>
                     <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">3B Bounty</span>
                   </div>
@@ -511,7 +512,7 @@
                 <!-- Naruto -->
                 <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
                   <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="{% static 'images/posters/naruto_thumb.jpg' %}" alt="Naruto" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
+                    <img src="images/posters/naruto_thumb.jpg" alt="Naruto" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
                     <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(245,158,11,0.85); color:#fff; font-weight:bold;">Naruto</span>
                     <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">Hokage</span>
                   </div>
@@ -543,12 +544,12 @@
                   <h2 class="section-title">Official Fandom Merch Vault</h2>
                   <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Direct Tokyo &amp; Seoul studio collectibles &bull; 100% authentic serialized goods</p>
                 </div>
-                <a href="{% url 'merch-list' %}" class="section-view-all">All Merch Store &rarr;</a>
+                <a href="pages/merch-list.html" class="section-view-all">All Merch Store &rarr;</a>
               </div>
               <div class="cards-grid">
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="Sung Jinwoo Statue" loading="lazy" />
+                    <img src="images/posters/solo_leveling.jpg" alt="Sung Jinwoo Statue" loading="lazy" />
                     <span class="card-badge badge-merch">1/7 Statue</span>
                     <span class="card-rating">$249.99</span>
                   </div>
@@ -567,7 +568,7 @@
 
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/demon_slayer_thumb.jpg' %}" alt="Water Dragon Figure" loading="lazy" />
+                    <img src="images/posters/demon_slayer_thumb.jpg" alt="Water Dragon Figure" loading="lazy" />
                     <span class="card-badge badge-merch">Collectible</span>
                     <span class="card-rating">$89.99</span>
                   </div>
@@ -586,7 +587,7 @@
 
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/naruto_thumb.jpg' %}" alt="Akatsuki Hoodie" loading="lazy" />
+                    <img src="images/posters/naruto_thumb.jpg" alt="Akatsuki Hoodie" loading="lazy" />
                     <span class="card-badge badge-merch">Streetwear</span>
                     <span class="card-rating">$68.00</span>
                   </div>
@@ -605,7 +606,7 @@
 
                 <article class="content-card">
                   <div class="content-card-poster">
-                    <img src="{% static 'images/posters/gta_sunset.jpg' %}" alt="GTA VI Varsity" loading="lazy" />
+                    <img src="images/posters/gta_sunset.jpg" alt="GTA VI Varsity" loading="lazy" />
                     <span class="card-badge badge-merch">Outerwear</span>
                     <span class="card-rating">$180.00</span>
                   </div>
@@ -631,7 +632,7 @@
                   <h2 class="section-title">Community Pulse &amp; Fan Debates</h2>
                   <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Join trending theorycrafting, episode breakdowns, and character showdowns</p>
                 </div>
-                <a href="{% url 'submit-content' %}" class="section-view-all">Post Discussion &rarr;</a>
+                <a href="pages/submit-content.html" class="section-view-all">Post Discussion &rarr;</a>
               </div>
               <div style="display:flex; flex-direction:column; gap:12px;">
                 <!-- Thread 1 -->
@@ -655,7 +656,7 @@
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                       <span>342 Comments</span>
                     </div>
-                    <a href="{% url 'feedback' %}" class="btn btn-outline btn-sm">Join Debate</a>
+                    <a href="pages/feedback.html" class="btn btn-outline btn-sm">Join Debate</a>
                   </div>
                 </div>
 
@@ -680,7 +681,7 @@
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                       <span>189 Comments</span>
                     </div>
-                    <a href="{% url 'feedback' %}" class="btn btn-outline btn-sm">Join Debate</a>
+                    <a href="pages/feedback.html" class="btn btn-outline btn-sm">Join Debate</a>
                   </div>
                 </div>
               </div>
@@ -722,12 +723,12 @@
             <div class="widget-card">
               <div class="widget-title">
                 <span>Top Broadcasts</span>
-                <a href="{% url 'explore' %}?sort=popularity" style="font-size:var(--font-xs); color:var(--accent-red);">See All</a>
+                <a href="pages/explore.html?sort=popularity" style="font-size:var(--font-xs); color:var(--accent-red);">See All</a>
               </div>
               <div class="ranked-list">
                 <div class="ranked-item">
                   <span class="ranked-num">01</span>
-                  <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="Solo Leveling" class="ranked-thumb" />
+                  <img src="images/posters/solo_leveling.jpg" alt="Solo Leveling" class="ranked-thumb" />
                   <div class="ranked-details">
                     <div class="ranked-title">Solo Leveling: Arise</div>
                     <div class="ranked-sub">124k weekly plays</div>
@@ -735,7 +736,7 @@
                 </div>
                 <div class="ranked-item">
                   <span class="ranked-num">02</span>
-                  <img src="{% static 'images/posters/demon_slayer_thumb.jpg' %}" alt="Demon Slayer" class="ranked-thumb" />
+                  <img src="images/posters/demon_slayer_thumb.jpg" alt="Demon Slayer" class="ranked-thumb" />
                   <div class="ranked-details">
                     <div class="ranked-title">Demon Slayer: Kimetsu</div>
                     <div class="ranked-sub">98k weekly plays</div>
@@ -743,7 +744,7 @@
                 </div>
                 <div class="ranked-item">
                   <span class="ranked-num">03</span>
-                  <img src="{% static 'images/posters/one_piece_thumb.jpg' %}" alt="One Piece" class="ranked-thumb" />
+                  <img src="images/posters/one_piece_thumb.jpg" alt="One Piece" class="ranked-thumb" />
                   <div class="ranked-details">
                     <div class="ranked-title">One Piece: Egghead</div>
                     <div class="ranked-sub">87k weekly plays</div>
@@ -796,7 +797,7 @@
             <div class="widget-card">
               <div class="widget-title">
                 <span>Upcoming Cons</span>
-                <a href="{% url 'events' %}" style="font-size:var(--font-xs); color:var(--accent-red);">View Map</a>
+                <a href="pages/events.html" style="font-size:var(--font-xs); color:var(--accent-red);">View Map</a>
               </div>
               <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
                 <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border-left:3px solid var(--accent-red);">
@@ -837,33 +838,33 @@
             <div class="footer-col">
               <h4>Explore</h4>
               <ul>
-                <li><a href="{% url 'explore' %}">Catalog &amp; Media</a></li>
-                <li><a href="{% url 'character-list' %}">Characters</a></li>
-                <li><a href="{% url 'merch-list' %}">Merchandise</a></li>
-                <li><a href="{% url 'events' %}">Events &amp; Cons</a></li>
+                <li><a href="pages/explore.html">Catalog &amp; Media</a></li>
+                <li><a href="pages/character-list.html">Characters</a></li>
+                <li><a href="pages/merch-list.html">Merchandise</a></li>
+                <li><a href="pages/events.html">Events &amp; Cons</a></li>
               </ul>
             </div>
             <div class="footer-col">
               <h4>Community</h4>
               <ul>
-                <li><a href="{% url 'submit-content' %}">Submit Content</a></li>
-                <li><a href="{% url 'feedback' %}">Feedback &amp; Bugs</a></li>
-                <li><a href="{% url 'sitemap' %}">Sitemap</a></li>
+                <li><a href="pages/submit-content.html">Submit Content</a></li>
+                <li><a href="pages/feedback.html">Feedback &amp; Bugs</a></li>
+                <li><a href="pages/sitemap.html">Sitemap</a></li>
               </ul>
             </div>
             <div class="footer-col">
               <h4>Account</h4>
               <ul>
-                <li><a href="{% url 'user_dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'profile' %}">Profile Settings</a></li>
-                <li><a href="{% url 'accounts:login' %}">Sign In</a></li>
-                <li><a href="{% url 'accounts:register' %}">Register</a></li>
+                <li><a href="pages/dashboard.html">Dashboard</a></li>
+                <li><a href="pages/profile.html">Profile Settings</a></li>
+                <li><a href="pages/login.html">Sign In</a></li>
+                <li><a href="pages/register.html">Register</a></li>
               </ul>
             </div>
             <div class="footer-col">
               <h4>Management</h4>
               <ul>
-                <li><a href="{% url 'admin_overview' %}">Admin Overview</a></li>
+                <li><a href="pages/admin-overview.html">Admin Overview</a></li>
                 <li><a href="pages/admin-content-form.html">Content Manager</a></li>
                 <li><a href="pages/admin-submissions-queue.html">Submissions Queue</a></li>
                 <li><a href="pages/admin-chatbot-faq.html">Bot Knowledge Base</a></li>
@@ -873,8 +874,8 @@
           <div class="footer-bottom">
             <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
             <div class="footer-meta-links">
-              <a href="{% url 'sitemap' %}">Sitemap</a>
-              <a href="{% url 'feedback' %}">Support</a>
+              <a href="pages/sitemap.html">Sitemap</a>
+              <a href="pages/feedback.html">Support</a>
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Service</a>
             </div>

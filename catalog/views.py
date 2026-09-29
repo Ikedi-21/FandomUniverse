@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db import DatabaseError
 from django.db.models import Avg, F, Q
 from django.core.paginator import Paginator
 from django.contrib.contenttypes.models import ContentType
@@ -65,19 +66,24 @@ def explore(request):
 def content_detail(request, slug):
     """Handles individual content viewing, loading the item and related items in the same category."""
     content = get_object_or_404(
-        Content.objects.select_related('category', 'created_by'),
+        Content.objects.select_related('category', 'created_by').annotate(avg_rating=Avg('ratings__rating')),
         slug=slug,
         is_published=True,
     )
 
     # Atomic view bump
-    Content.objects.filter(pk=content.pk).update(view_count=F('view_count') + 1)
-    content.view_count += 1
+    try:
+        Content.objects.filter(pk=content.pk).update(view_count=F('view_count') + 1)
+        content.view_count += 1
+    except DatabaseError:
+        # Read-only demo databases can still serve detail pages; skip analytics.
+        pass
 
     related_contents = (
         Content.objects.filter(category=content.category, is_published=True)
         .exclude(pk=content.pk)
         .select_related('category')
+        .annotate(avg_rating=Avg('ratings__rating'))
         .prefetch_related('genres')[:3]
     )
 
@@ -88,6 +94,7 @@ def content_detail(request, slug):
 
     if request.user.is_authenticated:
         from engagements.models import Bookmark
+        from media_centre.models import Rating
         bm = Bookmark.objects.filter(
             user=request.user,
             content_type=content_type,
@@ -96,6 +103,9 @@ def content_detail(request, slug):
         if bm:
             is_bookmarked = True
             bookmark_note = bm.note or ''
+        user_rating = Rating.objects.filter(user=request.user, media=content).values_list('rating', flat=True).first()
+    else:
+        user_rating = None
 
     context = {
         'content': content,
@@ -103,6 +113,7 @@ def content_detail(request, slug):
         'content_type_id': content_type.id,
         'is_bookmarked': is_bookmarked,
         'bookmark_note': bookmark_note,
+        'user_rating': user_rating,
     }
     return render(request, 'content-detail.html', context)
 

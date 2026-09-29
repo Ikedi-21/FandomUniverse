@@ -1,24 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 <head>
-  {% comment %} <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script> {% endcomment %}
+  <script src="{% static 'js/theme-init.js' %}"></script>
+  {% comment %}  {% endcomment %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ content.title }} | FAN HUB+</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
-  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+  
+  
+  
+  
 
-  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  
   <script src="{% static 'js/cart.js' %}" defer></script>
-  <script src="{% static 'js/main.js' %}" defer></script>
-  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  
   <script src="{% static 'js/chatbot.js' %}" defer></script>
+{% include "_head_assets.html" %}
 </head>
-<body>
+<body>{% include "_session_controls.html" %}
   <div class="app-container">
 
     <!-- SIDEBAR LEFT -->
@@ -161,12 +162,6 @@
           <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
 
-        <!-- Cart Trigger -->
-        <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-          <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
-        </button>
-
         <!-- Apps Launcher -->
         <div style="position:relative;">
           <button type="button" class="icon-btn" id="appsMenuBtn" aria-label="Fandom Hub Apps Launcher">
@@ -238,16 +233,23 @@
 
         <!-- VIDEO PLAYER CONTAINER -->
         <div style="background: #000; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-medium); box-shadow: var(--shadow-lg);">
-          <video id="mainVideoPlayer" controls
-                 {% if content.thumbnail %}poster="{{ content.thumbnail.url }}"{% endif %}
-                 style="width: 100%; aspect-ratio: 16/9; display: block; background: #000;">
-            {% if content.source_type == 'upload' and content.file %}
-              <source src="{{ content.file.url }}" type="video/mp4">
-            {% elif content.video_url %}
-              <source src="{{ content.video_url }}" type="video/mp4">
+          {% if content.file and content.source_type == 'upload' %}
+            {% if content.content_type == 'audio' %}
+              <audio id="mainAudioPlayer" controls style="width:100%; display:block;"><source src="{{ content.file.url }}"></audio>
+            {% else %}
+              <video id="mainVideoPlayer" controls {% if content.thumbnail %}poster="{{ content.thumbnail.url }}"{% endif %} style="width:100%; aspect-ratio:16/9; display:block; background:#000;"><source src="{{ content.file.url }}"></video>
             {% endif %}
-            Your browser does not support high definition HTML5 video streams.
-          </video>
+          {% elif content.video_url %}
+            <div style="padding:24px; color:#fff;">
+              {% if content.thumbnail %}<img src="{{ content.thumbnail.url }}" alt="{{ content.title }}" style="display:block; width:min(100%,720px); max-height:360px; object-fit:cover; margin:0 auto 16px;">{% endif %}
+              <p>Open this media from its original source:</p>
+              <a href="{{ content.video_url }}" rel="noopener noreferrer" target="_blank" class="btn btn-primary">Open media</a>
+            </div>
+          {% elif content.thumbnail %}
+            <img src="{{ content.thumbnail.url }}" alt="{{ content.title }}" style="display:block; width:100%; max-height:420px; object-fit:cover;">
+          {% else %}
+            <p style="padding:24px; color:#fff;">Media preview is not available.</p>
+          {% endif %}
         </div>
 
         <!-- TITLE & ACTIONS BAR -->
@@ -255,9 +257,6 @@
           <div>
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
               <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red); font-weight:bold;">{{ content.category.name }}</span>
-              {% if content.meta_label %}
-                <span class="badge" style="background:rgba(16,185,129,0.15); color: var(--color-green);">{{ content.meta_label }}</span>
-              {% endif %}
               <span style="font-size:var(--font-xs); color:var(--text-muted);">
                 {% if content.release_date %}{{ content.release_date|date:"Y" }}{% else %}{{ content.created_at|date:"Y" }}{% endif %}
               </span>
@@ -269,12 +268,12 @@
           <div style="display:flex; align-items:center; gap:12px;">
             <div class="star-rating-widget" id="starRatingWidget" aria-label="User Rating" data-rate-url="{% url 'rate-media' %}" data-content-slug="{{ content.slug }}">
               {% csrf_token %}
-              <button type="button" class="star-btn active" data-rating="1" aria-label="Rate 1 star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
-              <button type="button" class="star-btn active" data-rating="2" aria-label="Rate 2 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
-              <button type="button" class="star-btn active" data-rating="3" aria-label="Rate 3 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
-              <button type="button" class="star-btn active" data-rating="4" aria-label="Rate 4 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
-              <button type="button" class="star-btn active" data-rating="5" aria-label="Rate 5 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
-              <span id="starScoreDisplay" style="font-weight:bold; font-size:var(--font-sm); margin-left:4px;">{{ content.average_rating|floatformat:1 }}</span>
+              <button type="button" class="star-btn {% if user_rating and user_rating >= 1 %}active{% endif %}" data-rating="1" aria-label="Rate 1 star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+              <button type="button" class="star-btn {% if user_rating and user_rating >= 2 %}active{% endif %}" data-rating="2" aria-label="Rate 2 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+              <button type="button" class="star-btn {% if user_rating and user_rating >= 3 %}active{% endif %}" data-rating="3" aria-label="Rate 3 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+              <button type="button" class="star-btn {% if user_rating and user_rating >= 4 %}active{% endif %}" data-rating="4" aria-label="Rate 4 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+              <button type="button" class="star-btn {% if user_rating and user_rating >= 5 %}active{% endif %}" data-rating="5" aria-label="Rate 5 stars"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+              <span id="starScoreDisplay" style="font-weight:bold; font-size:var(--font-sm); margin-left:4px;">{{ content.avg_rating|default_if_none:0|floatformat:1 }}</span>
             </div>
 
             <button type="button"
@@ -365,7 +364,7 @@
                   <img src="{% static 'images/placeholder.jpg' %}" alt="Placeholder" loading="lazy" />
                 {% endif %}
                 <span class="card-badge badge-stream">{{ related.category.name }}</span>
-                <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> {{ related.average_rating|floatformat:1 }}</span>
+                <span class="card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> {{ related.avg_rating|default_if_none:0|floatformat:1 }}</span>
               </div>
               <div class="content-card-body">
                 <span class="content-card-category">{{ related.genres.first.name }}</span>
@@ -446,31 +445,6 @@
       </div>
     </footer>
 
-  </div>
-
-  <!-- CART DRAWER OVERLAY -->
-  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
-    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
-      <div class="cart-drawer-header">
-        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
-          Shopping Bag
-        </h3>
-        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div class="cart-drawer-items" id="cartDrawerItems"></div>
-      <div class="cart-drawer-footer">
-        <div class="cart-subtotal-row">
-          <span>Estimated Subtotal</span>
-          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
-        </div>
-        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
-          Proceed to Checkout
-        </button>
-      </div>
-    </aside>
   </div>
 
   <!-- CHATBOT WIDGET -->
@@ -616,3 +590,27 @@
     starBtns.forEach(btn => {
       btn.addEventListener('click', function () {
         const rating = parseInt(this.getAttribute('data-rating'), 10);
+
+        {% if not user.is_authenticated %}
+          window.location.href = "{% url 'accounts:login' %}?next=" + encodeURIComponent(window.location.pathname);
+          return;
+        {% endif %}
+        const widget = document.getElementById('starRatingWidget');
+        const payload = new URLSearchParams({content: widget.dataset.contentSlug, rating: String(rating)});
+        fetch(widget.dataset.rateUrl, {
+          method: 'POST', credentials: 'same-origin',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': getCsrfToken()},
+          body: payload.toString()
+        }).then(async function (response) {
+          const result = await response.json();
+          if (!response.ok || !result.ok) throw new Error(result.error || 'Rating could not be saved.');
+          paintStars(rating);
+          scoreDisplay.textContent = Number(result.average_rating).toFixed(1);
+          window.showToast('Your rating was saved.');
+        }).catch(function (error) { window.showToast(error.message || 'Could not save your rating.'); });
+      });
+    });
+  });
+  </script>
+</body>
+</html>

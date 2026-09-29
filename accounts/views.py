@@ -3,12 +3,15 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.utils.decorators import method_decorator
 from django_ratelimit.decorators import ratelimit
 from .emails import send_verification_email
 from .forms import RegisterForm, VerifiedAuthenticationForm
+from .models import Profile
 from .tokens import email_token_generator
 import time
 
@@ -75,3 +78,27 @@ def resend_verification_view(request):
 class ThrottledLoginView(LoginView):
     authentication_form = VerifiedAuthenticationForm
     template_name = 'login.html'
+
+
+@login_required
+@require_POST
+def save_preferences_view(request):
+    """Persist display choices so the server can render them on the next page."""
+    import json
+    try:
+        payload = json.loads(request.body or b'{}')
+    except (TypeError, ValueError):
+        return JsonResponse({'ok': False}, status=400)
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    changed = []
+    theme = payload.get('theme')
+    font_size = payload.get('font_size')
+    if theme in {'light', 'dark'}:
+        profile.theme = theme
+        changed.append('theme')
+    if font_size in {'small', 'medium', 'large'}:
+        profile.font_size = font_size
+        changed.append('font_size')
+    if changed:
+        profile.save(update_fields=changed)
+    return JsonResponse({'ok': True})

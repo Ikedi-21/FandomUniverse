@@ -1,50 +1,43 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 <head>
-  <script>!function(){var e=document.documentElement.getAttribute('data-user-theme')||localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script src="{% static 'js/theme-init.js' %}"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Overview | FAN HUB+</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static "css/tokens.css" %}">
-  <link rel="stylesheet" href="{% static "css/base.css" %}">
-  <link rel="stylesheet" href="{% static "css/components.css" %}">
-  <link rel="stylesheet" href="{% static "css/chatbot.css" %}">
-  <script src="{% static "js/auth-context.js" %}" defer></script>
-  <script src="{% static "js/cart.js" %}" defer></script>
-  <script src="{% static "js/main.js" %}" defer></script>
-  <script src="{% static "js/chatbot-data.js" %}" defer></script>
-  <script src="{% static "js/chatbot.js" %}" defer></script>
+  
+  
+  
+  
+  
+  <script src="{% static 'js/cart.js' %}" defer></script>
+  
+  <script src="{% static 'js/chatbot.js' %}" defer></script>
+{% include "_head_assets.html" %}
 </head>
-<body>
-  {% comment %} <script>
-    !function(){
-      var s = localStorage.getItem('fanhub_auth_session');
-      var isAdmin = false;
-      try { if (s) { var u = JSON.parse(s); if (u && u.role === 'admin') isAdmin = true; } } catch(e){}
-      if (!isAdmin) window.location.href = 'dashboard.html';
-    }();
-  </script> {% endcomment %}
+<body>{% include "_session_controls.html" %}
   <div class="admin-page-container">
 
     <!-- ADMIN TOP BAR (replaces left sidebar) -->
     <header class="admin-topbar">
       <div class="admin-topbar-left">
-        <a href="../index.html" class="admin-topbar-brand">
+        <a href="{% url 'home' %}" class="admin-topbar-brand">
           <div class="admin-topbar-badge">F</div>
           <span class="admin-topbar-title">FAN HUB<span>+</span></span>
         </a>
-        <span class="admin-portal-pill">ADMIN PORTAL</span>
+        {% if user.is_staff %}<span class="admin-portal-pill">ADMIN PORTAL</span>{% endif %}
         <nav class="admin-module-tabs" aria-label="Admin Modules">
-          <a href="admin-overview.html" class="admin-module-tab active">Overview</a>
-          <a href="admin-content-form.html" class="admin-module-tab">Content</a>
-          <a href="admin-submissions-queue.html" class="admin-module-tab">Submissions</a>
-          <a href="admin-chatbot-faq.html" class="admin-module-tab">Chatbot FAQ</a>
-          <a href="explore.html" class="admin-module-tab">Categories</a>
-          <a href="character-list.html" class="admin-module-tab">Characters</a>
-          <a href="merch-list.html" class="admin-module-tab">Merch</a>
-          <a href="events.html" class="admin-module-tab">Events</a>
+          <a href="{% url 'admin_overview' %}" class="admin-module-tab active">Overview</a>
+          <a href="{% url 'admin_content_form' %}" class="admin-module-tab">Content</a>
+          <a href="{% url 'admin_submissions' %}" class="admin-module-tab">Submissions</a>
+          <a href="{% url 'admin_chatbot_faq' %}" class="admin-module-tab">Chatbot FAQ</a>
+          <a href="{% url 'explore' %}" class="admin-module-tab">Categories</a>
+          <a href="{% url 'character-list' %}" class="admin-module-tab">Characters</a>
+          <a href="{% url 'merch-list' %}" class="admin-module-tab">Merch</a>
+          <a href="{% url 'events' %}" class="admin-module-tab">Events</a>
         </nav>
       </div>
       <div class="admin-topbar-right">
@@ -52,7 +45,7 @@
           <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
           <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
-        <a href="../index.html" class="btn btn-ghost btn-sm">
+        <a href="{% url 'home' %}" class="btn btn-ghost btn-sm">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
           Back to Site
         </a>
@@ -64,7 +57,7 @@
     <nav class="breadcrumb-nav" aria-label="Breadcrumb">
       <div class="breadcrumb-container">
         <ol class="breadcrumb-list">
-          <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
           <li class="breadcrumb-separator">/</li>
           <li class="breadcrumb-item active" aria-current="page">Admin Overview</li>
         </ol>
@@ -85,8 +78,8 @@
                 <p style="margin:4px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Real-time stream health, content catalog metrics, and moderation queue.</p>
               </div>
               <div style="display:flex; gap:8px;">
-                <a href="admin-content-form.html" class="btn btn-primary btn-sm">+ Add New Content</a>
-                <a href="admin-submissions-queue.html" class="btn btn-secondary btn-sm">Review Queue (27)</a>
+                <a href="{% url 'admin_content_form' %}" class="btn btn-primary btn-sm">+ Add New Content</a>
+                <a href="{% url 'admin_submissions' %}" class="btn btn-secondary btn-sm">Review Queue ({{ pending_count }})</a>
               </div>
             </div>
 
@@ -94,22 +87,22 @@
             <div class="admin-stat-grid">
               <div class="admin-stat-card">
                 <span class="admin-stat-label">Total Registered Users</span>
-                <span class="admin-stat-value">48,290</span>
-                <span style="font-size:var(--font-xs); color: var(--color-green);">↑ +14% this month</span>
+                <span class="admin-stat-value">{{ active_users }}</span>
+                <span style="font-size:var(--font-xs); color: var(--color-green);">â†‘ +14% this month</span>
               </div>
               <div class="admin-stat-card">
                 <span class="admin-stat-label">Published Broadcasts</span>
-                <span class="admin-stat-value">1,842</span>
+                <span class="admin-stat-value">{{ published_count }}</span>
                 <span style="font-size:var(--font-xs); color:var(--accent-red);">Active simulcast streams</span>
               </div>
               <div class="admin-stat-card">
                 <span class="admin-stat-label">Pending Fan Submissions</span>
-                <span class="admin-stat-value" style="color: var(--color-amber);">27</span>
+                <span class="admin-stat-value" style="color: var(--color-amber);">{{ pending_count }}</span>
                 <span style="font-size:var(--font-xs); color:var(--text-muted);">Awaiting staff review</span>
               </div>
               <div class="admin-stat-card">
-                <span class="admin-stat-label">Active Chatbot Rules</span>
-                <span class="admin-stat-value" style="color: var(--color-purple);">42</span>
+                <span class="admin-stat-label">Chatbot Queries</span>
+                <span class="admin-stat-value" style="color: var(--color-purple);">{{ chatbot_query_count }}</span>
                 <span style="font-size:var(--font-xs); color:var(--text-muted);">FAQ keyword matching</span>
               </div>
             </div>
@@ -120,33 +113,18 @@
                 <h3 style="margin:0; font-size:var(--font-base); font-weight:var(--fw-bold);">Monthly Stream Volume by Fandom Universe</h3>
                 <span style="font-size:var(--font-xs); color:var(--text-dim);">Updated 10m ago</span>
               </div>
-              <div class="chart-bar-row">
-                <span class="chart-bar-label">Anime &amp; Manga</span>
-                <div class="chart-bar-track"><div class="chart-bar-fill" style="width: 86%;"></div></div>
-                <span class="chart-bar-num">860k</span>
-              </div>
-              <div class="chart-bar-row">
-                <span class="chart-bar-label">Gaming Realm</span>
-                <div class="chart-bar-track"><div class="chart-bar-fill" style="width: 68%;"></div></div>
-                <span class="chart-bar-num">680k</span>
-              </div>
-              <div class="chart-bar-row">
-                <span class="chart-bar-label">Cinema &amp; Movies</span>
-                <div class="chart-bar-track"><div class="chart-bar-fill" style="width: 52%;"></div></div>
-                <span class="chart-bar-num">520k</span>
-              </div>
-              <div class="chart-bar-row">
-                <span class="chart-bar-label">K-Pop Wave</span>
-                <div class="chart-bar-track"><div class="chart-bar-fill" style="width: 44%;"></div></div>
-                <span class="chart-bar-num">440k</span>
-              </div>
+              {% for category in category_counts %}<div class="chart-bar-row">
+                <span class="chart-bar-label">{{ category.name }}</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width: {% if category_counts.0.content_count %}{{ category.content_count|floatformat:0 }}{% else %}0{% endif %}%;"></div></div>
+                <span class="chart-bar-num">{{ category.content_count }}</span>
+              </div>{% empty %}<p>No category records.</p>{% endfor %}
             </div>
 
             <!-- TOP CONTENT TABLE -->
             <div class="widget-card" style="padding: 0; overflow: hidden;">
               <div style="padding: 16px; border-bottom: 1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="margin:0; font-size:var(--font-base); font-weight:var(--fw-bold);">Top Performing Broadcasts</h3>
-                <a href="admin-content-form.html" style="font-size:var(--font-xs); color:var(--accent-red);">Manage All &rarr;</a>
+                <a href="{% url 'admin_content_form' %}" style="font-size:var(--font-xs); color:var(--accent-red);">Manage All &rarr;</a>
               </div>
               <!-- LOOP: top content table rows -->
               <div class="admin-table-wrap" style="border:none;">
@@ -161,40 +139,9 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td style="font-weight:bold;">Demon Slayer: Swordsmith Village</td>
-                      <td>Anime</td>
-                      <td>1,240,500</td>
-                      <td><svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" style="vertical-align:-1px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.9</td>
-                      <td><span class="admin-badge status-approved">Live</span></td>
-                      <td><a href="admin-content-form.html?id=1" class="btn btn-ghost btn-sm">Edit</a></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight:bold;">Solo Leveling: Arise</td>
-                      <td>Action Fantasy</td>
-                      <td>982,100</td>
-                      <td><svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" style="vertical-align:-1px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.8</td>
-                      <td><span class="admin-badge status-approved">Live</span></td>
-                      <td><a href="admin-content-form.html?id=2" class="btn btn-ghost btn-sm">Edit</a></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight:bold;">One Piece: Egghead Island Future</td>
-                      <td>Shonen</td>
-                      <td>875,300</td>
-                      <td><svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" style="vertical-align:-1px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.9</td>
-                      <td><span class="admin-badge status-approved">Live</span></td>
-                      <td><a href="admin-content-form.html?id=3" class="btn btn-ghost btn-sm">Edit</a></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight:bold;">GTA VI: Official Gameplay Reveal</td>
-                      <td>Gaming</td>
-                      <td>740,200</td>
-                      <td><svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" style="vertical-align:-1px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 5.0</td>
-                      <td><span class="admin-badge status-approved">Live</span></td>
-                      <td><a href="admin-content-form.html?id=4" class="btn btn-ghost btn-sm">Edit</a></td>
-                    </tr>
-                  </tbody>
+                  <tbody>{% for item in top_content %}
+                    <tr><td style="font-weight:bold;">{{ item.title }}</td><td>{{ item.category.name }}</td><td>{{ item.view_count }}</td><td>?</td><td><span class="admin-badge status-approved">Live</span></td><td><a href="{% url 'admin_content_form' %}?edit={{ item.pk }}" class="btn btn-ghost btn-sm">Edit</a></td></tr>
+                    {% empty %}<tr><td colspan="6">No published content.</td></tr>{% endfor %}</tbody>
                 </table>
               </div>
               <!-- ENDLOOP: top content table rows -->
@@ -210,8 +157,8 @@
           <div class="footer-bottom" style="border:none; padding:0;">
             <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
             <div class="footer-meta-links">
-              <a href="sitemap.html">Sitemap</a>
-              <a href="feedback.html">Support</a>
+              <a href="{% url 'sitemap' %}">Sitemap</a>
+              <a href="{% url 'feedback' %}">Support</a>
             </div>
           </div>
         </div>
@@ -220,36 +167,9 @@
   </div>
 
   <!-- CHATBOT WIDGET -->
-  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-  </button>
-  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
-    <div class="chatbot-header">
-      <div class="chatbot-header-info">
-        <div class="chatbot-avatar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
-        </div>
-        <div>
-          <div class="chatbot-title">FanBot Assistant</div>
-          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
-        </div>
-      </div>
-      <div class="chatbot-header-actions">
-        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-    </div>
-    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
-    <div class="chatbot-quick-chips" id="chatbotQuickChips"></div>
-    <form class="chatbot-input-row" id="chatbotForm">
-      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything..." autocomplete="off" />
-      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      </button>
-    </form>
-  </aside>
+  {% include "chatbot-widget.html" %}
   <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
 </body>
 </html>
+
 

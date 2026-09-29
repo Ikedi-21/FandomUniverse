@@ -1,5 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
+from django.contrib.contenttypes.models import ContentType
+from engagements.models import Bookmark
 
 from .models import Event
 
@@ -77,5 +79,7 @@ def event_detail(request, pk):
     context = {
         "event": event,
         "related_events": related,
+        "bookmark_content_type_id": ContentType.objects.get_for_model(Event).pk,
+        "is_bookmarked": request.user.is_authenticated and Bookmark.objects.filter(user=request.user, content_type=ContentType.objects.get_for_model(Event), object_id=event.pk).exists(),
     }
     return render(request, "event-detail.html", context)

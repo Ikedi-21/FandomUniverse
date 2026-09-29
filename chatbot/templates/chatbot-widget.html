@@ -1,9 +1,11 @@
-<!-- ====================================================================
+﻿<!-- ====================================================================
+
+{% load static %}
      FAN HUB+ STANDALONE CHATBOT WIDGET SNIPPET
      Can be dropped directly into any Django template or static HTML page.
      Requires:
        - css/tokens.css, css/base.css, css/chatbot.css
-       - js/chatbot-data.js, js/chatbot.js (with defer)
+       - js/chatbot.js (with defer) (with defer)
      ==================================================================== -->
 
 <!-- 1. CHATBOT LAUNCHER BUTTON -->
@@ -46,10 +48,12 @@
   </div>
 
   <!-- Chatbot input form -->
-  <form class="chatbot-input-row" id="chatbotForm">
-    <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, movies, orders..." autocomplete="off" aria-label="Type your message" />
+  <form class="chatbot-input-row" id="chatbotForm" method="post" action="{% url 'chatbot:ask' %}" data-endpoint="{% url 'chatbot:ask' %}">
+    {% csrf_token %}
+    <input type="text" id="chatbotInput" name="message" class="chatbot-input" placeholder="Ask about this site..." autocomplete="off" aria-label="Type your message" />
     <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
     </button>
   </form>
 </aside>
+

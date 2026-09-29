@@ -6,17 +6,12 @@
 {# icons are preserved. Same sidebar/header icon set as character-list. #}
 
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-user-theme="{{ site_user_theme }}" style="font-size:{{ site_font_size|default:'16px' }};">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 
 <head>
+  <script src="{% static 'js/theme-init.js' %}"></script>
 
-    <script>
-        !function () {
-            var e = localStorage.getItem('fanhub_theme');
-            if (!e) e = 'light';
-            document.documentElement.setAttribute('data-theme', e);
-        }();
-    </script>
+    
 
     <meta charset="UTF-8">
 
@@ -32,48 +27,27 @@
 
     <!-- CSS -->
 
-    <link
-        rel="stylesheet"
-        href="{% static 'css/tokens.css' %}"
-    >
+    
 
-    <link
-        rel="stylesheet"
-        href="{% static 'css/base.css' %}"
-    >
+    
 
-    <link
-        rel="stylesheet"
-        href="{% static 'css/components.css' %}"
-    >
+    
 
-    <link
-        rel="stylesheet"
-        href="{% static 'css/chatbot.css' %}"
-    >
+    
 
 
     <!-- JavaScript -->
 
-    <script
-        src="{% static 'js/auth-context.js' %}"
-        defer
-    ></script>
+    
 
     <script
         src="{% static 'js/cart.js' %}"
         defer
     ></script>
 
-    <script
-        src="{% static 'js/main.js' %}"
-        defer
-    ></script>
+    
 
-    <script
-        src="{% static 'js/chatbot-data.js' %}"
-        defer
-    ></script>
+    
 
     <script
         src="{% static 'js/chatbot.js' %}"
@@ -239,10 +213,11 @@
 
     </style>
 
+{% include "_head_assets.html" %}
 </head>
 
 
-<body>
+<body>{% include "_session_controls.html" %}
 
 <div class="app-container">
 
@@ -813,8 +788,9 @@
                                 type="button"
                                 class="btn btn-primary"
                                 id="bookmarkCharacterBtn"
+                                data-bookmark-toggle data-bookmark-url="{% url 'bookmark-toggle' %}" data-content-type-id="{{ bookmark_content_type_id }}" data-object-id="{{ character.pk }}" data-login-url="{% url 'accounts:login' %}" data-bookmarked="{{ is_bookmarked|yesno:'true,false' }}" aria-pressed="{{ is_bookmarked|yesno:'true,false' }}"
                             >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:6px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg><span>Favorite Character</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:6px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg><span data-bookmark-label>{% if is_bookmarked %}Bookmarked{% else %}Bookmark{% endif %}</span>
                             </button>
 
 
@@ -822,6 +798,7 @@
                                 type="button"
                                 class="btn btn-secondary"
                                 id="shareCharacterBtn"
+                                data-copy-link="{{ request.build_absolute_uri }}"
                             >
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:6px;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><span>Share Profile</span>
                             </button>
@@ -1204,119 +1181,7 @@
      PAGE JAVASCRIPT
 ========================================== -->
 
-<script>
 
-document.addEventListener(
-    'DOMContentLoaded',
-    function () {
-
-
-        /*
-         * Favorite button
-         */
-
-        const bookmarkBtn =
-            document.getElementById(
-                'bookmarkCharacterBtn'
-            );
-
-
-        /*
-         * Share button
-         */
-
-        const shareBtn =
-            document.getElementById(
-                'shareCharacterBtn'
-            );
-
-
-        /*
-         * Favorite character
-         */
-
-        if (bookmarkBtn) {
-
-            bookmarkBtn.addEventListener(
-                'click',
-                function () {
-
-                    this.classList.toggle('active');
-
-                    const label =
-                        this.querySelector('span');
-
-
-                    if (
-                        this.classList.contains('active')
-                    ) {
-
-                        if (label) label.textContent = 'Favorited';
-
-                    } else {
-
-                        if (label) label.textContent = 'Favorite Character';
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /*
-         * Share character
-         */
-
-        if (shareBtn) {
-
-            shareBtn.addEventListener(
-                'click',
-                async function () {
-
-                    const label =
-                        this.querySelector('span');
-
-
-                    try {
-
-                        await navigator.clipboard.writeText(
-                            window.location.href
-                        );
-
-
-                        if (label) label.textContent = 'Link Copied';
-
-
-                        setTimeout(
-                            () => {
-
-                                if (label) label.textContent = 'Share Profile';
-
-                            },
-                            1800
-                        );
-
-
-                    } catch (error) {
-
-                        window.prompt(
-                            'Copy this character profile URL:',
-                            window.location.href
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-);
-
-</script>
 
 
 </body>

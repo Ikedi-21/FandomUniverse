@@ -1,6 +1,8 @@
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
+from django.contrib.contenttypes.models import ContentType
+from engagements.models import Bookmark
 
 from .models import Merch
 
@@ -92,5 +94,7 @@ def merch_detail(request, pk):
     context = {
         "product": product,
         "related_products": related,
+        "bookmark_content_type_id": ContentType.objects.get_for_model(Merch).pk,
+        "is_bookmarked": request.user.is_authenticated and Bookmark.objects.filter(user=request.user, content_type=ContentType.objects.get_for_model(Merch), object_id=product.pk).exists(),
     }
     return render(request, "merch-detail.html", context)

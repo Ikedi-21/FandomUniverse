@@ -1,999 +1,365 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAN HUB+ | Explore, Connect, Beyond - Anime &amp; Fandom Entertainment</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/chatbot.css">
+{% extends "base.html" %}
+{% load static %}
 
-  <script src="js/auth-context.js" defer></script>
-  <script src="js/cart.js" defer></script>
-  <script src="js/main.js" defer></script>
-  <script src="js/chatbot-data.js" defer></script>
-  <script src="js/chatbot.js" defer></script>
-  <script src="js/carousel.js" defer></script>
-</head>
-<body>
-  <div class="app-container">
+{% block title %}FAN HUB+ | Explore, Connect, Beyond - Anime &amp; Fandom Entertainment{% endblock %}
 
-    <!-- SIDEBAR LEFT -->
-    <aside class="sidebar-left" id="sidebarLeft">
-      <div class="sidebar-brand">
-        <div class="brand-badge">F</div>
-        <a href="index.html" class="brand-title">FAN HUB<span>+</span></a>
+{% block nav_home %}active{% endblock %}
+{% block tab_home %}active{% endblock %}
+
+{% block extra_head %}
+  <script src="{% static 'js/carousel.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<main class="page-content">
+  <div class="two-column-layout">
+
+    <!-- FEED COLUMN (2/3) -->
+    <div class="feed-column">
+
+      <!-- HERO CAROUSEL -->
+      <section class="hero-carousel-container" id="heroBanner" aria-label="Featured Fandom Carousel">
+        {% for content in contents %}
+        <div class="hero-slide {% if forloop.first %}active{% endif %}" style="background-image: url('{% if content.thumbnail %}{{ content.thumbnail.url }}{% else %}{% static 'images/hero_section/demon_slayer_hero.jpg' %}{% endif %}');">
+          <div class="hero-slide-overlay">
+            <span class="hero-badge-tag">{{ content.category.name }}</span>
+            <h1 class="hero-title">{{ content.title }}</h1>
+            <p class="hero-desc">{{ content.description }}</p>
+            <div class="hero-actions">
+              {% if content.video_url %}
+              <button type="button" class="btn btn-hero-primary" onclick="openTrailerModal('{{ content.title|escapejs }}', '{{ content.video_url|escapejs }}')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Watch Stream
+              </button>
+              {% endif %}
+              <a href="{% url 'explore' %}?category={{ content.category.slug }}" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="hero-slide active" style="background-image: url('{% static 'images/hero_section/demon_slayer_hero.jpg' %}');">
+          <div class="hero-slide-overlay">
+            <span class="hero-badge-tag">Featured Universe</span>
+            <h1 class="hero-title">Your Fandoms, All in One Universe</h1>
+            <p class="hero-desc">Explore the ultimate hub for anime, games, lore dossiers, and collectibles.</p>
+            <div class="hero-actions">
+              <a href="{% url 'explore' %}" class="btn btn-hero-primary">Explore Catalog</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="carousel-nav-dots" id="heroCarouselDots">
+          <button type="button" class="carousel-dot active" data-slide="0" aria-label="Go to slide 1"></button>
+          <button type="button" class="carousel-dot" data-slide="1" aria-label="Go to slide 2"></button>
+          <button type="button" class="carousel-dot" data-slide="2" aria-label="Go to slide 3"></button>
+        </div>
+
+        <div class="carousel-arrows">
+          <button type="button" class="carousel-arrow" id="heroPrevBtn" aria-label="Previous Slide">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="carousel-arrow" id="heroNextBtn" aria-label="Next Slide">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- 8-CATEGORY STRIP -->
+      <section class="category-strip" aria-label="Fandom Categories">
+        <div class="section-header">
+          <h2 class="section-title">Explore Fandom Universes</h2>
+          <a href="{% url 'explore' %}" class="section-view-all">All Universes &rarr;</a>
+        </div>
+        <div class="category-strip-grid">
+          {% for category in categories %}
+          <a href="{% url 'explore' %}?category={{ category.slug }}" class="category-strip-card">
+            <div class="category-strip-icon">
+              {% if category.cover_image %}
+                <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" style="width:24px; height:24px; object-fit:cover; border-radius:4px;">
+              {% else %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+              {% endif %}
+            </div>
+            <span class="category-strip-name">{{ category.name }}</span>
+          </a>
+          {% empty %}
+          <p style="color:var(--text-muted);">No fandom categories available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- TRENDING BROADCASTS ROW -->
+      <section style="margin-top:var(--space-6);" aria-label="Trending Content">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Trending Simulcasts &amp; Broadcasts</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Stream current season episodes in 4K HDR with dual audio tracks</p>
+          </div>
+          <a href="{% url 'explore' %}" class="section-view-all">Full Catalog &rarr;</a>
+        </div>
+        <div class="cards-grid">
+          {% for contentTwo in contentsTwo %}
+          <article class="content-card">
+            <div class="content-card-poster">
+              {% if contentTwo.thumbnail %}
+                <img src="{{ contentTwo.thumbnail.url }}" alt="{{ contentTwo.title }}" loading="lazy" />
+              {% else %}
+                <img src="{% static 'images/posters/demon_slayer_thumb.jpg' %}" alt="{{ contentTwo.title }}" loading="lazy" />
+              {% endif %}
+              <span class="card-badge badge-stream">{{ contentTwo.content_type }}</span>
+              <span class="card-rating">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                {{ contentTwo.popularity_score }}
+              </span>
+            </div>
+            <div class="content-card-body">
+              <span class="content-card-category">{{ contentTwo.category.name }}</span>
+              <h3 class="content-card-title"><a href="{% url 'content-detail' contentTwo.slug %}">{{ contentTwo.title }}</a></h3>
+              <p class="content-card-desc">{{ contentTwo.description }}</p>
+              <div class="content-card-meta">
+                <span>{{ contentTwo.tags }}</span>
+                <a href="{% url 'content-detail' contentTwo.slug %}" class="btn btn-outline btn-sm">Watch Now</a>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+          <p style="color:var(--text-muted);">No broadcasts available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- FEATURED CHARACTERS ROW -->
+      <section style="margin-top:var(--space-8);" aria-label="Featured Characters">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Hall of Heroes &bull; Character Dossiers</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Combat ratings, signature techniques, voice actors, and deep lore profiles</p>
+          </div>
+          <a href="{% url 'character-list' %}" class="section-view-all">All Characters &rarr;</a>
+        </div>
+        <div class="cards-grid">
+          {% for character in characters %}
+          <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
+            <div style="position:relative; height:120px; background:#111; overflow:hidden;">
+              {% if character.avatar %}
+                <img src="{{ character.avatar.url }}" alt="{{ character.name }}" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.75);" />
+              {% else %}
+                <img src="{% static 'images/hero_section/demon_slayer_hero.jpg' %}" alt="{{ character.name }}" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
+              {% endif %}
+              <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(239,35,60,0.85); color:#fff; font-weight:bold;">{{ character.category.name }}</span>
+              <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">Grade S</span>
+            </div>
+            <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <h3 style="font-size:var(--font-md); font-weight:var(--fw-bold); margin:0 0 4px;">
+                  <a href="{% url 'character-detail' character.pk %}" style="color:var(--text-main); text-decoration:none;">{{ character.name }}</a>
+                </h3>
+                <div style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold; margin-bottom:6px;">{{ character.category.name }}</div>
+                <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.4; margin:0 0 12px;">{{ character.description|truncatewords:20 }}</p>
+                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:4px;">
+                  <span>Combat Power</span>
+                  <strong style="color:var(--accent-red);">{{ character.power_level|default:'94' }} / 100</strong>
+                </div>
+                <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden; margin-bottom:12px;">
+                  <div style="width:{{ character.power_level|default:'94' }}%; height:100%; background:var(--accent-red); border-radius:2px;"></div>
+                </div>
+              </div>
+              <a href="{% url 'character-detail' character.pk %}" class="btn btn-secondary btn-sm" style="width:100%; text-align:center;">Open Combat Dossier</a>
+            </div>
+          </article>
+          {% empty %}
+          <p style="color:var(--text-muted);">No characters available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- OFFICIAL MERCH VAULT PREVIEW -->
+      <section style="margin-top:var(--space-8);" aria-label="Merchandise Vault">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Official Fandom Merch Vault</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Direct Tokyo &amp; Seoul studio collectibles &bull; 100% authentic serialized goods</p>
+          </div>
+          <a href="{% url 'merch-list' %}" class="section-view-all">All Merch Store &rarr;</a>
+        </div>
+        <div class="cards-grid">
+          {% for merch in merchs %}
+          <article class="content-card">
+            <div class="content-card-poster">
+              {% if merch.image %}
+                <img src="{{ merch.image.url }}" alt="{{ merch.name }}" loading="lazy" />
+              {% else %}
+                <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="{{ merch.name }}" loading="lazy" />
+              {% endif %}
+              <span class="card-badge badge-merch">${{ merch.price }}</span>
+            </div>
+            <div class="content-card-body">
+              <span class="content-card-category">{{ merch.category.name }}</span>
+              <h3 class="content-card-title"><a href="{% url 'merch-detail' merch.pk %}">{{ merch.name }}</a></h3>
+              <p class="content-card-desc">{{ merch.description }}</p>
+              <div class="content-card-meta">
+                <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">${{ merch.price }}</span>
+                <a href="{% url 'merch-detail' merch.pk %}" class="btn btn-primary btn-sm">View Item</a>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+          <p style="color:var(--text-muted);">No merch available.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- COMMUNITY PULSE & DISCUSSIONS -->
+      <section style="margin-top:var(--space-8);" aria-label="Community Discussions">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Community Pulse &amp; Fan Submissions</h2>
+            <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Join trending community articles, theorycrafting, and episode breakdowns</p>
+          </div>
+          <a href="{% url 'submit-content' %}" class="section-view-all">Submit Fan Work &rarr;</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          {% for article in articles %}
+          <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px; height:42px; border-radius:50%; background:#1e293b; display:flex; align-items:center; justify-content:center; border:2px solid var(--accent-red); flex-shrink:0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              </div>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red);">{{ article.category.name }}</span>
+                  <span style="font-size:11px; color:var(--text-muted);">By {{ article.author_name|default:'Fan Creator' }}</span>
+                </div>
+                <h4 style="margin:0; font-size:var(--font-base); font-weight:var(--fw-bold); color:var(--text-main);">
+                  {{ article.title }}
+                </h4>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px;">
+              <a href="{% url 'feedback' %}" class="btn btn-outline btn-sm">Community Feedback</a>
+            </div>
+          </div>
+          {% empty %}
+          <p style="color:var(--text-muted);">No fan submissions yet.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- VIP FAN HUB+ PLATFORM GUARANTEE -->
+      <section style="margin-top:var(--space-8); padding:24px; background:linear-gradient(135deg, rgba(239,35,60,0.12) 0%, rgba(20,24,33,0.9) 100%); border:1px solid var(--border-medium); border-radius:var(--radius-lg); display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <div>
+            <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">4K Ultra-HD Streams</strong>
+            <span style="font-size:var(--font-xs); color:var(--text-muted);">Zero-lag streaming with dual audio</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <div>
+            <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">100% Studio Licensed</strong>
+            <span style="font-size:var(--font-xs); color:var(--text-muted);">Authentic collectibles and merchandise</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <div>
+            <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">VIP Convention Access</strong>
+            <span style="font-size:var(--font-xs); color:var(--text-muted);">Exclusive passes and panel highlights</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SIDEBAR RIGHT (1/3) -->
+    <aside class="sidebar-right" aria-label="Community Hub Sidebar">
+      <!-- Top This Week Leaderboard -->
+      <div class="widget-card">
+        <div class="widget-title">
+          <span>Top Broadcasts</span>
+          <a href="{% url 'explore' %}" style="font-size:var(--font-xs); color:var(--accent-red);">See All</a>
+        </div>
+        <div class="ranked-list">
+          {% for contentLdb in contentsLdb %}
+          <div class="ranked-item">
+            <span class="ranked-num">{{ forloop.counter|stringformat:"02d" }}</span>
+            {% if contentLdb.thumbnail %}
+              <img src="{{ contentLdb.thumbnail.url }}" alt="{{ contentLdb.title }}" class="ranked-thumb" />
+            {% else %}
+              <img src="{% static 'images/posters/solo_leveling.jpg' %}" alt="{{ contentLdb.title }}" class="ranked-thumb" />
+            {% endif %}
+            <div class="ranked-details">
+              <div class="ranked-title">{{ contentLdb.title }}</div>
+              <div class="ranked-sub">{{ contentLdb.view_count }} views</div>
+            </div>
+          </div>
+          {% empty %}
+          <p style="color:var(--text-muted); font-size:var(--font-xs);">No items yet.</p>
+          {% endfor %}
+        </div>
       </div>
 
-      <nav class="sidebar-nav-container" aria-label="Sidebar Menu">
-        <div>
-          <div class="sidebar-section-title">Explore</div>
-          <ul class="sidebar-nav-list">
-            <li>
-              <a href="index.html" class="sidebar-nav-link active">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                <span>Home</span>
-              </a>
-            </li>
-            <li>
-              <a href="pages/explore.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-                <span>Explore Catalog</span>
-              </a>
-            </li>
-            <li>
-              <a href="pages/character-list.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                <span>Characters</span>
-              </a>
-            </li>
-            <li>
-              <a href="pages/merch-list.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                <span>Merch &amp; Store</span>
-              </a>
-            </li>
-            <li>
-              <a href="pages/events.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                <span>Events &amp; Cons</span>
-              </a>
-            </li>
-          </ul>
+      <!-- Live Community Poll -->
+      <div class="widget-card">
+        <div class="widget-title">
+          <span>Community Poll</span>
+          <span style="font-size:11px; color: var(--color-green); font-weight:bold;">LIVE</span>
         </div>
-
-        <div>
-          <div class="sidebar-section-title">Community</div>
-          <ul class="sidebar-nav-list">
-            <li>
-              <a href="pages/submit-content.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                <span>Submit Content</span>
-              </a>
-            </li>
-            <li>
-              <a href="pages/feedback.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                <span>Feedback &amp; Help</span>
-              </a>
-            </li>
-            <li>
-              <a href="pages/sitemap.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                <span>Site Directory</span>
-              </a>
-            </li>
-          </ul>
+        <p style="font-size:var(--font-xs); color:var(--text-main); font-weight:bold; margin:6px 0 10px;">
+          Which upcoming adaptation are you most hyped for?
+        </p>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+              <span>Demon Slayer Infinity Castle</span>
+              <strong style="color:var(--accent-red);">58%</strong>
+            </div>
+            <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+              <div style="width:58%; height:100%; background:var(--accent-red);"></div>
+            </div>
+          </div>
+          <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+              <span>Solo Leveling: Season 2</span>
+              <strong style="color: var(--color-purple);">28%</strong>
+            </div>
+            <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+              <div style="width:28%; height:100%; background:#8b5cf6;"></div>
+            </div>
+          </div>
+          <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+              <span>GTA VI Story Mode</span>
+              <strong style="color: var(--color-blue);">14%</strong>
+            </div>
+            <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
+              <div style="width:14%; height:100%; background:#3b82f6;"></div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div>
-          <div class="sidebar-section-title">My Account</div>
-          <ul class="sidebar-nav-list">
-            <li>
-              <a href="pages/dashboard.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                <span>Dashboard</span>
-              </a>
-            </li>
-            <li>
-              <a href="pages/profile.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                <span>Profile &amp; Settings</span>
-              </a>
-            </li>
-          </ul>
+      <!-- Global Convention Spotlight -->
+      <div class="widget-card">
+        <div class="widget-title">
+          <span>Upcoming Cons</span>
+          <a href="{% url 'events' %}" style="font-size:var(--font-xs); color:var(--accent-red);">View All</a>
         </div>
-
-        <div>
-          <div class="sidebar-section-title">Management</div>
-          <ul class="sidebar-nav-list">
-            <li>
-              <a href="pages/admin-overview.html" class="sidebar-nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                <span>Admin Portal</span>
-              </a>
-            </li>
-          </ul>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+          {% for event in events %}
+          <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border-left:3px solid var(--accent-red);">
+            <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">{{ event.title }}</strong>
+            <span style="font-size:11px; color:var(--text-muted);">{{ event.event_date|date:"M d, Y" }}</span>
+          </div>
+          {% empty %}
+          <p style="color:var(--text-muted); font-size:var(--font-xs);">No upcoming events listed.</p>
+          {% endfor %}
         </div>
-      </nav>
-
-      <!-- Sidebar User / CTA Slot -->
-      <div class="sidebar-footer-actions" id="sidebarFooterSlot">
-        <a href="pages/submit-content.html" class="sidebar-cta-btn" id="sidebarSubmitBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          <span class="cta-text">Submit Content</span>
-        </a>
       </div>
     </aside>
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-    <div class="main-wrapper">
-      <!-- TOP HEADER -->
-      <header class="top-header" id="topHeader">
-        <div class="header-left">
-          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation Menu">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-          </button>
-          <nav class="header-nav-tabs" aria-label="Primary Navigation">
-            <a href="index.html" class="header-nav-tab active">Home</a>
-            <a href="pages/explore.html" class="header-nav-tab">Explore</a>
-            <a href="pages/character-list.html" class="header-nav-tab">Characters</a>
-            <a href="pages/merch-list.html" class="header-nav-tab">Merch</a>
-            <a href="pages/events.html" class="header-nav-tab">Events</a>
-          </nav>
-        </div>
-
-        <div class="header-center">
-          <div class="search-bar-wrapper">
-            <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" class="search-bar-input" id="globalSearchInput" placeholder="Search anime, games, characters, events..." aria-label="Search" autocomplete="off" />
-            <span class="search-bar-hotkey">/</span>
-          </div>
-        </div>
-
-        <div class="header-right">
-          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme">
-            <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg id="moonIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          </button>
-          <button type="button" class="icon-btn" id="headerCartBtn" aria-label="Shopping Cart">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
-            <span class="notification-badge" id="cartCountBadge" style="display:none;">0</span>
-          </button>
-          <div id="headerAuthSlot">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <a href="pages/login.html" class="btn btn-ghost btn-sm" id="btnNavSignIn">Sign In</a>
-              <a href="pages/register.html" class="btn btn-primary btn-sm" id="btnNavRegister">Register</a>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- SHARED BREADCRUMB BAR -->
-      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-        <div class="breadcrumb-container">
-          <ol class="breadcrumb-list">
-            <li class="breadcrumb-item active" aria-current="page">Home</li>
-          </ol>
-          <div class="breadcrumb-actions">
-            <span style="font-size:var(--font-xs); color:var(--text-dim);">FAN HUB+ &bull; Ultimate Discovery Hub</span>
-          </div>
-        </div>
-      </nav>
-
-      <!-- MAIN PAGE CONTENT (TWO COLUMN LAYOUT) -->
-      <main class="page-content">
-        <div class="two-column-layout">
-
-          <!-- FEED COLUMN (2/3) -->
-          <div class="feed-column">
-
-            <!-- HERO CAROUSEL -->
-            <section class="hero-carousel-container" id="heroBanner" aria-label="Featured Fandom Carousel">
-              <!-- Slide 1: Demon Slayer -->
-              <div class="hero-slide active" style="background-image: url('images/hero_section/demon_slayer_hero.jpg');">
-                <div class="hero-slide-overlay">
-                  <span class="hero-badge-tag">Season 4 Premiere Stream</span>
-                  <h1 class="hero-title">Demon Slayer: Swordsmith Village Arc</h1>
-                  <p class="hero-desc">
-                    Experience Tanjiro's ferocious confrontation with the Upper Rank demons in stunning high fidelity. Master Sun Breathing forms in the ultimate broadcast release.
-                  </p>
-                  <div class="hero-actions">
-                    <button type="button" class="btn btn-hero-primary" onclick="openTrailerModal('Demon Slayer: Swordsmith Village', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                      Watch Stream
-                    </button>
-                    <a href="pages/explore.html?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Slide 2: Naruto -->
-              <div class="hero-slide" style="background-image: url('images/hero_section/naruto_hero.jpg');">
-                <div class="hero-slide-overlay">
-                  <span class="hero-badge-tag">Shinobi War Legacy</span>
-                  <h1 class="hero-title">Naruto Shippuden: Great Ninja War Climax</h1>
-                  <p class="hero-desc">
-                    The allied shinobi forces stand united against the ultimate darkness. Relive legendary battles, chakra awakening, and unforgettable jutsu showdowns.
-                  </p>
-                  <div class="hero-actions">
-                    <button type="button" class="btn btn-hero-primary" onclick="openTrailerModal('Naruto Shippuden: Great Ninja War', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                      Watch Stream
-                    </button>
-                    <a href="pages/explore.html?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Slide 3: One Piece -->
-              <div class="hero-slide" style="background-image: url('images/hero_section/one_piece_hero.png');">
-                <div class="hero-slide-overlay">
-                  <span class="hero-badge-tag">Egghead Island Climax</span>
-                  <h1 class="hero-title">One Piece: Egghead Island Future Realm</h1>
-                  <p class="hero-desc">
-                    Dr. Vegapunk's futuristic secrets unravel as Luffy ignites Gear 5 against World Government titans on the Island of the Future.
-                  </p>
-                  <div class="hero-actions">
-                    <button type="button" class="btn btn-hero-primary" onclick="openTrailerModal('One Piece: Egghead Island', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4')">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                      Watch Stream
-                    </button>
-                    <a href="pages/explore.html?category=anime" class="btn btn-hero-secondary">Explore Universe &rarr;</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="carousel-nav-dots" id="heroCarouselDots">
-                <button type="button" class="carousel-dot active" data-slide="0" aria-label="Go to slide 1"></button>
-                <button type="button" class="carousel-dot" data-slide="1" aria-label="Go to slide 2"></button>
-                <button type="button" class="carousel-dot" data-slide="2" aria-label="Go to slide 3"></button>
-              </div>
-
-              <div class="carousel-arrows">
-                <button type="button" class="carousel-arrow" id="heroPrevBtn" aria-label="Previous Slide">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </button>
-                <button type="button" class="carousel-arrow" id="heroNextBtn" aria-label="Next Slide">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
-              </div>
-            </section>
-
-            <!-- 8-CATEGORY STRIP (CLEAN SVG ICONS - ZERO EMOJIS) -->
-            <section class="category-strip" aria-label="Fandom Categories">
-              <div class="section-header">
-                <h2 class="section-title">Explore Fandom Universes</h2>
-                <a href="pages/explore.html" class="section-view-all">All Universes &rarr;</a>
-              </div>
-              <div class="category-strip-grid">
-                <!-- Anime -->
-                <a href="pages/explore.html?category=anime" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"></path><path d="M13 19l6-6"></path><path d="M16 16l4 4"></path><path d="M19 21l2-2"></path></svg>
-                  </div>
-                  <span class="category-strip-name">Anime</span>
-                </a>
-                <!-- Gaming -->
-                <a href="pages/explore.html?category=gaming" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="11" r="1"></circle><circle cx="17" cy="13" r="1"></circle></svg>
-                  </div>
-                  <span class="category-strip-name">Gaming</span>
-                </a>
-                <!-- Movies -->
-                <a href="pages/explore.html?category=movies" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
-                  </div>
-                  <span class="category-strip-name">Movies</span>
-                </a>
-                <!-- K-Pop -->
-                <a href="pages/explore.html?category=kpop" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                  </div>
-                  <span class="category-strip-name">K-Pop</span>
-                </a>
-                <!-- Manga -->
-                <a href="pages/explore.html?category=manga" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                  </div>
-                  <span class="category-strip-name">Manga</span>
-                </a>
-                <!-- Comics -->
-                <a href="pages/explore.html?category=comics" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                  </div>
-                  <span class="category-strip-name">Comics</span>
-                </a>
-                <!-- Cosplay -->
-                <a href="pages/explore.html?category=cosplay" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                  </div>
-                  <span class="category-strip-name">Cosplay</span>
-                </a>
-                <!-- Collectibles -->
-                <a href="pages/merch-list.html" class="category-strip-card">
-                  <div class="category-strip-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 2 18 2 22 8 12 22 2 8 6 2"></polygon><line x1="2" y1="8" x2="22" y2="8"></line></svg>
-                  </div>
-                  <span class="category-strip-name">Merch</span>
-                </a>
-              </div>
-            </section>
-
-            <!-- TRENDING BROADCASTS ROW -->
-            <section style="margin-top:var(--space-6);" aria-label="Trending Content">
-              <div class="section-header">
-                <div>
-                  <h2 class="section-title">Trending Simulcasts &amp; Broadcasts</h2>
-                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Stream current season episodes in 4K HDR with dual audio tracks</p>
-                </div>
-                <a href="pages/explore.html" class="section-view-all">Full Catalog &rarr;</a>
-              </div>
-              <div class="cards-grid">
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/demon_slayer_thumb.jpg" alt="Demon Slayer" loading="lazy" />
-                    <span class="card-badge badge-stream">Simulcast</span>
-                    <span class="card-rating">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                      4.9
-                    </span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Dark Fantasy &bull; Ufotable</span>
-                    <h3 class="content-card-title"><a href="pages/content-detail.html?title=demon-slayer">Demon Slayer: Swordsmith Village</a></h3>
-                    <p class="content-card-desc">Tanjiro faces Upper Moon demons alongside Mist and Love Hashiras in epic battles.</p>
-                    <div class="content-card-meta">
-                      <span>Ep 11 &bull; 24m</span>
-                      <a href="pages/content-detail.html?title=demon-slayer" class="btn btn-outline btn-sm">Watch Now</a>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/solo_leveling.jpg" alt="Solo Leveling" loading="lazy" />
-                    <span class="card-badge badge-stream">Hot Series</span>
-                    <span class="card-rating">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                      4.8
-                    </span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Action Fantasy &bull; A-1 Pictures</span>
-                    <h3 class="content-card-title"><a href="pages/content-detail.html?title=solo-leveling">Solo Leveling: Arise</a></h3>
-                    <p class="content-card-desc">Sung Jinwoo commands his shadow army from the depths of high-rank dungeons.</p>
-                    <div class="content-card-meta">
-                      <span>Ep 12 &bull; 23m</span>
-                      <a href="pages/content-detail.html?title=solo-leveling" class="btn btn-outline btn-sm">Watch Now</a>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/one_piece_thumb.jpg" alt="One Piece" loading="lazy" />
-                    <span class="card-badge badge-stream">Shonen</span>
-                    <span class="card-rating">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                      4.9
-                    </span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Egghead Arc &bull; Toei Animation</span>
-                    <h3 class="content-card-title"><a href="pages/content-detail.html?title=one-piece">One Piece: Egghead Island Future</a></h3>
-                    <p class="content-card-desc">Luffy unleashes Gear 5 Sun God form in the futuristic laboratory realm of Dr. Vegapunk.</p>
-                    <div class="content-card-meta">
-                      <span>Ep 1118 &bull; 24m</span>
-                      <a href="pages/content-detail.html?title=one-piece" class="btn btn-outline btn-sm">Watch Now</a>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/gta_sunset.jpg" alt="GTA VI" loading="lazy" />
-                    <span class="card-badge badge-stream">Gaming</span>
-                    <span class="card-rating">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                      5.0
-                    </span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Open World &bull; Rockstar 2026</span>
-                    <h3 class="content-card-title"><a href="pages/content-detail.html?title=gta6">Grand Theft Auto VI: Official Reveal</a></h3>
-                    <p class="content-card-desc">Explore Vice City and the state of Leonida in photorealistic generation fidelity.</p>
-                    <div class="content-card-meta">
-                      <span>4K 60FPS &bull; Trailer</span>
-                      <a href="pages/content-detail.html?title=gta6" class="btn btn-outline btn-sm">Watch Now</a>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            </section>
-
-            <!-- FEATURED CHARACTERS ROW (RICH DOSSIER CARDS) -->
-            <section style="margin-top:var(--space-8);" aria-label="Featured Characters">
-              <div class="section-header">
-                <div>
-                  <h2 class="section-title">Hall of Heroes &bull; Character Dossiers</h2>
-                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Combat ratings, signature techniques, voice actors, and deep lore profiles</p>
-                </div>
-                <a href="pages/character-list.html" class="section-view-all">All Characters &rarr;</a>
-              </div>
-              <div class="cards-grid">
-                <!-- Tanjiro -->
-                <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
-                  <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="images/posters/demon_slayer_thumb.jpg" alt="Tanjiro" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
-                    <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(239,35,60,0.85); color:#fff; font-weight:bold;">Demon Slayer</span>
-                    <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">Grade S</span>
-                  </div>
-                  <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
-                    <div>
-                      <h3 style="font-size:var(--font-md); font-weight:var(--fw-bold); margin:0 0 4px;">
-                        <a href="pages/character-detail.html?char=tanjiro" style="color:var(--text-main); text-decoration:none;">Tanjiro Kamado</a>
-                      </h3>
-                      <div style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold; margin-bottom:6px;">Sun Breathing Practitioner</div>
-                      <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.4; margin:0 0 12px;">Mastered Hinokami Kagura forms and awakened the Demon Slayer mark to save Nezuko.</p>
-                      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:4px;">
-                        <span>Combat Power</span>
-                        <strong style="color:var(--accent-red);">94 / 100</strong>
-                      </div>
-                      <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden; margin-bottom:12px;">
-                        <div style="width:94%; height:100%; background:var(--accent-red); border-radius:2px;"></div>
-                      </div>
-                    </div>
-                    <a href="pages/character-detail.html?char=tanjiro" class="btn btn-secondary btn-sm" style="width:100%; text-align:center;">Open Combat Dossier</a>
-                  </div>
-                </article>
-
-                <!-- Sung Jinwoo -->
-                <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
-                  <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="images/posters/solo_leveling.jpg" alt="Sung Jinwoo" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
-                    <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(139,92,246,0.85); color:#fff; font-weight:bold;">Solo Leveling</span>
-                    <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color:#c084fc; padding:2px 8px; border-radius:12px; font-weight:bold;">Grade SSS</span>
-                  </div>
-                  <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
-                    <div>
-                      <h3 style="font-size:var(--font-md); font-weight:var(--fw-bold); margin:0 0 4px;">
-                        <a href="pages/character-detail.html?char=jinwoo" style="color:var(--text-main); text-decoration:none;">Sung Jinwoo</a>
-                      </h3>
-                      <div style="font-size:var(--font-xs); color: var(--color-purple); font-weight:bold; margin-bottom:6px;">Shadow Monarch</div>
-                      <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.4; margin:0 0 12px;">Former E-rank hunter chosen by the System who commands limitless shadow legions.</p>
-                      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:4px;">
-                        <span>Combat Power</span>
-                        <strong style="color: var(--color-purple);">100 / 100</strong>
-                      </div>
-                      <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden; margin-bottom:12px;">
-                        <div style="width:100%; height:100%; background:#8b5cf6; border-radius:2px;"></div>
-                      </div>
-                    </div>
-                    <a href="pages/character-detail.html?char=jinwoo" class="btn btn-secondary btn-sm" style="width:100%; text-align:center;">Open Combat Dossier</a>
-                  </div>
-                </article>
-
-                <!-- Luffy -->
-                <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
-                  <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="images/posters/one_piece_thumb.jpg" alt="Luffy" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
-                    <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(239,35,60,0.85); color:#fff; font-weight:bold;">One Piece</span>
-                    <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">3B Bounty</span>
-                  </div>
-                  <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
-                    <div>
-                      <h3 style="font-size:var(--font-md); font-weight:var(--fw-bold); margin:0 0 4px;">
-                        <a href="pages/character-detail.html?char=luffy" style="color:var(--text-main); text-decoration:none;">Monkey D. Luffy</a>
-                      </h3>
-                      <div style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold; margin-bottom:6px;">Sun God Nika &bull; Emperor</div>
-                      <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.4; margin:0 0 12px;">Awakened mythical zoan model Nika with reality-bending rubber freedom and Conqueror's Haki.</p>
-                      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:4px;">
-                        <span>Combat Power</span>
-                        <strong style="color:var(--accent-red);">98 / 100</strong>
-                      </div>
-                      <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden; margin-bottom:12px;">
-                        <div style="width:98%; height:100%; background:var(--accent-red); border-radius:2px;"></div>
-                      </div>
-                    </div>
-                    <a href="pages/character-detail.html?char=luffy" class="btn btn-secondary btn-sm" style="width:100%; text-align:center;">Open Combat Dossier</a>
-                  </div>
-                </article>
-
-                <!-- Naruto -->
-                <article class="content-card" style="display:flex; flex-direction:column; overflow:hidden;">
-                  <div style="position:relative; height:120px; background:#111; overflow:hidden;">
-                    <img src="images/posters/naruto_thumb.jpg" alt="Naruto" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.65);" />
-                    <span class="badge" style="position:absolute; top:10px; left:10px; background:rgba(245,158,11,0.85); color:#fff; font-weight:bold;">Naruto</span>
-                    <span style="position:absolute; top:10px; right:10px; font-size:11px; background:rgba(0,0,0,0.7); color: var(--star-yellow); padding:2px 8px; border-radius:12px; font-weight:bold;">Hokage</span>
-                  </div>
-                  <div style="padding:16px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
-                    <div>
-                      <h3 style="font-size:var(--font-md); font-weight:var(--fw-bold); margin:0 0 4px;">
-                        <a href="pages/character-detail.html?char=naruto" style="color:var(--text-main); text-decoration:none;">Naruto Uzumaki</a>
-                      </h3>
-                      <div style="font-size:var(--font-xs); color: var(--color-amber); font-weight:bold; margin-bottom:6px;">Seventh Hokage &bull; Kurama Sage</div>
-                      <p style="font-size:var(--font-xs); color:var(--text-muted); line-height:1.4; margin:0 0 12px;">Hero of the Hidden Leaf who united the allied shinobi nations with Six Paths senjutsu.</p>
-                      <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:4px;">
-                        <span>Combat Power</span>
-                        <strong style="color: var(--color-amber);">97 / 100</strong>
-                      </div>
-                      <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden; margin-bottom:12px;">
-                        <div style="width:97%; height:100%; background:#f59e0b; border-radius:2px;"></div>
-                      </div>
-                    </div>
-                    <a href="pages/character-detail.html?char=naruto" class="btn btn-secondary btn-sm" style="width:100%; text-align:center;">Open Combat Dossier</a>
-                  </div>
-                </article>
-              </div>
-            </section>
-
-            <!-- OFFICIAL MERCH VAULT PREVIEW (WORKING CART BUTTONS) -->
-            <section style="margin-top:var(--space-8);" aria-label="Merchandise Vault">
-              <div class="section-header">
-                <div>
-                  <h2 class="section-title">Official Fandom Merch Vault</h2>
-                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Direct Tokyo &amp; Seoul studio collectibles &bull; 100% authentic serialized goods</p>
-                </div>
-                <a href="pages/merch-list.html" class="section-view-all">All Merch Store &rarr;</a>
-              </div>
-              <div class="cards-grid">
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/solo_leveling.jpg" alt="Sung Jinwoo Statue" loading="lazy" />
-                    <span class="card-badge badge-merch">1/7 Statue</span>
-                    <span class="card-rating">$249.99</span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Solo Leveling Masterpiece</span>
-                    <h3 class="content-card-title"><a href="pages/merch-detail.html">Sung Jinwoo: Monarch Statue</a></h3>
-                    <p class="content-card-desc">Hand-painted resin sculpture with illuminated USB-C shadow throne base and dual daggers.</p>
-                    <div class="content-card-meta">
-                      <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock (14 left)</span>
-                      <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'fig-1', name:'Sung Jinwoo: Monarch Statue', price:249.99, image:'images/posters/solo_leveling.jpg'})">
-                        Add to Bag
-                      </button>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/demon_slayer_thumb.jpg" alt="Water Dragon Figure" loading="lazy" />
-                    <span class="card-badge badge-merch">Collectible</span>
-                    <span class="card-rating">$89.99</span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Aniplex+ Official</span>
-                    <h3 class="content-card-title"><a href="pages/merch-detail.html">Tanjiro Constant Flux Figure</a></h3>
-                    <p class="content-card-desc">Translucent swirling blue water dragon vortex sculpt depicting Tenth Form Constant Flux.</p>
-                    <div class="content-card-meta">
-                      <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock</span>
-                      <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'fig-2', name:'Tanjiro Constant Flux Figure', price:89.99, image:'images/posters/demon_slayer_thumb.jpg'})">
-                        Add to Bag
-                      </button>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/naruto_thumb.jpg" alt="Akatsuki Hoodie" loading="lazy" />
-                    <span class="card-badge badge-merch">Streetwear</span>
-                    <span class="card-rating">$68.00</span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">French Terry Heavyweight</span>
-                    <h3 class="content-card-title"><a href="pages/merch-detail.html">Akatsuki Red Cloud Hoodie</a></h3>
-                    <p class="content-card-desc">Ultra-soft heavyweight washed black fleece with high-density stitched red clouds.</p>
-                    <div class="content-card-meta">
-                      <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock</span>
-                      <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'app-2', name:'Akatsuki Red Cloud Hoodie', price:68.00, image:'images/posters/naruto_thumb.jpg'})">
-                        Add to Bag
-                      </button>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="content-card">
-                  <div class="content-card-poster">
-                    <img src="images/posters/gta_sunset.jpg" alt="GTA VI Varsity" loading="lazy" />
-                    <span class="card-badge badge-merch">Outerwear</span>
-                    <span class="card-rating">$180.00</span>
-                  </div>
-                  <div class="content-card-body">
-                    <span class="content-card-category">Vice City &bull; Rockstar</span>
-                    <h3 class="content-card-title"><a href="pages/merch-detail.html">Vice City Sunset Varsity Jacket</a></h3>
-                    <p class="content-card-desc">Genuine full-grain leather sleeves with embroidered Vice City neon palm tree back patch.</p>
-                    <div class="content-card-meta">
-                      <span style="color: var(--color-green); font-weight:bold; font-size:var(--font-xs);">In Stock</span>
-                      <button type="button" class="btn btn-primary btn-sm" onclick="window.Cart.addItem({id:'app-3', name:'Vice City Varsity Jacket', price:180.00, image:'images/posters/gta_sunset.jpg'})">
-                        Add to Bag
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            </section>
-
-            <!-- COMMUNITY PULSE & DISCUSSIONS -->
-            <section style="margin-top:var(--space-8);" aria-label="Community Discussions">
-              <div class="section-header">
-                <div>
-                  <h2 class="section-title">Community Pulse &amp; Fan Debates</h2>
-                  <p style="margin:2px 0 0; font-size:var(--font-xs); color:var(--text-muted);">Join trending theorycrafting, episode breakdowns, and character showdowns</p>
-                </div>
-                <a href="pages/submit-content.html" class="section-view-all">Post Discussion &rarr;</a>
-              </div>
-              <div style="display:flex; flex-direction:column; gap:12px;">
-                <!-- Thread 1 -->
-                <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-                  <div style="display:flex; align-items:center; gap:14px;">
-                    <div style="width:42px; height:42px; border-radius:50%; background:#1e293b; display:flex; align-items:center; justify-content:center; border:2px solid var(--accent-red); flex-shrink:0;">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                    </div>
-                    <div>
-                      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                        <span class="badge" style="background:rgba(239,35,60,0.15); color:var(--accent-red);">Anime Theory</span>
-                        <span style="font-size:11px; color:var(--text-muted);">Posted by @ShadowRider &bull; 2 hours ago</span>
-                      </div>
-                      <h4 style="margin:0; font-size:var(--font-base); font-weight:var(--fw-bold); color:var(--text-main);">
-                        Infinity Castle Arc: Will the 3-Film Trilogy match Demon Slayer Mugen Train box office?
-                      </h4>
-                    </div>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:16px;">
-                    <div style="display:flex; align-items:center; gap:6px; font-size:var(--font-xs); color:var(--text-muted);">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                      <span>342 Comments</span>
-                    </div>
-                    <a href="pages/feedback.html" class="btn btn-outline btn-sm">Join Debate</a>
-                  </div>
-                </div>
-
-                <!-- Thread 2 -->
-                <div style="background:var(--bg-card); border:1px solid var(--border-medium); border-radius:var(--radius-lg); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-                  <div style="display:flex; align-items:center; gap:14px;">
-                    <div style="width:42px; height:42px; border-radius:50%; background:#1e293b; display:flex; align-items:center; justify-content:center; border:2px solid #8b5cf6; flex-shrink:0;">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <div>
-                      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                        <span class="badge" style="background:rgba(139,92,246,0.15); color: var(--color-purple);">Lore Breakdown</span>
-                        <span style="font-size:11px; color:var(--text-muted);">Posted by @HunterJin &bull; 5 hours ago</span>
-                      </div>
-                      <h4 style="margin:0; font-size:var(--font-base); font-weight:var(--fw-bold); color:var(--text-main);">
-                        Monarchs vs Rulers: Complete cosmic hierarchy explained before Season 2
-                      </h4>
-                    </div>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:16px;">
-                    <div style="display:flex; align-items:center; gap:6px; font-size:var(--font-xs); color:var(--text-muted);">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                      <span>189 Comments</span>
-                    </div>
-                    <a href="pages/feedback.html" class="btn btn-outline btn-sm">Join Debate</a>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <!-- VIP FAN HUB+ PLATFORM GUARANTEE -->
-            <section style="margin-top:var(--space-8); padding:24px; background:linear-gradient(135deg, rgba(239,35,60,0.12) 0%, rgba(20,24,33,0.9) 100%); border:1px solid var(--border-medium); border-radius:var(--radius-lg); display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
-              <div style="display:flex; align-items:flex-start; gap:12px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                <div>
-                  <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">4K Ultra-HD Streams</strong>
-                  <span style="font-size:var(--font-xs); color:var(--text-muted);">Zero-lag streaming with dual Japanese and English audio</span>
-                </div>
-              </div>
-              <div style="display:flex; align-items:flex-start; gap:12px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                <div>
-                  <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">100% Studio Licensed</strong>
-                  <span style="font-size:var(--font-xs); color:var(--text-muted);">Authentic serialized statues direct from Tokyo and Seoul</span>
-                </div>
-              </div>
-              <div style="display:flex; align-items:flex-start; gap:12px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                <div>
-                  <strong style="font-size:var(--font-sm); display:block; color:var(--text-main);">VIP Convention Access</strong>
-                  <span style="font-size:var(--font-xs); color:var(--text-muted);">Priority early ticketing and exclusive panel pass raffles</span>
-                </div>
-              </div>
-            </section>
-
-          </div>
-
-          <!-- SIDEBAR RIGHT (1/3) -->
-          <aside class="sidebar-right" aria-label="Community Hub Sidebar">
-            <!-- Dynamic User Session Widget -->
-            <div class="widget-card" id="sidebarUserWidget"></div>
-
-            <!-- Top This Week Leaderboard -->
-            <div class="widget-card">
-              <div class="widget-title">
-                <span>Top Broadcasts</span>
-                <a href="pages/explore.html?sort=popularity" style="font-size:var(--font-xs); color:var(--accent-red);">See All</a>
-              </div>
-              <div class="ranked-list">
-                <div class="ranked-item">
-                  <span class="ranked-num">01</span>
-                  <img src="images/posters/solo_leveling.jpg" alt="Solo Leveling" class="ranked-thumb" />
-                  <div class="ranked-details">
-                    <div class="ranked-title">Solo Leveling: Arise</div>
-                    <div class="ranked-sub">124k weekly plays</div>
-                  </div>
-                </div>
-                <div class="ranked-item">
-                  <span class="ranked-num">02</span>
-                  <img src="images/posters/demon_slayer_thumb.jpg" alt="Demon Slayer" class="ranked-thumb" />
-                  <div class="ranked-details">
-                    <div class="ranked-title">Demon Slayer: Kimetsu</div>
-                    <div class="ranked-sub">98k weekly plays</div>
-                  </div>
-                </div>
-                <div class="ranked-item">
-                  <span class="ranked-num">03</span>
-                  <img src="images/posters/one_piece_thumb.jpg" alt="One Piece" class="ranked-thumb" />
-                  <div class="ranked-details">
-                    <div class="ranked-title">One Piece: Egghead</div>
-                    <div class="ranked-sub">87k weekly plays</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Live Community Poll -->
-            <div class="widget-card">
-              <div class="widget-title">
-                <span>Community Poll</span>
-                <span style="font-size:11px; color: var(--color-green); font-weight:bold;">LIVE</span>
-              </div>
-              <p style="font-size:var(--font-xs); color:var(--text-main); font-weight:bold; margin:6px 0 10px;">
-                Which upcoming adaptation are you most hyped for?
-              </p>
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
-                  <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
-                    <span>Demon Slayer Infinity Castle</span>
-                    <strong style="color:var(--accent-red);">58%</strong>
-                  </div>
-                  <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
-                    <div style="width:58%; height:100%; background:var(--accent-red);"></div>
-                  </div>
-                </div>
-                <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
-                  <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
-                    <span>Solo Leveling: Season 2</span>
-                    <strong style="color: var(--color-purple);">28%</strong>
-                  </div>
-                  <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
-                    <div style="width:28%; height:100%; background:#8b5cf6;"></div>
-                  </div>
-                </div>
-                <div style="background:var(--bg-surface); border-radius:6px; padding:8px 10px;">
-                  <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
-                    <span>GTA VI Story Mode</span>
-                    <strong style="color: var(--color-blue);">14%</strong>
-                  </div>
-                  <div style="height:4px; background:var(--border-medium); border-radius:2px; overflow:hidden;">
-                    <div style="width:14%; height:100%; background:#3b82f6;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Global Convention Spotlight -->
-            <div class="widget-card">
-              <div class="widget-title">
-                <span>Upcoming Cons</span>
-                <a href="pages/events.html" style="font-size:var(--font-xs); color:var(--accent-red);">View Map</a>
-              </div>
-              <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
-                <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border-left:3px solid var(--accent-red);">
-                  <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">Anime Expo 2026</strong>
-                  <span style="font-size:11px; color:var(--text-muted);">Los Angeles, USA &bull; JUL 04-07</span>
-                </div>
-                <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border-left:3px solid #3b82f6;">
-                  <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">Gamescom 2026</strong>
-                  <span style="font-size:11px; color:var(--text-muted);">Cologne, Germany &bull; AUG 20-24</span>
-                </div>
-                <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border-left:3px solid #8b5cf6;">
-                  <strong style="font-size:var(--font-xs); display:block; color:var(--text-main);">Tokyo Game Show</strong>
-                  <span style="font-size:11px; color:var(--text-muted);">Makuhari Messe &bull; SEP 26-29</span>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-        </div>
-      </main>
-
-      <!-- SHARED FOOTER -->
-      <footer class="site-footer">
-        <div class="footer-container">
-          <div class="footer-top">
-            <div class="footer-brand-col">
-              <div class="footer-logo">
-                <span class="brand-badge">F</span>
-                <span class="brand-title">FAN HUB<span>+</span></span>
-              </div>
-              <p class="footer-desc">The ultimate high-fidelity entertainment platform uniting anime, gaming, cinema, comics, and fandom culture.</p>
-              <div class="footer-social-links">
-                <a href="#" class="footer-social-link" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6h-2a4 4 0 0 0-4 4v14"></path><path d="M6 18H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"></path></svg></a>
-                <a href="#" class="footer-social-link" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
-                <a href="#" class="footer-social-link" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
-              </div>
-            </div>
-            <div class="footer-col">
-              <h4>Explore</h4>
-              <ul>
-                <li><a href="pages/explore.html">Catalog &amp; Media</a></li>
-                <li><a href="pages/character-list.html">Characters</a></li>
-                <li><a href="pages/merch-list.html">Merchandise</a></li>
-                <li><a href="pages/events.html">Events &amp; Cons</a></li>
-              </ul>
-            </div>
-            <div class="footer-col">
-              <h4>Community</h4>
-              <ul>
-                <li><a href="pages/submit-content.html">Submit Content</a></li>
-                <li><a href="pages/feedback.html">Feedback &amp; Bugs</a></li>
-                <li><a href="pages/sitemap.html">Sitemap</a></li>
-              </ul>
-            </div>
-            <div class="footer-col">
-              <h4>Account</h4>
-              <ul>
-                <li><a href="pages/dashboard.html">Dashboard</a></li>
-                <li><a href="pages/profile.html">Profile Settings</a></li>
-                <li><a href="pages/login.html">Sign In</a></li>
-                <li><a href="pages/register.html">Register</a></li>
-              </ul>
-            </div>
-            <div class="footer-col">
-              <h4>Management</h4>
-              <ul>
-                <li><a href="pages/admin-overview.html">Admin Overview</a></li>
-                <li><a href="pages/admin-content-form.html">Content Manager</a></li>
-                <li><a href="pages/admin-submissions-queue.html">Submissions Queue</a></li>
-                <li><a href="pages/admin-chatbot-faq.html">Bot Knowledge Base</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="footer-bottom">
-            <div class="footer-copy">&copy; 2026 FAN HUB+ Platform. Built with plain static HTML/CSS/JS.</div>
-            <div class="footer-meta-links">
-              <a href="pages/sitemap.html">Sitemap</a>
-              <a href="pages/feedback.html">Support</a>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
   </div>
-
-  <!-- VIDEO TRAILER STREAM MODAL -->
-  <div class="modal-overlay" id="videoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#0a0c10; border:1px solid var(--border-medium); border-radius:var(--radius-lg); max-width:800px; width:100%; overflow:hidden; box-shadow:var(--shadow-xl); position:relative;">
-      <div style="padding:14px 18px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); background:var(--bg-card);">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="badge badge-stream">Ultra HD Stream</span>
-          <strong id="videoModalTitle" style="font-size:var(--font-sm); color:var(--text-main);">Demon Slayer: Swordsmith Village</strong>
-        </div>
-        <button type="button" class="modal-close-btn" onclick="closeTrailerModal()" aria-label="Close player">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div style="position:relative; width:100%; aspect-ratio:16/9; background:#000;">
-        <video id="mainVideoPlayer" controls style="width:100%; height:100%;" poster="images/hero_section/demon_slayer_hero.jpg">
-          <source id="videoSource" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-          Your browser does not support HTML5 video streaming.
-        </video>
-      </div>
-      <div style="padding:14px 18px; display:flex; justify-content:space-between; align-items:center; background:var(--bg-card); border-top:1px solid var(--border-subtle);">
-        <span style="font-size:var(--font-xs); color:var(--text-muted);">4K HDR 60fps &bull; English &amp; Japanese Audio &bull; Dolby Atmos</span>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="closeTrailerModal()">Done Watching</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CART DRAWER OVERLAY -->
-  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
-    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Bag">
-      <div class="cart-drawer-header">
-        <h3 style="font-weight:var(--fw-bold); font-size:var(--font-lg); display:flex; align-items:center; gap:8px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
-          Shopping Bag
-        </h3>
-        <button type="button" class="modal-close-btn" id="closeCartDrawerBtn" aria-label="Close Bag">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div class="cart-drawer-items" id="cartDrawerItems"></div>
-      <div class="cart-drawer-footer">
-        <div class="cart-subtotal-row">
-          <span>Estimated Subtotal</span>
-          <span id="cartSubtotalAmount" style="color:var(--accent-red);">$0.00</span>
-        </div>
-        <button type="button" class="btn btn-primary btn-lg" id="btnCartCheckout" style="width:100%;">
-          Proceed to Checkout
-        </button>
-      </div>
-    </aside>
-  </div>
-
-  <!-- CHATBOT WIDGET (SVG ONLY) -->
-  <button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open Fan Hub Assistant" aria-expanded="false" aria-controls="chatbotPanel">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chatbot-launcher-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-    <span class="chatbot-launcher-close" style="display:none; font-size:22px; font-weight:bold;">&times;</span>
-    <span class="chatbot-badge" id="chatbotBadge" style="display:none;">1</span>
-  </button>
-
-  <aside id="chatbotPanel" class="chatbot-panel" aria-hidden="true" role="dialog" aria-label="Fan Hub+ Assistant">
-    <div class="chatbot-header">
-      <div class="chatbot-header-info">
-        <div class="chatbot-avatar">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
-        </div>
-        <div>
-          <div class="chatbot-title">FanBot Assistant</div>
-          <div class="chatbot-status"><span class="chatbot-status-dot"></span> Online &bull; Fandom AI</div>
-        </div>
-      </div>
-      <div class="chatbot-header-actions">
-        <button type="button" class="chatbot-control-btn" id="chatbotClearBtn" title="Clear chat history" aria-label="Clear chat">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-        </button>
-        <button type="button" class="chatbot-control-btn" id="chatbotCloseBtn" title="Close assistant" aria-label="Close assistant">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-    </div>
-    <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite"></div>
-    <div class="chatbot-quick-chips" id="chatbotQuickChips" aria-label="Suggested questions"></div>
-    <form class="chatbot-input-row" id="chatbotForm">
-      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask anything about anime, characters, lore..." autocomplete="off" aria-label="Type your message" />
-      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      </button>
-    </form>
-  </aside>
-
-  <!-- GLOBAL TOAST NOTICE -->
-  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
-
-  <!-- VIDEO MODAL CONTROLS -->
-  <script>
-    function openTrailerModal(title, videoUrl) {
-      document.getElementById('videoModalTitle').textContent = title;
-      var player = document.getElementById('mainVideoPlayer');
-      var source = document.getElementById('videoSource');
-      if (player && source) {
-        source.src = videoUrl;
-        player.load();
-        player.play().catch(function() {});
-      }
-      document.getElementById('videoModal').style.display = 'flex';
-    }
-
-    function closeTrailerModal() {
-      var player = document.getElementById('mainVideoPlayer');
-      if (player) player.pause();
-      document.getElementById('videoModal').style.display = 'none';
-    }
-  </script>
-</body>
-</html>
+</main>
+{% endblock %}

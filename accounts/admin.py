@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, Profile
+from .models import Avatar, User, Profile
 
 
 # Custom User Admin
@@ -40,7 +40,6 @@ class CustomUserAdmin(UserAdmin):
                 "fields": (
                     "role",
                     "email_verified",
-                    "created_at",
                 )
             },
         ),
@@ -88,3 +87,10 @@ class ProfileAdmin(admin.ModelAdmin):
     filter_horizontal = (
         "favorite_categories",
     )
+
+
+@admin.register(Avatar)
+class AvatarAdmin(admin.ModelAdmin):
+    list_display = ("name", "is_active")
+    list_filter = ("is_active",)
+    search_fields = ("name",)

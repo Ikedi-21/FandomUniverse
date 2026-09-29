@@ -16,12 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("core.urls")),
     path('accounts/', include("accounts.urls")),
     path('article/', include("article.urls")),
+    path('articles/', include("article.urls")),
     path('catalog/', include("catalog.urls")),
     path('characters/', include("characters.urls")),
     path('chatbot/', include("chatbot.urls")),
@@ -29,5 +32,10 @@ urlpatterns = [
     path('engagements/', include("engagements.urls")),
     path('events/', include("events.urls")),
     path('media_centre/', include("media_centre.urls")),
+    path('media-centre/', include("media_centre.urls")),
     path('merch/', include("merch.urls"))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

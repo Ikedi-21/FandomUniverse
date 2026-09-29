@@ -1,4 +1,4 @@
-import re
+﻿import re
 from django.urls import reverse
 from catalog.models import Category
 from .models import ChatbotFAQ
@@ -36,8 +36,8 @@ def detect_category(clean):
 
 def _explore_chip(category):
     # change 'catalog:explore' and ?category= to match your explorer's URL name and filter param
-    return {'label': f'Browse {category.name} →',
-            'href': f"{reverse('catalog:explore')}?category={category.slug}"}
+    return {'label': f'Browse {category.name} â†’',
+            'href': f"{reverse('explore')}?category={category.slug}"}
 
 
 def get_response(message):

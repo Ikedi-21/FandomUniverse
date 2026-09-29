@@ -1,5 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
+from django.contrib.contenttypes.models import ContentType
+from engagements.models import Bookmark
 
 from .models import Event
 
@@ -35,8 +37,9 @@ def event_list(request):
         items = items.filter(city_slug=city)
     else:
         city = "all"
-    if category in dict(Event.CATEGORY_CHOICES):
-        items = items.filter(category=category)
+    known_categories = set(Event.objects.filter(is_published=True, category__isnull=False).values_list('category__slug', flat=True).distinct())
+    if category in known_categories:
+        items = items.filter(category__slug=category)
     else:
         category = "all"
 
@@ -52,7 +55,7 @@ def event_list(request):
     context = {
         "events": items,
         "city_options": city_options,
-        "categories": Event.CATEGORY_CHOICES,
+        "categories": [(item['category__slug'], item['category__name']) for item in Event.objects.filter(is_published=True, category__isnull=False).values('category__slug', 'category__name').distinct().order_by('category__name')],
         "selected_city": city,
         "selected_category": category,
         "query": query,
@@ -76,5 +79,7 @@ def event_detail(request, pk):
     context = {
         "event": event,
         "related_events": related,
+        "bookmark_content_type_id": ContentType.objects.get_for_model(Event).pk,
+        "is_bookmarked": request.user.is_authenticated and Bookmark.objects.filter(user=request.user, content_type=ContentType.objects.get_for_model(Event), object_id=event.pk).exists(),
     }
     return render(request, "event-detail.html", context)

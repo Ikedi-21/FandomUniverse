@@ -1,0 +1,17 @@
+﻿COPYRIGHT RISK INVENTORY
+========================
+
+Static images whose filenames indicate real franchises, brands, or performers:
+- static/images/hero_section/demon_slayer_hero.jpg — Demon Slayer.
+- static/images/hero_section/naruto_hero.jpg — Naruto.
+- static/images/hero_section/one_piece_hero.png — One Piece.
+- static/images/posters/demon_slayer_thumb.jpg — Demon Slayer.
+- static/images/posters/gta_sunset.jpg — Grand Theft Auto.
+- static/images/posters/kpop_blackpink.jpg — BLACKPINK.
+- static/images/posters/naruto_thumb.jpg — Naruto.
+- static/images/posters/one_piece_thumb.jpg — One Piece.
+- static/images/posters/solo_leveling.jpg — Solo Leveling.
+- static/images/fandoms/kpop.jpg — may depict or identify K-pop artists.
+- static/images/fandoms/anime.jpg, comics.jpg, cosplay.jpg, gaming.jpg, manga.jpg, movies.jpg, tv_shows.jpg — inspect image contents before public distribution.
+
+The seed command copies poster and hero image files into media/seed-assets and uses them for fictional demo content, characters, merchandise, event listings, and category cover images. Seed titles and descriptions are fictional, but the reused source images can still depict copyrighted works or performers. The project does not claim ownership or licensing.

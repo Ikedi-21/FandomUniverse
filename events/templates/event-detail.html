@@ -3,22 +3,22 @@
 {# (one Event) and related_events (same category). Ticket modal tiers #}
 {# scale from the event price via the script at the bottom. #}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 <head>
-  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script src="{% static 'js/theme-init.js' %}"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ event.title }} | FAN HUB+ Events</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
-  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+  
+  
+  
+  
 
-  <script src="{% static 'js/auth-context.js' %}" defer></script>
+  
   <script src="{% static 'js/cart.js' %}" defer></script>
-  <script src="{% static 'js/main.js' %}" defer></script>
-  <script src="{% static 'js/chatbot-data.js' %}" defer></script>
+  
   <script src="{% static 'js/chatbot.js' %}" defer></script>
 
   <style>
@@ -46,8 +46,9 @@
       color: var(--text-muted);
     }
   </style>
+{% include "_head_assets.html" %}
 </head>
-<body>
+<body>{% include "_session_controls.html" %}
   <div class="app-container">
 
     <!-- SIDEBAR LEFT -->
@@ -166,7 +167,8 @@
               {% if event.status_line %}<span style="color:var(--color-green); font-weight:bold; font-size:var(--font-sm);">&#10003; {{ event.status_line }}</span>{% endif %}
             </div>
             <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">
-              <button type="button" class="btn btn-primary" onclick="openTicketModal('{{ event.title|escapejs }}', '{{ event.currency_symbol|escapejs }}{{ event.price }}', '{{ event.venue|escapejs }}', '{{ event.date_badge|escapejs }}')">Get Tickets</button>
+              <button type="button" class="btn btn-secondary" data-bookmark-toggle data-bookmark-url="{% url 'bookmark-toggle' %}" data-content-type-id="{{ bookmark_content_type_id }}" data-object-id="{{ event.pk }}" data-login-url="{% url 'accounts:login' %}" data-bookmarked="{{ is_bookmarked|yesno:'true,false' }}" aria-pressed="{{ is_bookmarked|yesno:'true,false' }}"><span data-bookmark-label>{% if is_bookmarked %}Bookmarked{% else %}Bookmark{% endif %}</span></button>
+              <button type="button" class="btn btn-ghost" data-copy-link="{{ request.build_absolute_uri }}">Share</button>
               {% if event.ticket_link %}<a href="{{ event.ticket_link }}" target="_blank" rel="noopener" class="btn btn-secondary">Official Ticket Site</a>{% endif %}
             </div>
           </div>
@@ -222,7 +224,7 @@
           <section aria-label="Related events">
             <div class="section-header">
               <h2 class="section-title">More {{ event.category_label }}</h2>
-              <a href="{% url 'events' %}?category={{ event.category }}" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">View all &rarr;</a>
+              <a href="{% url 'events' %}?category={{ event.category.slug }}" style="font-size:var(--font-xs); color:var(--accent-red); font-weight:bold;">View all &rarr;</a>
             </div>
             <div style="display:flex; flex-direction:column; gap:16px;">
               {% for item in related_events %}

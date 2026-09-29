@@ -1,25 +1,27 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="{{ site_theme|default:'light' }}" data-font-size="{{ site_font_size|default:'medium' }}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 <head>
-  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <script src="{% static 'js/theme-init.js' %}"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Check Your Email | FAN HUB+</title>
-  <link rel="stylesheet" href="{% static 'core/css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'core/css/components.css' %}">
-  <script src="{% static 'core/js/main.js' %}" defer></script>
+  
+  
+  
+  
+{% include "_head_assets.html" %}
 </head>
-<body>
+<body>{% include "_session_controls.html" %}
   <div class="app-container">
 
-    {% include "core/_sidebar.html" %}
+    {% include "_sidebar.html" %}
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <div class="main-wrapper">
 
-      {% include "core/_header.html" %}
+      {% include "_header.html" %}
 
       <!-- BREADCRUMB BAR -->
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">

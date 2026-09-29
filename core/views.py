@@ -1,5 +1,4 @@
 import re
-
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.password_validation import validate_password
@@ -261,4 +260,4 @@ def home(request):
 
 def logout_view(request):
     auth_logout(request)
-    return redirect("home")
+    return redirect("home")

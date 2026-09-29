@@ -21,3 +21,5 @@ staticfiles/
 .vscode/
 .env
 db
+/ca.pem
+/screenshots/

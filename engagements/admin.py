@@ -1,7 +1,14 @@
 from django.contrib import admin
-from .models import Feedback, Bookmark
-# Register your models here.
+from .models import Bookmark, Feedback
 
+@admin.register(Bookmark)
+class BookmarkAdmin(admin.ModelAdmin):
+    list_display = ("user", "content_type", "object_id", "created_at")
+    list_filter = ("content_type", "created_at")
+    search_fields = ("user__username", "note")
 
-admin.site.register(Feedback)
-admin.site.register(Bookmark)
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ("subject", "user", "type", "severity", "status", "created_at")
+    list_filter = ("type", "severity", "status", "created_at")
+    search_fields = ("subject", "message", "user__username")

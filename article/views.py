@@ -9,6 +9,20 @@ from django.utils.html import linebreaks
 from django.views.decorators.http import require_POST
 from django_ratelimit.decorators import ratelimit
 
+<<<<<<< HEAD
+# Create your views here.
+from django.shortcuts import get_object_or_404, render
+from catalog.models import Content
+from catalog.views import content_detail
+
+def article_list(request):
+    articles = Content.objects.filter(is_published=True, content_type='article').select_related('category').order_by('-release_date', '-created_at')
+    return render(request, 'article-list.html', {'articles': articles})
+
+def article_detail(request, slug):
+    article = get_object_or_404(Content, slug=slug, content_type='article', is_published=True)
+    return content_detail(request, article.slug)
+=======
 from catalog.models import Category, Content
 from .forms import FanSubmissionForm, HighlightForm
 from .models import EventHighlight, FanSubmission, ApprovalStatus
@@ -146,3 +160,4 @@ def highlight_delete(request, pk):
     get_object_or_404(EventHighlight, pk=pk).delete()
     messages.success(request, 'Highlight deleted.')
     return redirect('article:highlight_manage')
+>>>>>>> d63f555ee2c6f7c766590cb65937d873d683fb6e

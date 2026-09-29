@@ -1,0 +1,13 @@
+{% load static %}
+<div class="server-session-controls" aria-label="Account controls">
+  {% if request.user.is_authenticated %}
+    {% if request.user.is_staff %}
+      <a href="{% url 'admin_overview' %}" class="admin-portal-link" style="color: var(--primary); font-weight: bold; margin-right: 15px;">ADMIN PORTAL</a>
+    {% endif %}
+    <span>Signed in as <strong>{{ request.user.username }}</strong></span>
+    <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">Log Out</button></form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Register</a>
+  {% endif %}
+</div>

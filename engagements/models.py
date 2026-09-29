@@ -25,7 +25,7 @@ class Feedback(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feedback')
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='bug')
     severity = models.CharField(max_length=10, choices=SEVERITY_CHOICES, default='low')
-    subject = models.CharField(max_length=200)
+    subject = models.CharField(max_length=200, default='')
     message = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
     admin_response = models.TextField(blank=True)

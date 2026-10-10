@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TITLE | FAN HUB+</title>
+  <link rel="stylesheet" href="{% static 'core/css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'article/css/article.css' %}">
+  <script src="{% static 'core/js/main.js' %}" defer></script>
+</head>
+<body>
+<div class="app-container">
+  <aside class="app-sidebar">
+    <div class="sidebar-inner">
+      <a class="brand" href="/">Fan Hub+</a>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <div class="main-wrapper">
+    <header class="app-header"><div class="header-inner"><a class="logo" href="/">Fan Hub+</a></div></header>
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb"><div class="breadcrumb-container"><ol class="breadcrumb-list">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-separator">/</li>
+      <li class="breadcrumb-item active" aria-current="page">CRUMB</li>
+    </ol></div></nav>
+
+    <main class="page-content">
+      {% if messages %}<ul class="messages">{% for m in messages %}<li class="message message-{{ m.tags }}" role="status">{{ m }}</li>{% endfor %}</ul>{% endif %}
+
+      <article class="article-detail">
+    <a href="{% url 'article:article_list' %}" class="article-back">&larr; All articles</a>
+    <span class="badge">{{ article.category.name }}</span>
+    <h1 class="article-title">{{ article.title }}</h1>
+    <p class="article-meta">By {{ article.created_by.username|default:"Fan Hub team" }} &middot; {{ article.created_at|date:"F j, Y" }} &middot; {{ article.view_count }} views</p>
+    {% if article.thumbnail %}<img class="article-hero" src="{{ article.thumbnail.url }}" alt="{{ article.title }}">{% endif %}
+    {% if article.description %}<p class="article-lead">{{ article.description }}</p>{% endif %}
+
+    <div class="article-body">{{ article.body|safe }}</div>  {# safe because Content.save() sanitizes with nh3 #}
+
+    <div class="tag-row">{% for tag in article.tags.all %}<span class="tag-pill">{{ tag.name }}</span>{% endfor %}</div>
+
+    {% if user.is_authenticated %}
+        <!-- BOOKMARK BUTTON: wire to the engagement app's bookmark endpoint -->
+    {% else %}
+        <p class="article-muted"><a href="{% url 'accounts:login' %}">Log in</a> to bookmark this article.</p>
+    {% endif %}
+    </article>
+
+{% if related %}
+<section class="article-related">
+  <h2 class="section-title">More in {{ article.category.name }}</h2>
+  <div class="cards-grid">{% for article in related %}{% include "article/_article_card.html" %}{% endfor %}</div>
+</section>
+{% endif %}
+
+    </main>
+  </div>
+</div>
+{% include "chatbot/_widget.html" %}
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Submission | FAN HUB+</title>
+  <link rel="stylesheet" href="{% static 'core/css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'article/css/article.css' %}">
+  <script src="{% static 'core/js/main.js' %}" defer></script>
+</head>
+<body>
+<div class="app-container">
+  <aside class="app-sidebar">
+    <div class="sidebar-inner">
+      <a class="brand" href="/">Fan Hub+</a>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <div class="main-wrapper">
+    <header class="app-header"><div class="header-inner"><a class="logo" href="/">Fan Hub+</a></div></header>
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb"><div class="breadcrumb-container"><ol class="breadcrumb-list">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-separator">/</li>
+      <li class="breadcrumb-item active" aria-current="page">New submission</li>
+    </ol></div></nav>
+
+    <main class="page-content">
+      {% if messages %}<ul class="messages">{% for m in messages %}<li class="message message-{{ m.tags }}" role="status">{{ m }}</li>{% endfor %}</ul>{% endif %}
+
+      <div class="section-header">
+        <h1 class="section-title">New submission</h1>
+        <a href="{% url 'article:my_submissions' %}" class="btn btn-secondary btn-md">My submissions</a>
+      </div>
+
+      <div class="widget-card">
+        <form method="post" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+          {% include "article/_form_fields.html" %}
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-md">Submit</button>
+          </div>
+        </form>
+      </div>
+
+    </main>
+  </div>
+</div>
+{% include "chatbot/_widget.html" %}
+</body>
+</html>

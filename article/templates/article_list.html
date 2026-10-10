@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TITLE | FAN HUB+</title>
+  <link rel="stylesheet" href="{% static 'core/css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'article/css/article.css' %}">
+  <script src="{% static 'core/js/main.js' %}" defer></script>
+</head>
+<body>
+<div class="app-container">
+  <aside class="app-sidebar">
+    <div class="sidebar-inner">
+      <a class="brand" href="/">Fan Hub+</a>
+      <nav class="sidebar-nav"><ul><li><a href="/">Home</a></li><li><a href="/article/articles/">Articles</a></li></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <div class="main-wrapper">
+    <header class="app-header"><div class="header-inner"><a class="logo" href="/">Fan Hub+</a></div></header>
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb"><div class="breadcrumb-container"><ol class="breadcrumb-list">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-separator">/</li>
+      <li class="breadcrumb-item active" aria-current="page">CRUMB</li>
+    </ol></div></nav>
+
+    <main class="page-content">
+      {% if messages %}<ul class="messages">{% for m in messages %}<li class="message message-{{ m.tags }}" role="status">{{ m }}</li>{% endfor %}</ul>{% endif %}
+
+      <div class="section-header"><h1 class="section-title">Featured Articles</h1></div>
+
+<form method="get" class="article-filters">
+  <input class="form-input" type="search" name="q" value="{{ q }}" placeholder="Search articles..." aria-label="Search articles">
+  <select class="form-select" name="category" aria-label="Category">
+    <option value="">All categories</option>
+    {% for c in categories %}<option value="{{ c.slug }}" {% if c.slug == active_category %}selected{% endif %}>{{ c.name }}</option>{% endfor %}
+  </select>
+  <button type="submit" class="btn btn-primary btn-md">Filter</button>
+</form>
+
+<div class="cards-grid">
+  {% for article in page_obj %}{% include "article/_article_card.html" %}
+  {% empty %}<div class="empty-state-card">No articles found.</div>{% endfor %}
+</div>
+
+{% if page_obj.has_other_pages %}
+<nav class="pagination" aria-label="Pagination">
+  {% if page_obj.has_previous %}<a class="btn btn-secondary btn-sm" href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if active_category %}&category={{ active_category }}{% endif %}">&larr; Prev</a>{% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a class="btn btn-secondary btn-sm" href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if active_category %}&category={{ active_category }}{% endif %}">Next &rarr;</a>{% endif %}
+</nav>
+{% endif %}
+
+    </main>
+  </div>
+</div>
+{% include "chatbot/_widget.html" %}
+</body>
+</html>

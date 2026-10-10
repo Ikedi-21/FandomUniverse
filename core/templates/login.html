@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <script>!function(){var e=localStorage.getItem('fanhub_theme');if(!e){e='light';localStorage.setItem('fanhub_theme',e)}document.documentElement.setAttribute('data-theme',e)}();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | FAN HUB+</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'%3E%3Cpath d='M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/components.css">
+  <link rel="stylesheet" href="/static/css/pages/auth.css?v=2">
+  <script src="/static/js/auth-context.js" defer></script>
+  <script src="/static/js/cart.js" defer></script>
+  <script src="/static/js/main.js" defer></script>
+</head>
+<body class="auth-page">
+
+  <div class="auth-split-layout">
+    <!-- LEFT CINEMATIC HERO SECTION -->
+    <div class="auth-split-left" style="background-image: url('/static/images/hero_section/demon_slayer_hero.jpg');">
+      <div class="auth-left-content">
+        <span class="auth-left-badge">FAN HUB+ VIP PASS</span>
+        <h1 class="auth-left-title">Your Fandoms, All in One Universe.</h1>
+        <p style="color: rgba(255, 255, 255, 0.85); font-size: var(--font-base); line-height: 1.6; margin: 0;">
+          Step into the ultimate fandom hub. Track upcoming anime broadcasts, reserve limited edition resin statues, claim convention badges, and join global discussions.
+        </p>
+
+        <div class="auth-features-list">
+          <div class="auth-feature-item">
+            <span class="auth-feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span>Ultra HD 4K Ad-Free Anime &amp; Video Streams</span>
+          </div>
+          <div class="auth-feature-item">
+            <span class="auth-feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span>Priority Access to Limited Merch &amp; Scale Statues</span>
+          </div>
+          <div class="auth-feature-item">
+            <span class="auth-feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span>Convention Pass Booking (AX, Gamescom, TGS)</span>
+          </div>
+          <div class="auth-feature-item">
+            <span class="auth-feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span>Real-time Sync Across Desktop, Tablet &amp; Mobile</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; pt: var(--space-4); border-top: 1px solid rgba(255,255,255,0.15);">
+        <span style="font-size: var(--font-xs); color: rgba(255, 255, 255, 0.65);">&copy; 2026 FAN HUB+ Media Group.</span>
+        <a href="sitemap.html" style="font-size: var(--font-xs); color: rgba(255, 255, 255, 0.75); text-decoration: none;">Explore Sitemap &rarr;</a>
+      </div>
+    </div>
+
+    <!-- RIGHT AUTH FORM SECTION -->
+    <div class="auth-split-right">
+      <div class="auth-top-bar">
+        <a href="{% url 'home' %}" class="auth-back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Back to Fan Hub+
+        </a>
+        <a href="{% url 'register' %}" class="btn btn-ghost btn-sm" style="color: var(--accent-red); font-weight: var(--fw-bold);">
+          Create Account &rarr;
+        </a>
+      </div>
+
+      <div class="auth-header-block">
+        <div class="auth-brand-logo">
+          <div class="brand-badge" style="width: 32px; height: 32px; font-size: 1rem;">F</div>
+          <span style="font-size: var(--font-lg); font-weight: var(--fw-black); letter-spacing: 0.5px;">FAN HUB<span style="color:var(--accent-red)">+</span></span>
+        </div>
+        <h2 style="font-size: var(--font-2xl); font-weight: var(--fw-extrabold); margin: 0; color: var(--text-main);">Welcome Back</h2>
+        <p style="font-size: var(--font-sm); color: var(--text-muted); margin: 0;">Sign in to access your watchlists, community badges, and orders.</p>
+      </div>
+
+      <!-- Quick Demo Account Fast-Login -->
+      <div style="background: var(--bg-surface); border: 1px dashed var(--border-medium); border-radius: var(--radius-md); padding: 12px; margin-bottom: var(--space-4);">
+        <div style="font-size: var(--font-xs); color: var(--text-dim); text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 8px;">
+          One-Click Demo Access
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('alex', 'alex123', 'VIP Member')">Alex (VIP)</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('maya', 'maya123', 'Creator')">Maya (Creator)</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('jordan', 'jordan123', 'Free')">Jordan (Free)</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="quickFill('admin', 'admin123', 'Staff Admin')">Admin (Staff)</button>
+        </div>
+      </div>
+
+      <!-- auth_error message -->
+      {% if messages %}
+          {% for message in messages %}
+              <div
+                  style="padding:10px 14px; background:rgba(239,35,60,0.15); border:1px solid var(--accent-red); border-radius:var(--radius-md); color: var(--accent-red); font-size:var(--font-xs); margin-bottom:12px;"
+              >
+                  {{ message }}
+              </div>
+          {% endfor %}
+      {% endif %}
+
+      <!-- auth_error message -->
+      <div id="loginErrorMessage" style="display:none; padding:10px 14px; background:rgba(239,35,60,0.15); border:1px solid var(--accent-red); border-radius:var(--radius-md); color: var(--accent-red); font-size:var(--font-xs); margin-bottom:12px;"></div>
+      
+
+      <!-- Login Form -->
+      <!-- CSRF: token -->
+      <form
+          class="auth-form"
+          id="loginForm"
+          method="POST"
+          action="{% url 'login' %}"
+      >
+          {% csrf_token %}
+
+          <div class="form-group">
+
+              <label
+                  class="form-label"
+                  for="loginUsername"
+              >
+                  Username
+              </label>
+
+              <input
+                  type="text"
+                  id="loginUsername"
+                  name="username"
+                  class="form-input"
+                  placeholder="e.g. alex_fanclub"
+                  required
+                  autocomplete="username"
+              />
+
+          </div>
+
+
+          <div class="form-group">
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+
+                  <label
+                      class="form-label"
+                      for="loginPassword"
+                      style="margin:0;"
+                  >
+                      Password
+                  </label>
+
+                  <a
+                      href="password-reset.html"
+                      style="font-size:var(--font-xs); color:var(--accent-red); text-decoration:none; font-weight:var(--fw-semibold);"
+                  >
+                      Forgot Password?
+                  </a>
+
+              </div>
+
+
+              <div class="password-input-wrap">
+
+                  <input
+                      type="password"
+                      name="password"
+                      id="loginPassword"
+                      class="form-input"
+                      placeholder="Enter your password"
+                      required
+                      autocomplete="current-password"
+                  />
+
+                  <button
+                      type="button"
+                      class="password-toggle-btn"
+                      id="togglePasswordBtn"
+                      aria-label="Show password"
+                      aria-pressed="false"
+                  >
+                      ...
+                  </button>
+
+              </div>
+
+          </div>
+
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+
+              <label
+                  style="display:flex; align-items:center; gap:8px; font-size:var(--font-xs); color:var(--text-muted); cursor:pointer;"
+              >
+                  <input
+                      type="checkbox"
+                      id="rememberMe"
+                      class="form-checkbox"
+                      checked
+                  />
+
+                  Remember me on this browser
+              </label>
+
+              <span style="font-size:var(--font-xs); color:var(--text-dim);">
+                  SSL Encrypted
+              </span>
+
+          </div>
+
+
+          <button
+              type="submit"
+              class="btn btn-primary btn-lg"
+              id="submitLoginBtn"
+              style="width:100%; margin-top:4px; font-weight:var(--fw-bold);"
+          >
+              Sign In to Fan Hub+
+          </button>
+
+      </form>
+
+      <p style="font-size: var(--font-xs); color: var(--text-dim); text-align: center; margin-top: var(--space-4);">
+        By signing in, you agree to the Fan Hub+ <a href="#" style="color:var(--text-muted);">Terms of Service</a> and <a href="#" style="color:var(--text-muted);">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- GLOBAL TOAST NOTICE -->
+  <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <script>
+    // Quick Demo Account Auto-Fill
+    function quickFill(user, pass, role) {
+      document.getElementById('loginUsername').value = user;
+      document.getElementById('loginPassword').value = pass;
+      window.showToast('Selected ' + role + ' credentials: ' + user);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Password toggle reveal
+      var toggleBtn = document.getElementById('togglePasswordBtn');
+      var passInput = document.getElementById('loginPassword');
+      if (toggleBtn && passInput) {
+        toggleBtn.addEventListener('click', function() {
+          var isPass = passInput.getAttribute('type') === 'password';
+          passInput.setAttribute('type', isPass ? 'text' : 'password');
+          toggleBtn.setAttribute('aria-pressed', isPass ? 'true' : 'false');
+          toggleBtn.setAttribute('aria-label', isPass ? 'Hide password' : 'Show password');
+          var iconPath = isPass 
+            ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>'
+            : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+          document.getElementById('eyeIcon').innerHTML = iconPath;
+        });
+      }
+
+      // Form validation
+
+var form = document.getElementById('loginForm');
+var errorBox = document.getElementById('loginErrorMessage');
+
+if (form) {
+
+    form.addEventListener('submit', function(e) {
+
+        var username =
+            document.getElementById('loginUsername').value.trim();
+
+        var password =
+            document.getElementById('loginPassword').value;
+
+
+        if (!username || !password) {
+
+            e.preventDefault();
+
+            if (errorBox) {
+
+                errorBox.textContent =
+                    'Please enter both username/email and password.';
+
+                errorBox.style.display = 'block';
+            }
+
+            return;
+        }
+
+        // Everything is valid.
+        // DO NOT use e.preventDefault().
+        // Let Django receive the POST request.
+    });
+}
+    });
+  </script>
+</body>
+</html>

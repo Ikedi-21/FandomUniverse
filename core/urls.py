@@ -1,11 +1,14 @@
 from django.urls import path
 from . import views
-from engagements.views import bookmark_list
-
 
 urlpatterns = [
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout_view, name='logout'),
     path('', views.home, name='home'),
-    path('sitemap/', views.sitemap_view, name='sitemap'),
-    path('profile/', views.profile_view, name='profile'),
-    path('bookmarks/', bookmark_list, name='bookmark-list'),
+    path('home/', views.home, name='home'),
+
+
+
+    
 ]
